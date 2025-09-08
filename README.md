@@ -1,5 +1,5 @@
 # vecmath
-vecmath is a C math library with vector and matrix operations with no SIMD operations yet to be used on graphics projects (the reason for yet).
+vecmath is a C math library with vector and matrix operations with no SIMD operations yet, made to be used on graphics projects (the reason for yet).
 
 ## types
 * vecbool: used for boolean checking, use vec_true/vec_false to check.
