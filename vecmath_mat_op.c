@@ -1,5 +1,10 @@
 #include "vecmath_mat_op.h"
 
+#include "vecmath_macros.h"
+#include "vecmath_basic_op.h"
+#include "vecmath_vec_op.h"
+#include <math.h>
+
 /////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////// identity 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -56,4 +61,1467 @@ dmat4 dmat4_identity()
     mat.matrix.m20 = 0.0f; mat.matrix.m21 = 0.0f; mat.matrix.m22 = 1.0f; mat.matrix.m23 = 0.0f;
     mat.matrix.m30 = 0.0f; mat.matrix.m31 = 0.0f; mat.matrix.m32 = 0.0f; mat.matrix.m33 = 1.0f;
     return mat;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// mul_vec 
+/////////////////////////////////////////////////////////////////////////////////////
+
+fmat2 fmat2_mul_float2(const fmat2* m, const float2* v)
+{
+    fmat2 result = { 0 };
+    result.matrix.m00 = m->matrix.m00 * v->xy.x;
+    result.matrix.m10 = m->matrix.m10 * v->xy.x;
+    
+    result.matrix.m01 = m->matrix.m01 * v->xy.y;
+    result.matrix.m11 = m->matrix.m11 * v->xy.y;
+    return result;
+}
+
+fmat3 fmat3_mul_float3(const fmat3* m, const float3* v)
+{
+    fmat3 result = { 0 };
+    result.matrix.m00 = m->matrix.m00 * v->xyz.x;
+    result.matrix.m10 = m->matrix.m10 * v->xyz.x;
+    result.matrix.m20 = m->matrix.m20 * v->xyz.x;
+    
+    result.matrix.m01 = m->matrix.m01 * v->xyz.y;
+    result.matrix.m11 = m->matrix.m11 * v->xyz.y;
+    result.matrix.m21 = m->matrix.m21 * v->xyz.y;
+    
+    result.matrix.m02 = m->matrix.m02 * v->xyz.z;
+    result.matrix.m12 = m->matrix.m12 * v->xyz.z;
+    result.matrix.m22 = m->matrix.m22 * v->xyz.z;
+    return result;
+}
+
+fmat4 fmat4_mul_float4(const fmat4* m, const float4* v)
+{
+    fmat4 result = { 0 };
+    result.matrix.m00 = m->matrix.m00 * v->xyzw.x;
+    result.matrix.m10 = m->matrix.m10 * v->xyzw.x;
+    result.matrix.m20 = m->matrix.m20 * v->xyzw.x;
+    result.matrix.m30 = m->matrix.m30 * v->xyzw.x;
+    
+    result.matrix.m01 = m->matrix.m01 * v->xyzw.y;
+    result.matrix.m11 = m->matrix.m11 * v->xyzw.y;
+    result.matrix.m21 = m->matrix.m21 * v->xyzw.y;
+    result.matrix.m31 = m->matrix.m31 * v->xyzw.y;
+    
+    result.matrix.m02 = m->matrix.m02 * v->xyzw.z;
+    result.matrix.m12 = m->matrix.m12 * v->xyzw.z;
+    result.matrix.m22 = m->matrix.m22 * v->xyzw.z;
+    result.matrix.m32 = m->matrix.m32 * v->xyzw.z;
+    
+    result.matrix.m03 = m->matrix.m03 * v->xyzw.w;
+    result.matrix.m13 = m->matrix.m13 * v->xyzw.w;
+    result.matrix.m23 = m->matrix.m23 * v->xyzw.w;
+    result.matrix.m33 = m->matrix.m33 * v->xyzw.w;
+    return result;
+}
+
+dmat2 dmat2_mul_double2(const dmat2* m, const double2* v)
+{
+    dmat2 result = { 0 };
+    result.matrix.m00 = m->matrix.m00 * v->xy.x;
+    result.matrix.m10 = m->matrix.m10 * v->xy.x;
+    
+    result.matrix.m01 = m->matrix.m01 * v->xy.y;
+    result.matrix.m11 = m->matrix.m11 * v->xy.y;
+    return result;
+}
+
+dmat3 dmat3_mul_double3(const dmat3* m, const double3* v)
+{
+    dmat3 result = { 0 };
+    result.matrix.m00 = m->matrix.m00 * v->xyz.x;
+    result.matrix.m10 = m->matrix.m10 * v->xyz.x;
+    result.matrix.m20 = m->matrix.m20 * v->xyz.x;
+    
+    result.matrix.m01 = m->matrix.m01 * v->xyz.y;
+    result.matrix.m11 = m->matrix.m11 * v->xyz.y;
+    result.matrix.m21 = m->matrix.m21 * v->xyz.y;
+    
+    result.matrix.m02 = m->matrix.m02 * v->xyz.z;
+    result.matrix.m12 = m->matrix.m12 * v->xyz.z;
+    result.matrix.m22 = m->matrix.m22 * v->xyz.z;
+    return result;
+}
+
+dmat4 dmat4_mul_double4(const dmat4* m, const double4* v)
+{
+    dmat4 result = { 0 };
+    result.matrix.m00 = m->matrix.m00 * v->xyzw.x;
+    result.matrix.m10 = m->matrix.m10 * v->xyzw.x;
+    result.matrix.m20 = m->matrix.m20 * v->xyzw.x;
+    result.matrix.m30 = m->matrix.m30 * v->xyzw.x;
+    
+    result.matrix.m01 = m->matrix.m01 * v->xyzw.y;
+    result.matrix.m11 = m->matrix.m11 * v->xyzw.y;
+    result.matrix.m21 = m->matrix.m21 * v->xyzw.y;
+    result.matrix.m31 = m->matrix.m31 * v->xyzw.y;
+    
+    result.matrix.m02 = m->matrix.m02 * v->xyzw.z;
+    result.matrix.m12 = m->matrix.m12 * v->xyzw.z;
+    result.matrix.m22 = m->matrix.m22 * v->xyzw.z;
+    result.matrix.m32 = m->matrix.m32 * v->xyzw.z;
+    
+    result.matrix.m03 = m->matrix.m03 * v->xyzw.w;
+    result.matrix.m13 = m->matrix.m13 * v->xyzw.w;
+    result.matrix.m23 = m->matrix.m23 * v->xyzw.w;
+    result.matrix.m33 = m->matrix.m33 * v->xyzw.w;
+    return result;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// transpose 
+/////////////////////////////////////////////////////////////////////////////////////
+
+fmat2 fmat2_transpose(const fmat2* m)
+{
+    fmat2 result = { 0 };
+    result.matrix.m00 = m->matrix.m00; 
+    result.matrix.m01 = m->matrix.m10;
+
+    result.matrix.m10 = m->matrix.m01;
+    result.matrix.m11 = m->matrix.m11;
+    return result;
+}
+
+fmat3 fmat3_transpose(const fmat3* m)
+{
+    fmat3 result = { 0 };
+    result.matrix.m00 = m->matrix.m00;
+    result.matrix.m01 = m->matrix.m10;
+    result.matrix.m02 = m->matrix.m20;
+    
+    result.matrix.m10 = m->matrix.m01;
+    result.matrix.m11 = m->matrix.m11;
+    result.matrix.m12 = m->matrix.m21;
+    
+    result.matrix.m20 = m->matrix.m02;
+    result.matrix.m21 = m->matrix.m12;
+    result.matrix.m22 = m->matrix.m22;
+    return result;
+}
+
+fmat4 fmat4_transpose(const fmat4* m)
+{
+    fmat4 result = { 0 };
+    result.matrix.m00 = m->matrix.m00;
+    result.matrix.m01 = m->matrix.m10;
+    result.matrix.m02 = m->matrix.m20;
+    result.matrix.m03 = m->matrix.m30;
+    
+    result.matrix.m10 = m->matrix.m01;
+    result.matrix.m11 = m->matrix.m11;
+    result.matrix.m12 = m->matrix.m21;
+    result.matrix.m13 = m->matrix.m31;
+    
+    result.matrix.m20 = m->matrix.m02;
+    result.matrix.m21 = m->matrix.m12;
+    result.matrix.m22 = m->matrix.m22;
+    result.matrix.m23 = m->matrix.m32;
+    
+    result.matrix.m30 = m->matrix.m03;
+    result.matrix.m31 = m->matrix.m13;
+    result.matrix.m32 = m->matrix.m23;
+    result.matrix.m33 = m->matrix.m33;
+    return result;
+}
+
+dmat2 dmat2_transpose(const dmat2* m)
+{
+    dmat2 result = { 0 };
+    result.matrix.m00 = m->matrix.m00; 
+    result.matrix.m01 = m->matrix.m10;
+
+    result.matrix.m10 = m->matrix.m01;
+    result.matrix.m11 = m->matrix.m11;
+    return result;
+}
+
+dmat3 dmat3_transpose(const dmat3* m)
+{
+    dmat3 result = { 0 };
+    result.matrix.m00 = m->matrix.m00;
+    result.matrix.m01 = m->matrix.m10;
+    result.matrix.m02 = m->matrix.m20;
+    
+    result.matrix.m10 = m->matrix.m01;
+    result.matrix.m11 = m->matrix.m11;
+    result.matrix.m12 = m->matrix.m21;
+    
+    result.matrix.m20 = m->matrix.m02;
+    result.matrix.m21 = m->matrix.m12;
+    result.matrix.m22 = m->matrix.m22;
+    return result;
+}
+
+dmat4 dmat4_transpose(const dmat4* m)
+{
+    dmat4 result = { 0 };
+    result.matrix.m00 = m->matrix.m00;
+    result.matrix.m01 = m->matrix.m10;
+    result.matrix.m02 = m->matrix.m20;
+    result.matrix.m03 = m->matrix.m30;
+    
+    result.matrix.m10 = m->matrix.m01;
+    result.matrix.m11 = m->matrix.m11;
+    result.matrix.m12 = m->matrix.m21;
+    result.matrix.m13 = m->matrix.m31;
+    
+    result.matrix.m20 = m->matrix.m02;
+    result.matrix.m21 = m->matrix.m12;
+    result.matrix.m22 = m->matrix.m22;
+    result.matrix.m23 = m->matrix.m32;
+    
+    result.matrix.m30 = m->matrix.m03;
+    result.matrix.m31 = m->matrix.m13;
+    result.matrix.m32 = m->matrix.m23;
+    result.matrix.m33 = m->matrix.m33;
+    return result;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// determinant 
+/////////////////////////////////////////////////////////////////////////////////////
+
+float fmat2_determinant(const fmat2* m)
+{
+    return (m->matrix.m00 * m->matrix.m11) - (m->matrix.m01 * m->matrix.m10);
+}
+
+float fmat3_determinant(const fmat3* m)
+{
+    return m->matrix.m00 * (m->matrix.m11 * m->matrix.m22 - m->matrix.m12 * m->matrix.m21) 
+        - m->matrix.m01 * (m->matrix.m10 * m->matrix.m22 - m->matrix.m12 * m->matrix.m20) 
+        + m->matrix.m02 * (m->matrix.m10 * m->matrix.m21 - m->matrix.m11 * m->matrix.m20);
+}
+
+float fmat4_determinant(const fmat4* m)
+{
+    float det = 0;
+    float sub[3][3];
+    
+    for (int x = 0; x < 4; x++) {
+        int subi = 0;
+        for (int i = 1; i < 4; i++) {
+            int subj = 0;
+            for (int j = 0; j < 4; j++) {
+                if (j == x) continue;
+                sub[subi][subj] = m->data[i][j];
+                subj++;
+            }
+            subi++;
+        }
+        fmat3 submat = {{{sub[0][0], sub[0][1], sub[0][2]},
+            {sub[1][0], sub[1][1], sub[1][2]},
+            {sub[2][0], sub[2][1], sub[2][2]}}};
+        det += (x % 2 == 0 ? 1 : -1) * m->data[0][x] * fmat3_determinant(&submat);
+    }
+    return det;
+}
+
+double double2_determinant(const dmat2* m)
+{
+    return (m->matrix.m00 * m->matrix.m11) - (m->matrix.m01 * m->matrix.m10);
+}
+
+double double3_determinant(const dmat3* m)
+{
+    return m->matrix.m00 * (m->matrix.m11 * m->matrix.m22 - m->matrix.m12 * m->matrix.m21) 
+        - m->matrix.m01 * (m->matrix.m10 * m->matrix.m22 - m->matrix.m12 * m->matrix.m20) 
+        + m->matrix.m02 * (m->matrix.m10 * m->matrix.m21 - m->matrix.m11 * m->matrix.m20);
+}
+
+double double4_determinant(const dmat4* m)
+{
+    double det = 0;
+    double sub[3][3];
+    
+    for (int x = 0; x < 4; x++) {
+        int subi = 0;
+        for (int i = 1; i < 4; i++) {
+            int subj = 0;
+            for (int j = 0; j < 4; j++) {
+                if (j == x) continue;
+                sub[subi][subj] = m->data[i][j];
+                subj++;
+            }
+            subi++;
+        }
+        dmat3 submat = {{{sub[0][0], sub[0][1], sub[0][2]},
+            {sub[1][0], sub[1][1], sub[1][2]},
+            {sub[2][0], sub[2][1], sub[2][2]}}};
+        det += (x % 2 == 0 ? 1 : -1) * m->data[0][x] * dmat3_determinant(&submat);
+    }
+    return det;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// inverse 
+/////////////////////////////////////////////////////////////////////////////////////
+
+fmat2 fmat2_inverse(const fmat2* m)
+{
+    fmat2 result = { 0 };
+    float det = fmat2_determinant(m);
+
+    if (fabsf(det) < VECMATH_EPSILON_FZERO) {
+        return fmat2_identity();
+    }
+    
+    float inv_det = 1.0f / det;
+    result.matrix.m00 =  m->matrix.m11 * inv_det;
+    result.matrix.m01 = -m->matrix.m01 * inv_det;
+    result.matrix.m10 = -m->matrix.m10 * inv_det;
+    result.matrix.m11 =  m->matrix.m00 * inv_det;
+    return result;
+}
+
+fmat3 fmat3_inverse(const fmat3* m)
+{
+    fmat3 result = { 0 };
+    float det = fmat3_determinant(m);
+    if (fabsf(det) < VECMATH_EPSILON_FZERO) {
+        return fmat3_identity();
+    }
+    
+    float inv_det = 1.0f / det;
+    result.matrix.m00 = (m->matrix.m11 * m->matrix.m22 - m->matrix.m12 * m->matrix.m21) * inv_det;
+    result.matrix.m01 = (m->matrix.m02 * m->matrix.m21 - m->matrix.m01 * m->matrix.m22) * inv_det;
+    result.matrix.m02 = (m->matrix.m01 * m->matrix.m12 - m->matrix.m02 * m->matrix.m11) * inv_det;
+    
+    result.matrix.m10 = (m->matrix.m12 * m->matrix.m20 - m->matrix.m10 * m->matrix.m22) * inv_det;
+    result.matrix.m11 = (m->matrix.m00 * m->matrix.m22 - m->matrix.m02 * m->matrix.m20) * inv_det;
+    result.matrix.m12 = (m->matrix.m02 * m->matrix.m10 - m->matrix.m00 * m->matrix.m12) * inv_det;
+    
+    result.matrix.m20 = (m->matrix.m10 * m->matrix.m21 - m->matrix.m11 * m->matrix.m20) * inv_det;
+    result.matrix.m21 = (m->matrix.m01 * m->matrix.m20 - m->matrix.m00 * m->matrix.m21) * inv_det;
+    result.matrix.m22 = (m->matrix.m00 * m->matrix.m11 - m->matrix.m01 * m->matrix.m10) * inv_det;
+    return result;
+}
+
+fmat4 fmat4_inverse(const fmat4 *m)
+{
+    fmat4 result = { 0 };
+    float inv[4][4];
+    
+    // calculate cofactors and determinant
+    inv[0][0] = m->matrix.m11 * m->matrix.m22 * m->matrix.m33 - 
+        m->matrix.m11 * m->matrix.m23 * m->matrix.m32 - 
+        m->matrix.m21 * m->matrix.m12 * m->matrix.m33 + 
+        m->matrix.m21 * m->matrix.m13 * m->matrix.m32 + 
+        m->matrix.m31 * m->matrix.m12 * m->matrix.m23 - 
+        m->matrix.m31 * m->matrix.m13 * m->matrix.m22;
+
+    inv[1][0] = -m->matrix.m10 * m->matrix.m22 * m->matrix.m33 + 
+        m->matrix.m10 * m->matrix.m23 * m->matrix.m32 + 
+        m->matrix.m20 * m->matrix.m12 * m->matrix.m33 - 
+        m->matrix.m20 * m->matrix.m13 * m->matrix.m32 - 
+        m->matrix.m30 * m->matrix.m12 * m->matrix.m23 + 
+        m->matrix.m30 * m->matrix.m13 * m->matrix.m22;
+
+    inv[2][0] = m->matrix.m10 * m->matrix.m21 * m->matrix.m33 - 
+        m->matrix.m10 * m->matrix.m23 * m->matrix.m31 - 
+        m->matrix.m20 * m->matrix.m11 * m->matrix.m33 + 
+        m->matrix.m20 * m->matrix.m13 * m->matrix.m31 + 
+        m->matrix.m30 * m->matrix.m11 * m->matrix.m23 - 
+        m->matrix.m30 * m->matrix.m13 * m->matrix.m21;
+
+    inv[3][0] = -m->matrix.m10 * m->matrix.m21 * m->matrix.m32 + 
+        m->matrix.m10 * m->matrix.m22 * m->matrix.m31 + 
+        m->matrix.m20 * m->matrix.m11 * m->matrix.m32 - 
+        m->matrix.m20 * m->matrix.m12 * m->matrix.m31 - 
+        m->matrix.m30 * m->matrix.m11 * m->matrix.m22 + 
+        m->matrix.m30 * m->matrix.m12 * m->matrix.m21;
+
+    inv[0][1] = -m->matrix.m01 * m->matrix.m22 * m->matrix.m33 + 
+        m->matrix.m01 * m->matrix.m23 * m->matrix.m32 + 
+        m->matrix.m21 * m->matrix.m02 * m->matrix.m33 - 
+        m->matrix.m21 * m->matrix.m03 * m->matrix.m32 - 
+        m->matrix.m31 * m->matrix.m02 * m->matrix.m23 + 
+        m->matrix.m31 * m->matrix.m03 * m->matrix.m22;
+
+    inv[1][1] = m->matrix.m00 * m->matrix.m22 * m->matrix.m33 - 
+        m->matrix.m00 * m->matrix.m23 * m->matrix.m32 - 
+        m->matrix.m20 * m->matrix.m02 * m->matrix.m33 + 
+        m->matrix.m20 * m->matrix.m03 * m->matrix.m32 + 
+        m->matrix.m30 * m->matrix.m02 * m->matrix.m23 - 
+        m->matrix.m30 * m->matrix.m03 * m->matrix.m22;
+
+    inv[2][1] = -m->matrix.m00 * m->matrix.m21 * m->matrix.m33 + 
+        m->matrix.m00 * m->matrix.m23 * m->matrix.m31 + 
+        m->matrix.m20 * m->matrix.m01 * m->matrix.m33 - 
+        m->matrix.m20 * m->matrix.m03 * m->matrix.m31 - 
+        m->matrix.m30 * m->matrix.m01 * m->matrix.m23 + 
+        m->matrix.m30 * m->matrix.m03 * m->matrix.m21;
+
+    inv[3][1] = m->matrix.m00 * m->matrix.m21 * m->matrix.m32 - 
+        m->matrix.m00 * m->matrix.m22 * m->matrix.m31 - 
+        m->matrix.m20 * m->matrix.m01 * m->matrix.m32 + 
+        m->matrix.m20 * m->matrix.m02 * m->matrix.m31 + 
+        m->matrix.m30 * m->matrix.m01 * m->matrix.m22 - 
+        m->matrix.m30 * m->matrix.m02 * m->matrix.m21;
+
+    inv[0][2] = m->matrix.m01 * m->matrix.m12 * m->matrix.m33 - 
+        m->matrix.m01 * m->matrix.m13 * m->matrix.m32 - 
+        m->matrix.m11 * m->matrix.m02 * m->matrix.m33 + 
+        m->matrix.m11 * m->matrix.m03 * m->matrix.m32 + 
+        m->matrix.m31 * m->matrix.m02 * m->matrix.m13 - 
+        m->matrix.m31 * m->matrix.m03 * m->matrix.m12;
+
+    inv[1][2] = -m->matrix.m00 * m->matrix.m12 * m->matrix.m33 + 
+        m->matrix.m00 * m->matrix.m13 * m->matrix.m32 + 
+        m->matrix.m10 * m->matrix.m02 * m->matrix.m33 - 
+        m->matrix.m10 * m->matrix.m03 * m->matrix.m32 - 
+        m->matrix.m30 * m->matrix.m02 * m->matrix.m13 + 
+        m->matrix.m30 * m->matrix.m03 * m->matrix.m12;
+
+    inv[2][2] = m->matrix.m00 * m->matrix.m11 * m->matrix.m33 - 
+        m->matrix.m00 * m->matrix.m13 * m->matrix.m31 - 
+        m->matrix.m10 * m->matrix.m01 * m->matrix.m33 + 
+        m->matrix.m10 * m->matrix.m03 * m->matrix.m31 + 
+        m->matrix.m30 * m->matrix.m01 * m->matrix.m13 - 
+        m->matrix.m30 * m->matrix.m03 * m->matrix.m11;
+
+    inv[3][2] = -m->matrix.m00 * m->matrix.m11 * m->matrix.m32 + 
+        m->matrix.m00 * m->matrix.m12 * m->matrix.m31 + 
+        m->matrix.m10 * m->matrix.m01 * m->matrix.m32 - 
+        m->matrix.m10 * m->matrix.m02 * m->matrix.m31 - 
+        m->matrix.m30 * m->matrix.m01 * m->matrix.m12 + 
+        m->matrix.m30 * m->matrix.m02 * m->matrix.m11;
+
+    inv[0][3] = -m->matrix.m01 * m->matrix.m12 * m->matrix.m23 + 
+        m->matrix.m01 * m->matrix.m13 * m->matrix.m22 + 
+        m->matrix.m11 * m->matrix.m02 * m->matrix.m23 - 
+        m->matrix.m11 * m->matrix.m03 * m->matrix.m22 - 
+        m->matrix.m21 * m->matrix.m02 * m->matrix.m13 + 
+        m->matrix.m21 * m->matrix.m03 * m->matrix.m12;
+
+    inv[1][3] = m->matrix.m00 * m->matrix.m12 * m->matrix.m23 - 
+        m->matrix.m00 * m->matrix.m13 * m->matrix.m22 - 
+        m->matrix.m10 * m->matrix.m02 * m->matrix.m23 + 
+        m->matrix.m10 * m->matrix.m03 * m->matrix.m22 + 
+        m->matrix.m20 * m->matrix.m02 * m->matrix.m13 - 
+        m->matrix.m20 * m->matrix.m03 * m->matrix.m12;
+
+    inv[2][3] = -m->matrix.m00 * m->matrix.m11 * m->matrix.m23 + 
+        m->matrix.m00 * m->matrix.m13 * m->matrix.m21 + 
+        m->matrix.m10 * m->matrix.m01 * m->matrix.m23 - 
+        m->matrix.m10 * m->matrix.m03 * m->matrix.m21 - 
+        m->matrix.m20 * m->matrix.m01 * m->matrix.m13 + 
+        m->matrix.m20 * m->matrix.m03 * m->matrix.m11;
+
+    inv[3][3] = m->matrix.m00 * m->matrix.m11 * m->matrix.m22 - 
+        m->matrix.m00 * m->matrix.m12 * m->matrix.m21 - 
+        m->matrix.m10 * m->matrix.m01 * m->matrix.m22 + 
+        m->matrix.m10 * m->matrix.m02 * m->matrix.m21 + 
+        m->matrix.m20 * m->matrix.m01 * m->matrix.m12 - 
+        m->matrix.m20 * m->matrix.m02 * m->matrix.m11;
+
+    // calculate determinant
+    float det = m->matrix.m00 * inv[0][0] + m->matrix.m01 * inv[1][0] + m->matrix.m02 * inv[2][0] + m->matrix.m03 * inv[3][0];
+
+    if (fabsf(det) < VECMATH_EPSILON_FZERO) {
+        return fmat4_identity();
+    }
+
+    // scale by 1/determinant
+    float inv_det = 1.0f / det;
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            result.data[i][j] = inv[i][j] * inv_det;
+        }
+    }
+
+    return result;
+}
+
+dmat2 dmat2_inverse(const dmat2* m)
+{
+    dmat2 result = { 0 };
+    double det = fmat2_determinant(m);
+
+    if (fabs(det) < VECMATH_EPSILON_DZERO) {
+        return dmat2_identity();
+    }
+    
+    double inv_det = 1.0f / det;
+    result.matrix.m00 =  m->matrix.m11 * inv_det;
+    result.matrix.m01 = -m->matrix.m01 * inv_det;
+    result.matrix.m10 = -m->matrix.m10 * inv_det;
+    result.matrix.m11 =  m->matrix.m00 * inv_det;
+    return result;
+}
+
+dmat3 dmat3_inverse(const dmat3* m)
+{
+    dmat3 result = { 0 };
+    double det = fmat3_determinant(m);
+    if (fabs(det) < VECMATH_EPSILON_DZERO) {
+        return dmat3_identity();
+    }
+    
+    double inv_det = 1.0f / det;
+    result.matrix.m00 = (m->matrix.m11 * m->matrix.m22 - m->matrix.m12 * m->matrix.m21) * inv_det;
+    result.matrix.m01 = (m->matrix.m02 * m->matrix.m21 - m->matrix.m01 * m->matrix.m22) * inv_det;
+    result.matrix.m02 = (m->matrix.m01 * m->matrix.m12 - m->matrix.m02 * m->matrix.m11) * inv_det;
+    
+    result.matrix.m10 = (m->matrix.m12 * m->matrix.m20 - m->matrix.m10 * m->matrix.m22) * inv_det;
+    result.matrix.m11 = (m->matrix.m00 * m->matrix.m22 - m->matrix.m02 * m->matrix.m20) * inv_det;
+    result.matrix.m12 = (m->matrix.m02 * m->matrix.m10 - m->matrix.m00 * m->matrix.m12) * inv_det;
+    
+    result.matrix.m20 = (m->matrix.m10 * m->matrix.m21 - m->matrix.m11 * m->matrix.m20) * inv_det;
+    result.matrix.m21 = (m->matrix.m01 * m->matrix.m20 - m->matrix.m00 * m->matrix.m21) * inv_det;
+    result.matrix.m22 = (m->matrix.m00 * m->matrix.m11 - m->matrix.m01 * m->matrix.m10) * inv_det;
+    return result;
+}
+
+dmat4 dmat4_inverse(const dmat4* m)
+{
+    dmat4 result = { 0 };
+    double inv[4][4];
+    
+    // calculate cofactors and determinant
+    inv[0][0] = m->matrix.m11 * m->matrix.m22 * m->matrix.m33 - 
+        m->matrix.m11 * m->matrix.m23 * m->matrix.m32 - 
+        m->matrix.m21 * m->matrix.m12 * m->matrix.m33 + 
+        m->matrix.m21 * m->matrix.m13 * m->matrix.m32 + 
+        m->matrix.m31 * m->matrix.m12 * m->matrix.m23 - 
+        m->matrix.m31 * m->matrix.m13 * m->matrix.m22;
+
+    inv[1][0] = -m->matrix.m10 * m->matrix.m22 * m->matrix.m33 + 
+        m->matrix.m10 * m->matrix.m23 * m->matrix.m32 + 
+        m->matrix.m20 * m->matrix.m12 * m->matrix.m33 - 
+        m->matrix.m20 * m->matrix.m13 * m->matrix.m32 - 
+        m->matrix.m30 * m->matrix.m12 * m->matrix.m23 + 
+        m->matrix.m30 * m->matrix.m13 * m->matrix.m22;
+
+    inv[2][0] = m->matrix.m10 * m->matrix.m21 * m->matrix.m33 - 
+        m->matrix.m10 * m->matrix.m23 * m->matrix.m31 - 
+        m->matrix.m20 * m->matrix.m11 * m->matrix.m33 + 
+        m->matrix.m20 * m->matrix.m13 * m->matrix.m31 + 
+        m->matrix.m30 * m->matrix.m11 * m->matrix.m23 - 
+        m->matrix.m30 * m->matrix.m13 * m->matrix.m21;
+
+    inv[3][0] = -m->matrix.m10 * m->matrix.m21 * m->matrix.m32 + 
+        m->matrix.m10 * m->matrix.m22 * m->matrix.m31 + 
+        m->matrix.m20 * m->matrix.m11 * m->matrix.m32 - 
+        m->matrix.m20 * m->matrix.m12 * m->matrix.m31 - 
+        m->matrix.m30 * m->matrix.m11 * m->matrix.m22 + 
+        m->matrix.m30 * m->matrix.m12 * m->matrix.m21;
+
+    inv[0][1] = -m->matrix.m01 * m->matrix.m22 * m->matrix.m33 + 
+        m->matrix.m01 * m->matrix.m23 * m->matrix.m32 + 
+        m->matrix.m21 * m->matrix.m02 * m->matrix.m33 - 
+        m->matrix.m21 * m->matrix.m03 * m->matrix.m32 - 
+        m->matrix.m31 * m->matrix.m02 * m->matrix.m23 + 
+        m->matrix.m31 * m->matrix.m03 * m->matrix.m22;
+
+    inv[1][1] = m->matrix.m00 * m->matrix.m22 * m->matrix.m33 - 
+        m->matrix.m00 * m->matrix.m23 * m->matrix.m32 - 
+        m->matrix.m20 * m->matrix.m02 * m->matrix.m33 + 
+        m->matrix.m20 * m->matrix.m03 * m->matrix.m32 + 
+        m->matrix.m30 * m->matrix.m02 * m->matrix.m23 - 
+        m->matrix.m30 * m->matrix.m03 * m->matrix.m22;
+
+    inv[2][1] = -m->matrix.m00 * m->matrix.m21 * m->matrix.m33 + 
+        m->matrix.m00 * m->matrix.m23 * m->matrix.m31 + 
+        m->matrix.m20 * m->matrix.m01 * m->matrix.m33 - 
+        m->matrix.m20 * m->matrix.m03 * m->matrix.m31 - 
+        m->matrix.m30 * m->matrix.m01 * m->matrix.m23 + 
+        m->matrix.m30 * m->matrix.m03 * m->matrix.m21;
+
+    inv[3][1] = m->matrix.m00 * m->matrix.m21 * m->matrix.m32 - 
+        m->matrix.m00 * m->matrix.m22 * m->matrix.m31 - 
+        m->matrix.m20 * m->matrix.m01 * m->matrix.m32 + 
+        m->matrix.m20 * m->matrix.m02 * m->matrix.m31 + 
+        m->matrix.m30 * m->matrix.m01 * m->matrix.m22 - 
+        m->matrix.m30 * m->matrix.m02 * m->matrix.m21;
+
+    inv[0][2] = m->matrix.m01 * m->matrix.m12 * m->matrix.m33 - 
+        m->matrix.m01 * m->matrix.m13 * m->matrix.m32 - 
+        m->matrix.m11 * m->matrix.m02 * m->matrix.m33 + 
+        m->matrix.m11 * m->matrix.m03 * m->matrix.m32 + 
+        m->matrix.m31 * m->matrix.m02 * m->matrix.m13 - 
+        m->matrix.m31 * m->matrix.m03 * m->matrix.m12;
+
+    inv[1][2] = -m->matrix.m00 * m->matrix.m12 * m->matrix.m33 + 
+        m->matrix.m00 * m->matrix.m13 * m->matrix.m32 + 
+        m->matrix.m10 * m->matrix.m02 * m->matrix.m33 - 
+        m->matrix.m10 * m->matrix.m03 * m->matrix.m32 - 
+        m->matrix.m30 * m->matrix.m02 * m->matrix.m13 + 
+        m->matrix.m30 * m->matrix.m03 * m->matrix.m12;
+
+    inv[2][2] = m->matrix.m00 * m->matrix.m11 * m->matrix.m33 - 
+        m->matrix.m00 * m->matrix.m13 * m->matrix.m31 - 
+        m->matrix.m10 * m->matrix.m01 * m->matrix.m33 + 
+        m->matrix.m10 * m->matrix.m03 * m->matrix.m31 + 
+        m->matrix.m30 * m->matrix.m01 * m->matrix.m13 - 
+        m->matrix.m30 * m->matrix.m03 * m->matrix.m11;
+
+    inv[3][2] = -m->matrix.m00 * m->matrix.m11 * m->matrix.m32 + 
+        m->matrix.m00 * m->matrix.m12 * m->matrix.m31 + 
+        m->matrix.m10 * m->matrix.m01 * m->matrix.m32 - 
+        m->matrix.m10 * m->matrix.m02 * m->matrix.m31 - 
+        m->matrix.m30 * m->matrix.m01 * m->matrix.m12 + 
+        m->matrix.m30 * m->matrix.m02 * m->matrix.m11;
+
+    inv[0][3] = -m->matrix.m01 * m->matrix.m12 * m->matrix.m23 + 
+        m->matrix.m01 * m->matrix.m13 * m->matrix.m22 + 
+        m->matrix.m11 * m->matrix.m02 * m->matrix.m23 - 
+        m->matrix.m11 * m->matrix.m03 * m->matrix.m22 - 
+        m->matrix.m21 * m->matrix.m02 * m->matrix.m13 + 
+        m->matrix.m21 * m->matrix.m03 * m->matrix.m12;
+
+    inv[1][3] = m->matrix.m00 * m->matrix.m12 * m->matrix.m23 - 
+        m->matrix.m00 * m->matrix.m13 * m->matrix.m22 - 
+        m->matrix.m10 * m->matrix.m02 * m->matrix.m23 + 
+        m->matrix.m10 * m->matrix.m03 * m->matrix.m22 + 
+        m->matrix.m20 * m->matrix.m02 * m->matrix.m13 - 
+        m->matrix.m20 * m->matrix.m03 * m->matrix.m12;
+
+    inv[2][3] = -m->matrix.m00 * m->matrix.m11 * m->matrix.m23 + 
+        m->matrix.m00 * m->matrix.m13 * m->matrix.m21 + 
+        m->matrix.m10 * m->matrix.m01 * m->matrix.m23 - 
+        m->matrix.m10 * m->matrix.m03 * m->matrix.m21 - 
+        m->matrix.m20 * m->matrix.m01 * m->matrix.m13 + 
+        m->matrix.m20 * m->matrix.m03 * m->matrix.m11;
+
+    inv[3][3] = m->matrix.m00 * m->matrix.m11 * m->matrix.m22 - 
+        m->matrix.m00 * m->matrix.m12 * m->matrix.m21 - 
+        m->matrix.m10 * m->matrix.m01 * m->matrix.m22 + 
+        m->matrix.m10 * m->matrix.m02 * m->matrix.m21 + 
+        m->matrix.m20 * m->matrix.m01 * m->matrix.m12 - 
+        m->matrix.m20 * m->matrix.m02 * m->matrix.m11;
+
+    // calculate determinant
+    float det = m->matrix.m00 * inv[0][0] + m->matrix.m01 * inv[1][0] + m->matrix.m02 * inv[2][0] + m->matrix.m03 * inv[3][0];
+
+    if (fabs(det) < VECMATH_EPSILON_DZERO) {
+        return dmat4_identity();
+    }
+
+    // scale by 1/determinant
+    double inv_det = 1.0f / det;
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            result.data[i][j] = inv[i][j] * inv_det;
+        }
+    }
+
+    return result;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// translate
+/////////////////////////////////////////////////////////////////////////////////////
+
+fmat4 fmat4_translate_rowmajor(const fmat4* m, const float3* dir)
+{
+    fmat4 result = *m;
+
+    result.data[3][0] += dir->xyz.x;
+    result.data[3][1] += dir->xyz.y;
+    result.data[3][2] += dir->xyz.z;
+    return result;
+}
+
+fmat4 fmat4_translate_colmajor(const fmat4* m, const float3 *dir)
+{
+    fmat4 result = *m;
+
+    result.data[0][3] += dir->xyz.x;
+    result.data[1][3] += dir->xyz.y;
+    result.data[2][3] += dir->xyz.z;
+    return result;
+}
+
+dmat4 dmat4_translate_rowmajor(const dmat4* m, const double3* dir)
+{
+    dmat4 result = *m;
+
+    result.data[3][0] += dir->xyz.x;
+    result.data[3][1] += dir->xyz.y;
+    result.data[3][2] += dir->xyz.z;
+    return result;
+}
+
+dmat4 dmat4_translate_colmajor(const dmat4* m, const double3* dir)
+{
+    dmat4 result = *m;
+
+    result.data[0][3] += dir->xyz.x;
+    result.data[1][3] += dir->xyz.y;
+    result.data[2][3] += dir->xyz.z;
+    return result;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// scale
+/////////////////////////////////////////////////////////////////////////////////////
+
+fmat4 fmat4_scale_rowmajor(const fmat4* m, const float3* dim)
+{
+    fmat4 result = { 0 };
+
+    result.data[0][0] = m->data[0][0] * dim->xyz.x;
+    result.data[0][1] = m->data[0][1] * dim->xyz.x;
+    result.data[0][2] = m->data[0][2] * dim->xyz.x;
+    result.data[0][3] = m->data[0][3] * dim->xyz.x;
+
+    result.data[1][0] = m->data[1][0] * dim->xyz.y;
+    result.data[1][1] = m->data[1][1] * dim->xyz.y;
+    result.data[1][2] = m->data[1][2] * dim->xyz.y;
+    result.data[1][3] = m->data[1][3] * dim->xyz.y;
+
+    result.data[2][0] = m->data[2][0] * dim->xyz.z;
+    result.data[2][1] = m->data[2][1] * dim->xyz.z;
+    result.data[2][2] = m->data[2][2] * dim->xyz.z;
+    result.data[2][3] = m->data[2][3] * dim->xyz.z;
+
+    result.data[3][0] = m->data[3][0];
+    result.data[3][1] = m->data[3][1];
+    result.data[3][2] = m->data[3][2];
+    result.data[3][3] = m->data[3][3];
+    return result;
+}
+
+fmat4 fmat4_scale_colmajor(const fmat4* m, const float3* dim)
+{
+    fmat4 result = { 0 };
+
+    result.data[0][0] = m->data[0][0] * dim->xyz.x;
+    result.data[1][0] = m->data[1][0] * dim->xyz.x;
+    result.data[2][0] = m->data[2][0] * dim->xyz.x;
+    result.data[3][0] = m->data[3][0] * dim->xyz.x;
+
+    result.data[0][1] = m->data[0][1] * dim->xyz.y;
+    result.data[1][1] = m->data[1][1] * dim->xyz.y;
+    result.data[2][1] = m->data[2][1] * dim->xyz.y;
+    result.data[3][1] = m->data[3][1] * dim->xyz.y;
+
+    result.data[0][2] = m->data[0][2] * dim->xyz.z;
+    result.data[1][2] = m->data[1][2] * dim->xyz.z;
+    result.data[2][2] = m->data[2][2] * dim->xyz.z;
+    result.data[3][2] = m->data[3][2] * dim->xyz.z;
+
+    result.data[0][3] = m->data[0][3];
+    result.data[1][3] = m->data[1][3];
+    result.data[2][3] = m->data[2][3];
+    result.data[3][3] = m->data[3][3];
+
+    return result;
+}
+
+dmat4 dmat4_scale_rowmajor(const dmat4* m, const double3* dim)
+{
+    dmat4 result = { 0 };
+
+    result.data[0][0] = m->data[0][0] * dim->xyz.x;
+    result.data[0][1] = m->data[0][1] * dim->xyz.x;
+    result.data[0][2] = m->data[0][2] * dim->xyz.x;
+    result.data[0][3] = m->data[0][3] * dim->xyz.x;
+
+    result.data[1][0] = m->data[1][0] * dim->xyz.y;
+    result.data[1][1] = m->data[1][1] * dim->xyz.y;
+    result.data[1][2] = m->data[1][2] * dim->xyz.y;
+    result.data[1][3] = m->data[1][3] * dim->xyz.y;
+
+    result.data[2][0] = m->data[2][0] * dim->xyz.z;
+    result.data[2][1] = m->data[2][1] * dim->xyz.z;
+    result.data[2][2] = m->data[2][2] * dim->xyz.z;
+    result.data[2][3] = m->data[2][3] * dim->xyz.z;
+
+    result.data[3][0] = m->data[3][0];
+    result.data[3][1] = m->data[3][1];
+    result.data[3][2] = m->data[3][2];
+    result.data[3][3] = m->data[3][3];
+    return result;
+}
+
+dmat4 dmat4_scale_colmajor(const dmat4* m, const double3* dim)
+{
+    dmat4 result = { 0 };
+
+    result.data[0][0] = m->data[0][0] * dim->xyz.x;
+    result.data[1][0] = m->data[1][0] * dim->xyz.x;
+    result.data[2][0] = m->data[2][0] * dim->xyz.x;
+    result.data[3][0] = m->data[3][0] * dim->xyz.x;
+
+    result.data[0][1] = m->data[0][1] * dim->xyz.y;
+    result.data[1][1] = m->data[1][1] * dim->xyz.y;
+    result.data[2][1] = m->data[2][1] * dim->xyz.y;
+    result.data[3][1] = m->data[3][1] * dim->xyz.y;
+
+    result.data[0][2] = m->data[0][2] * dim->xyz.z;
+    result.data[1][2] = m->data[1][2] * dim->xyz.z;
+    result.data[2][2] = m->data[2][2] * dim->xyz.z;
+    result.data[3][2] = m->data[3][2] * dim->xyz.z;
+
+    result.data[0][3] = m->data[0][3];
+    result.data[1][3] = m->data[1][3];
+    result.data[2][3] = m->data[2][3];
+    result.data[3][3] = m->data[3][3];
+
+    return result;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// rotate
+/////////////////////////////////////////////////////////////////////////////////////
+
+fmat4 fmat4_rotate_colmajor(const fmat4* m, float angle, const float3* axis)
+{
+    // normalize axis and compute temp values
+    float3 axis_n = float3_normalize(axis);
+    float c = cosf(angle);
+    float s = sinf(angle);
+    float one_minus_c = 1.0f - c;
+    fmat4 rotate = { 0 };
+    
+    // column 0
+    rotate.data[0][0] = c + axis_n.xyz.x * axis_n.xyz.x * one_minus_c;
+    rotate.data[1][0] = axis_n.xyz.y * axis_n.xyz.x * one_minus_c + axis_n.xyz.z * s;
+    rotate.data[2][0] = axis_n.xyz.z * axis_n.xyz.x * one_minus_c - axis_n.xyz.y * s;
+    // column 1
+    rotate.data[0][1] = axis_n.xyz.x * axis_n.xyz.y * one_minus_c - axis_n.xyz.z * s;
+    rotate.data[1][1] = c + axis_n.xyz.y * axis_n.xyz.y * one_minus_c;
+    rotate.data[2][1] = axis_n.xyz.z * axis_n.xyz.y * one_minus_c + axis_n.xyz.x * s;
+    // column 2
+    rotate.data[0][2] = axis_n.xyz.x * axis_n.xyz.z * one_minus_c + axis_n.xyz.y * s;
+    rotate.data[1][2] = axis_n.xyz.y * axis_n.xyz.z * one_minus_c - axis_n.xyz.x * s;
+    rotate.data[2][2] = c + axis_n.xyz.z * axis_n.xyz.z * one_minus_c;
+    
+    // column 3 (identity)
+    rotate.data[3][3] = 1.0f;
+    
+    // multiply: result = m * rotate (column-major)
+    fmat4 result = { 0 };
+    
+    // column 0
+    result.data[0][0] = m->data[0][0]*rotate.data[0][0] + m->data[0][1]*rotate.data[1][0] + m->data[0][2]*rotate.data[2][0] + m->data[0][3]*rotate.data[3][0];
+    result.data[1][0] = m->data[1][0]*rotate.data[0][0] + m->data[1][1]*rotate.data[1][0] + m->data[1][2]*rotate.data[2][0] + m->data[1][3]*rotate.data[3][0];
+    result.data[2][0] = m->data[2][0]*rotate.data[0][0] + m->data[2][1]*rotate.data[1][0] + m->data[2][2]*rotate.data[2][0] + m->data[2][3]*rotate.data[3][0];
+    result.data[3][0] = m->data[3][0]*rotate.data[0][0] + m->data[3][1]*rotate.data[1][0] + m->data[3][2]*rotate.data[2][0] + m->data[3][3]*rotate.data[3][0];
+    // column 1
+    result.data[0][1] = m->data[0][0]*rotate.data[0][1] + m->data[0][1]*rotate.data[1][1] + m->data[0][2]*rotate.data[2][1] + m->data[0][3]*rotate.data[3][1];
+    result.data[1][1] = m->data[1][0]*rotate.data[0][1] + m->data[1][1]*rotate.data[1][1] + m->data[1][2]*rotate.data[2][1] + m->data[1][3]*rotate.data[3][1];
+    result.data[2][1] = m->data[2][0]*rotate.data[0][1] + m->data[2][1]*rotate.data[1][1] + m->data[2][2]*rotate.data[2][1] + m->data[2][3]*rotate.data[3][1];
+    result.data[3][1] = m->data[3][0]*rotate.data[0][1] + m->data[3][1]*rotate.data[1][1] + m->data[3][2]*rotate.data[2][1] + m->data[3][3]*rotate.data[3][1];
+    // column 2
+    result.data[0][2] = m->data[0][0]*rotate.data[0][2] + m->data[0][1]*rotate.data[1][2] + m->data[0][2]*rotate.data[2][2] + m->data[0][3]*rotate.data[3][2];
+    result.data[1][2] = m->data[1][0]*rotate.data[0][2] + m->data[1][1]*rotate.data[1][2] + m->data[1][2]*rotate.data[2][2] + m->data[1][3]*rotate.data[3][2];
+    result.data[2][2] = m->data[2][0]*rotate.data[0][2] + m->data[2][1]*rotate.data[1][2] + m->data[2][2]*rotate.data[2][2] + m->data[2][3]*rotate.data[3][2];
+    result.data[3][2] = m->data[3][0]*rotate.data[0][2] + m->data[3][1]*rotate.data[1][2] + m->data[3][2]*rotate.data[2][2] + m->data[3][3]*rotate.data[3][2];
+    // column 3
+    result.data[0][3] = m->data[0][3];
+    result.data[1][3] = m->data[1][3];
+    result.data[2][3] = m->data[2][3];
+    result.data[3][3] = m->data[3][3];
+    
+    return result;
+}
+
+fmat4 fmat4_rotate_rowmajor(const fmat4* m, float angle, const float3* axis)
+{
+    // normalize axis and compute temp values
+    float3 axis_n = float3_normalize(axis);
+    float c = cosf(angle);
+    float s = sinf(angle);
+    float one_minus_c = 1.0f - c;
+    
+    // construct rotation matrix (row-major)
+    fmat4 rotate = { 0 };
+    
+    // row 0
+    rotate.data[0][0] = c + axis_n.xyz.x * axis_n.xyz.x * one_minus_c;
+    rotate.data[0][1] = axis_n.xyz.x * axis_n.xyz.y * one_minus_c - axis_n.xyz.z * s;
+    rotate.data[0][2] = axis_n.xyz.x * axis_n.xyz.z * one_minus_c + axis_n.xyz.y * s;
+    rotate.data[0][3] = 0.0f;
+    // row 1
+    rotate.data[1][0] = axis_n.xyz.y * axis_n.xyz.x * one_minus_c + axis_n.xyz.z * s;
+    rotate.data[1][1] = c + axis_n.xyz.y * axis_n.xyz.y * one_minus_c;
+    rotate.data[1][2] = axis_n.xyz.y * axis_n.xyz.z * one_minus_c - axis_n.xyz.x * s;
+    rotate.data[1][3] = 0.0f;
+    // row 2
+    rotate.data[2][0] = axis_n.xyz.z * axis_n.xyz.x * one_minus_c - axis_n.xyz.y * s;
+    rotate.data[2][1] = axis_n.xyz.z * axis_n.xyz.y * one_minus_c + axis_n.xyz.x * s;
+    rotate.data[2][2] = c + axis_n.xyz.z * axis_n.xyz.z * one_minus_c;
+    rotate.data[2][3] = 0.0f;
+    // row 3
+    rotate.data[3][0] = 0.0f;
+    rotate.data[3][1] = 0.0f;
+    rotate.data[3][2] = 0.0f;
+    rotate.data[3][3] = 1.0f;
+    
+    // multiply: result = rotate * m (row-major)
+    fmat4 result = { 0 };
+    
+    // row 0
+    result.data[0][0] = rotate.data[0][0]*m->data[0][0] + rotate.data[0][1]*m->data[1][0] + rotate.data[0][2]*m->data[2][0] + rotate.data[0][3]*m->data[3][0];
+    result.data[0][1] = rotate.data[0][0]*m->data[0][1] + rotate.data[0][1]*m->data[1][1] + rotate.data[0][2]*m->data[2][1] + rotate.data[0][3]*m->data[3][1];
+    result.data[0][2] = rotate.data[0][0]*m->data[0][2] + rotate.data[0][1]*m->data[1][2] + rotate.data[0][2]*m->data[2][2] + rotate.data[0][3]*m->data[3][2];
+    result.data[0][3] = rotate.data[0][0]*m->data[0][3] + rotate.data[0][1]*m->data[1][3] + rotate.data[0][2]*m->data[2][3] + rotate.data[0][3]*m->data[3][3];
+    // row 1
+    result.data[1][0] = rotate.data[1][0]*m->data[0][0] + rotate.data[1][1]*m->data[1][0] + rotate.data[1][2]*m->data[2][0] + rotate.data[1][3]*m->data[3][0];
+    result.data[1][1] = rotate.data[1][0]*m->data[0][1] + rotate.data[1][1]*m->data[1][1] + rotate.data[1][2]*m->data[2][1] + rotate.data[1][3]*m->data[3][1];
+    result.data[1][2] = rotate.data[1][0]*m->data[0][2] + rotate.data[1][1]*m->data[1][2] + rotate.data[1][2]*m->data[2][2] + rotate.data[1][3]*m->data[3][2];
+    result.data[1][3] = rotate.data[1][0]*m->data[0][3] + rotate.data[1][1]*m->data[1][3] + rotate.data[1][2]*m->data[2][3] + rotate.data[1][3]*m->data[3][3];
+    // row 2
+    result.data[2][0] = rotate.data[2][0]*m->data[0][0] + rotate.data[2][1]*m->data[1][0] + rotate.data[2][2]*m->data[2][0] + rotate.data[2][3]*m->data[3][0];
+    result.data[2][1] = rotate.data[2][0]*m->data[0][1] + rotate.data[2][1]*m->data[1][1] + rotate.data[2][2]*m->data[2][1] + rotate.data[2][3]*m->data[3][1];
+    result.data[2][2] = rotate.data[2][0]*m->data[0][2] + rotate.data[2][1]*m->data[1][2] + rotate.data[2][2]*m->data[2][2] + rotate.data[2][3]*m->data[3][2];
+    result.data[2][3] = rotate.data[2][0]*m->data[0][3] + rotate.data[2][1]*m->data[1][3] + rotate.data[2][2]*m->data[2][3] + rotate.data[2][3]*m->data[3][3];
+    // row 3 
+    result.data[3][0] = m->data[3][0];
+    result.data[3][1] = m->data[3][1];
+    result.data[3][2] = m->data[3][2];
+    result.data[3][3] = m->data[3][3];
+    
+    return result;
+}
+
+dmat4 dmat4_rotate_colmajor(const dmat4* m, double angle, const double3* axis)
+{
+    // normalize axis and compute temp values
+    double3 axis_n = double3_normalize(axis);
+    double c = cos(angle);
+    double s = sin(angle);
+    double one_minus_c = 1.0 - c;
+    dmat4 rotate = { 0 };
+    
+    // column 0
+    rotate.data[0][0] = c + axis_n.xyz.x * axis_n.xyz.x * one_minus_c;
+    rotate.data[1][0] = axis_n.xyz.y * axis_n.xyz.x * one_minus_c + axis_n.xyz.z * s;
+    rotate.data[2][0] = axis_n.xyz.z * axis_n.xyz.x * one_minus_c - axis_n.xyz.y * s;
+    // column 1
+    rotate.data[0][1] = axis_n.xyz.x * axis_n.xyz.y * one_minus_c - axis_n.xyz.z * s;
+    rotate.data[1][1] = c + axis_n.xyz.y * axis_n.xyz.y * one_minus_c;
+    rotate.data[2][1] = axis_n.xyz.z * axis_n.xyz.y * one_minus_c + axis_n.xyz.x * s;
+    // column 2
+    rotate.data[0][2] = axis_n.xyz.x * axis_n.xyz.z * one_minus_c + axis_n.xyz.y * s;
+    rotate.data[1][2] = axis_n.xyz.y * axis_n.xyz.z * one_minus_c - axis_n.xyz.x * s;
+    rotate.data[2][2] = c + axis_n.xyz.z * axis_n.xyz.z * one_minus_c;
+    
+    // column 3 (identity)
+    rotate.data[3][3] = 1.0f;
+    
+    // multiply: result = m * rotate (column-major)
+    dmat4 result = { 0 };
+    
+    // column 0
+    result.data[0][0] = m->data[0][0]*rotate.data[0][0] + m->data[0][1]*rotate.data[1][0] + m->data[0][2]*rotate.data[2][0] + m->data[0][3]*rotate.data[3][0];
+    result.data[1][0] = m->data[1][0]*rotate.data[0][0] + m->data[1][1]*rotate.data[1][0] + m->data[1][2]*rotate.data[2][0] + m->data[1][3]*rotate.data[3][0];
+    result.data[2][0] = m->data[2][0]*rotate.data[0][0] + m->data[2][1]*rotate.data[1][0] + m->data[2][2]*rotate.data[2][0] + m->data[2][3]*rotate.data[3][0];
+    result.data[3][0] = m->data[3][0]*rotate.data[0][0] + m->data[3][1]*rotate.data[1][0] + m->data[3][2]*rotate.data[2][0] + m->data[3][3]*rotate.data[3][0];
+    // column 1
+    result.data[0][1] = m->data[0][0]*rotate.data[0][1] + m->data[0][1]*rotate.data[1][1] + m->data[0][2]*rotate.data[2][1] + m->data[0][3]*rotate.data[3][1];
+    result.data[1][1] = m->data[1][0]*rotate.data[0][1] + m->data[1][1]*rotate.data[1][1] + m->data[1][2]*rotate.data[2][1] + m->data[1][3]*rotate.data[3][1];
+    result.data[2][1] = m->data[2][0]*rotate.data[0][1] + m->data[2][1]*rotate.data[1][1] + m->data[2][2]*rotate.data[2][1] + m->data[2][3]*rotate.data[3][1];
+    result.data[3][1] = m->data[3][0]*rotate.data[0][1] + m->data[3][1]*rotate.data[1][1] + m->data[3][2]*rotate.data[2][1] + m->data[3][3]*rotate.data[3][1];
+    // column 2
+    result.data[0][2] = m->data[0][0]*rotate.data[0][2] + m->data[0][1]*rotate.data[1][2] + m->data[0][2]*rotate.data[2][2] + m->data[0][3]*rotate.data[3][2];
+    result.data[1][2] = m->data[1][0]*rotate.data[0][2] + m->data[1][1]*rotate.data[1][2] + m->data[1][2]*rotate.data[2][2] + m->data[1][3]*rotate.data[3][2];
+    result.data[2][2] = m->data[2][0]*rotate.data[0][2] + m->data[2][1]*rotate.data[1][2] + m->data[2][2]*rotate.data[2][2] + m->data[2][3]*rotate.data[3][2];
+    result.data[3][2] = m->data[3][0]*rotate.data[0][2] + m->data[3][1]*rotate.data[1][2] + m->data[3][2]*rotate.data[2][2] + m->data[3][3]*rotate.data[3][2];
+    // column 3
+    result.data[0][3] = m->data[0][3];
+    result.data[1][3] = m->data[1][3];
+    result.data[2][3] = m->data[2][3];
+    result.data[3][3] = m->data[3][3];
+    
+    return result;
+}
+
+dmat4 dmat4_rotate_rowmajor(const dmat4* m, double angle, const double3* axis)
+{
+    // normalize axis and compute temp values
+    double3 axis_n = double3_normalize(axis);
+    double c = cos(angle);
+    double s = sin(angle);
+    double one_minus_c = 1.0f - c;
+    
+    // construct rotation matrix (row-major)
+    fmat4 rotate = { 0 };
+    
+    // row 0
+    rotate.data[0][0] = c + axis_n.xyz.x * axis_n.xyz.x * one_minus_c;
+    rotate.data[0][1] = axis_n.xyz.x * axis_n.xyz.y * one_minus_c - axis_n.xyz.z * s;
+    rotate.data[0][2] = axis_n.xyz.x * axis_n.xyz.z * one_minus_c + axis_n.xyz.y * s;
+    rotate.data[0][3] = 0.0f;
+    // row 1
+    rotate.data[1][0] = axis_n.xyz.y * axis_n.xyz.x * one_minus_c + axis_n.xyz.z * s;
+    rotate.data[1][1] = c + axis_n.xyz.y * axis_n.xyz.y * one_minus_c;
+    rotate.data[1][2] = axis_n.xyz.y * axis_n.xyz.z * one_minus_c - axis_n.xyz.x * s;
+    rotate.data[1][3] = 0.0f;
+    // row 2
+    rotate.data[2][0] = axis_n.xyz.z * axis_n.xyz.x * one_minus_c - axis_n.xyz.y * s;
+    rotate.data[2][1] = axis_n.xyz.z * axis_n.xyz.y * one_minus_c + axis_n.xyz.x * s;
+    rotate.data[2][2] = c + axis_n.xyz.z * axis_n.xyz.z * one_minus_c;
+    rotate.data[2][3] = 0.0f;
+    // row 3
+    rotate.data[3][0] = 0.0f;
+    rotate.data[3][1] = 0.0f;
+    rotate.data[3][2] = 0.0f;
+    rotate.data[3][3] = 1.0f;
+    
+    // multiply: result = rotate * m (row-major)
+    dmat4 result = { 0 };
+    
+    // row 0
+    result.data[0][0] = rotate.data[0][0]*m->data[0][0] + rotate.data[0][1]*m->data[1][0] + rotate.data[0][2]*m->data[2][0] + rotate.data[0][3]*m->data[3][0];
+    result.data[0][1] = rotate.data[0][0]*m->data[0][1] + rotate.data[0][1]*m->data[1][1] + rotate.data[0][2]*m->data[2][1] + rotate.data[0][3]*m->data[3][1];
+    result.data[0][2] = rotate.data[0][0]*m->data[0][2] + rotate.data[0][1]*m->data[1][2] + rotate.data[0][2]*m->data[2][2] + rotate.data[0][3]*m->data[3][2];
+    result.data[0][3] = rotate.data[0][0]*m->data[0][3] + rotate.data[0][1]*m->data[1][3] + rotate.data[0][2]*m->data[2][3] + rotate.data[0][3]*m->data[3][3];
+    // row 1
+    result.data[1][0] = rotate.data[1][0]*m->data[0][0] + rotate.data[1][1]*m->data[1][0] + rotate.data[1][2]*m->data[2][0] + rotate.data[1][3]*m->data[3][0];
+    result.data[1][1] = rotate.data[1][0]*m->data[0][1] + rotate.data[1][1]*m->data[1][1] + rotate.data[1][2]*m->data[2][1] + rotate.data[1][3]*m->data[3][1];
+    result.data[1][2] = rotate.data[1][0]*m->data[0][2] + rotate.data[1][1]*m->data[1][2] + rotate.data[1][2]*m->data[2][2] + rotate.data[1][3]*m->data[3][2];
+    result.data[1][3] = rotate.data[1][0]*m->data[0][3] + rotate.data[1][1]*m->data[1][3] + rotate.data[1][2]*m->data[2][3] + rotate.data[1][3]*m->data[3][3];
+    // row 2
+    result.data[2][0] = rotate.data[2][0]*m->data[0][0] + rotate.data[2][1]*m->data[1][0] + rotate.data[2][2]*m->data[2][0] + rotate.data[2][3]*m->data[3][0];
+    result.data[2][1] = rotate.data[2][0]*m->data[0][1] + rotate.data[2][1]*m->data[1][1] + rotate.data[2][2]*m->data[2][1] + rotate.data[2][3]*m->data[3][1];
+    result.data[2][2] = rotate.data[2][0]*m->data[0][2] + rotate.data[2][1]*m->data[1][2] + rotate.data[2][2]*m->data[2][2] + rotate.data[2][3]*m->data[3][2];
+    result.data[2][3] = rotate.data[2][0]*m->data[0][3] + rotate.data[2][1]*m->data[1][3] + rotate.data[2][2]*m->data[2][3] + rotate.data[2][3]*m->data[3][3];
+    // row 3 
+    result.data[3][0] = m->data[3][0];
+    result.data[3][1] = m->data[3][1];
+    result.data[3][2] = m->data[3][2];
+    result.data[3][3] = m->data[3][3];
+    
+    return result;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// lookat
+/////////////////////////////////////////////////////////////////////////////////////
+
+fmat4 fmat4_lookat_vulkan(const float3* eye, const float3* target, const float3* up)
+{
+    float3 sub = float3_sub(target, eye);
+    float3 f = float3_normalize(&sub);
+    float3 cross0 = float3_cross(&f, up);
+    float3 s = float3_normalize(&cross0);
+    float3 cross1 = float3_cross(&s, &f);
+    float3 u = float3_normalize(&cross1);
+    
+    fmat4 result = { 0 };
+    result.data[0][0] = s.xyz.x;
+    result.data[0][1] = -s.xyz.y;  // flip Y for Vulkan
+    result.data[0][2] = s.xyz.z;
+    result.data[0][3] = -float3_dot(&s, eye);
+    
+    result.data[1][0] = u.xyz.x;
+    result.data[1][1] = -u.xyz.y;  // flip Y for Vulkan
+    result.data[1][2] = u.xyz.z;
+    result.data[1][3] = -float3_dot(&u, eye);
+    
+    result.data[2][0] = -f.xyz.x;  // negative Z for right-handed view space
+    result.data[2][1] = f.xyz.y;   // Y already flipped above
+    result.data[2][2] = -f.xyz.z;  // negative Z for right-handed view space
+    result.data[2][3] = float3_dot(&f, eye);  // positive for right-handed
+    
+    result.data[3][0] = 0.0f;
+    result.data[3][1] = 0.0f;
+    result.data[3][2] = 0.0f;
+    result.data[3][3] = 1.0f;
+    
+    return result;
+}
+
+fmat4 fmat4_lookat_directx(const float3* eye, const float3* target, const float3* up)
+{
+    float3 sub = float3_sub(target, eye);
+    float3 f = float3_normalize(&sub);
+    float3 cross0 = float3_cross(up, &f);
+    float3 s = float3_normalize(&cross0);  // reverse cross for left-handed
+    float3 cross1 = float3_cross(&f, &s);
+    float3 u = float3_normalize(&cross1);  // reverse cross for left-handed
+    
+    fmat4 result = { 0 };
+    result.data[0][0] = s.xyz.x;
+    result.data[0][1] = u.xyz.x;
+    result.data[0][2] = f.xyz.x;
+    result.data[0][3] = 0.0f;
+    
+    result.data[1][0] = s.xyz.y;
+    result.data[1][1] = u.xyz.y;
+    result.data[1][2] = f.xyz.y;
+    result.data[1][3] = 0.0f;
+    
+    result.data[2][0] = s.xyz.z;
+    result.data[2][1] = u.xyz.z;
+    result.data[2][2] = f.xyz.z;
+    result.data[2][3] = 0.0f;
+    
+    result.data[3][0] = -float3_dot(&s, eye);
+    result.data[3][1] = -float3_dot(&u, eye);
+    result.data[3][2] = -float3_dot(&f, eye);
+    result.data[3][3] = 1.0f;
+    
+    return result;
+}
+
+fmat4 fmat4_lookat_opengl(const float3 *eye, const float3 *target, const float3 *up)
+{
+    float3 sub = float3_sub(target, eye);
+    float3 f = float3_normalize(&sub);
+    float3 cross0 = float3_cross(&f, up);
+    float3 s = float3_normalize(&cross0);
+    float3 cross1 = float3_cross(&s, &f);
+    float3 u = float3_normalize(&cross1);
+    
+    fmat4 result = { 0 };
+    
+    result.data[0][0] = s.xyz.x;
+    result.data[0][1] = u.xyz.x;
+    result.data[0][2] = -f.xyz.x;  // negative for right-handed view space
+    result.data[0][3] = 0.0f;
+    
+    result.data[1][0] = s.xyz.y;
+    result.data[1][1] = u.xyz.y;
+    result.data[1][2] = -f.xyz.y;  // negative for right-handed view space
+    result.data[1][3] = 0.0f;
+    
+    result.data[2][0] = s.xyz.z;
+    result.data[2][1] = u.xyz.z;
+    result.data[2][2] = -f.xyz.z;  // negative for right-handed view space
+    result.data[2][3] = 0.0f;
+    
+    result.data[3][0] = -float3_dot(&s, eye);
+    result.data[3][1] = -float3_dot(&u, eye);
+    result.data[3][2] = float3_dot(&f, eye);  // positive for right-handed
+    result.data[3][3] = 1.0f;
+    
+    return result;
+}
+
+dmat4 dmat4_lookat_vulkan(const double3* eye, const double3* target, const double3* up)
+{
+    double3 sub = double3_sub(target, eye);
+    double3 f = double3_normalize(&sub);
+    double3 cross0 = double3_cross(&f, up);
+    double3 s = double3_normalize(&cross0);
+    double3 cross1 = double3_cross(&s, &f);
+    double3 u = double3_normalize(&cross1);
+    
+    dmat4 result = { 0 };
+    result.data[0][0] = s.xyz.x;
+    result.data[0][1] = -s.xyz.y;  // flip Y for Vulkan
+    result.data[0][2] = s.xyz.z;
+    result.data[0][3] = -float3_dot(&s, eye);
+    
+    result.data[1][0] = u.xyz.x;
+    result.data[1][1] = -u.xyz.y;  // flip Y for Vulkan
+    result.data[1][2] = u.xyz.z;
+    result.data[1][3] = -float3_dot(&u, eye);
+    
+    result.data[2][0] = -f.xyz.x;  // negative Z for right-handed view space
+    result.data[2][1] = f.xyz.y;   // Y already flipped above
+    result.data[2][2] = -f.xyz.z;  // negative Z for right-handed view space
+    result.data[2][3] = float3_dot(&f, eye);  // positive for right-handed
+    
+    result.data[3][0] = 0.0f;
+    result.data[3][1] = 0.0f;
+    result.data[3][2] = 0.0f;
+    result.data[3][3] = 1.0f;
+    
+    return result;
+}
+
+dmat4 dmat4_lookat_directx(const double3* eye, const double3* target, const double3* up)
+{
+    double3 sub = double3_sub(target, eye);
+    double3 f = double3_normalize(&sub);
+    double3 cross0 = double3_cross(up, &f);
+    double3 s = double3_normalize(&cross0);  // reverse cross for left-handed
+    double3 cross1 = double3_cross(&f, &s);
+    double3 u = double3_normalize(&cross1);  // reverse cross for left-handed
+    
+    dmat4 result = { 0 };
+    result.data[0][0] = s.xyz.x;
+    result.data[0][1] = u.xyz.x;
+    result.data[0][2] = f.xyz.x;
+    result.data[0][3] = 0.0f;
+    
+    result.data[1][0] = s.xyz.y;
+    result.data[1][1] = u.xyz.y;
+    result.data[1][2] = f.xyz.y;
+    result.data[1][3] = 0.0f;
+    
+    result.data[2][0] = s.xyz.z;
+    result.data[2][1] = u.xyz.z;
+    result.data[2][2] = f.xyz.z;
+    result.data[2][3] = 0.0f;
+    
+    result.data[3][0] = -float3_dot(&s, eye);
+    result.data[3][1] = -float3_dot(&u, eye);
+    result.data[3][2] = -float3_dot(&f, eye);
+    result.data[3][3] = 1.0f;
+    
+    return result;
+}
+
+dmat4 dmat4_lookat_opengl(const double3* eye, const double3* target, const double3* up)
+{
+    float3 sub = float3_sub(target, eye);
+    float3 f = float3_normalize(&sub);
+    float3 cross0 = float3_cross(&f, up);
+    float3 s = float3_normalize(&cross0);
+    float3 cross1 = float3_cross(&s, &f);
+    float3 u = float3_normalize(&cross1);
+    
+    dmat4 result = { 0 };
+    result.data[0][0] = s.xyz.x;
+    result.data[0][1] = u.xyz.x;
+    result.data[0][2] = -f.xyz.x;  // negative for right-handed view space
+    result.data[0][3] = 0.0f;
+    
+    result.data[1][0] = s.xyz.y;
+    result.data[1][1] = u.xyz.y;
+    result.data[1][2] = -f.xyz.y;  // negative for right-handed view space
+    result.data[1][3] = 0.0f;
+    
+    result.data[2][0] = s.xyz.z;
+    result.data[2][1] = u.xyz.z;
+    result.data[2][2] = -f.xyz.z;  // negative for right-handed view space
+    result.data[2][3] = 0.0f;
+    
+    result.data[3][0] = -float3_dot(&s, eye);
+    result.data[3][1] = -float3_dot(&u, eye);
+    result.data[3][2] = float3_dot(&f, eye);  // positive for right-handed
+    result.data[3][3] = 1.0f;
+    
+    return result;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// perspective
+/////////////////////////////////////////////////////////////////////////////////////
+
+fmat4 fmat4_perspective_vulkan(float fov_rad, float aspect, float near, float far)
+{
+    float tan_half_fov = tanf(fov_rad * 0.5f);
+    float f = 1.0f / tan_half_fov;
+    
+    fmat4 result = { 0 };
+    result.data[0][0] = f / aspect;
+    result.data[1][1] = -f;  // flip Y for Vulkan's Y-down
+    result.data[2][2] = far / (far - near);  // Z [0, 1] mapping
+    result.data[2][3] = 1.0f;
+    result.data[3][2] = -(far * near) / (far - near);
+    
+    return result;
+}
+
+fmat4 fmat4_perspective_directx(float fov_rad, float aspect, float near, float far)
+{
+    float tan_half_fov = tanf(fov_rad * 0.5f);
+    float f = 1.0f / tan_half_fov;
+    
+    fmat4 result = { 0 };
+    result.data[0][0] = f / aspect;
+    result.data[1][1] = f;
+    result.data[2][2] = far / (far - near);  // Z [0, 1] mapping
+    result.data[2][3] = 1.0f;
+    result.data[3][2] = -(far * near) / (far - near);
+    
+    return result;
+}
+
+fmat4 fmat4_perspective_opengl(float fov_rad, float aspect, float near, float far)
+{
+    float tan_half_fov = tanf(fov_rad * 0.5f);
+    float f = 1.0f / tan_half_fov;
+    
+    fmat4 result = { 0 };
+    result.data[0][0] = f / aspect;
+    result.data[1][1] = f;
+    result.data[2][2] = (far + near) / (far - near);  // Z [-1, 1] mapping
+    result.data[2][3] = 1.0f;
+    result.data[3][2] = -(2.0f * far * near) / (far - near);
+    
+    return result;
+}
+
+dmat4 dmat4_perspective_vulkan(double fov_rad, double aspect, double near, double far)
+{
+    double tan_half_fov = tan(fov_rad * 0.5f);
+    double f = 1.0f / tan_half_fov;
+    
+    dmat4 result = { 0 };
+    result.data[0][0] = f / aspect;
+    result.data[1][1] = -f;  // flip Y for Vulkan's Y-down
+    result.data[2][2] = far / (far - near);  // Z [0, 1] mapping
+    result.data[2][3] = 1.0f;
+    result.data[3][2] = -(far * near) / (far - near);
+    
+    return result;
+}
+
+dmat4 dmat4_perspective_directx(double fov_rad, double aspect, double near, double far)
+{
+    double tan_half_fov = tan(fov_rad * 0.5f);
+    double f = 1.0f / tan_half_fov;
+    
+    dmat4 result = { 0 };
+    result.data[0][0] = f / aspect;
+    result.data[1][1] = f;
+    result.data[2][2] = far / (far - near);  // Z [0, 1] mapping
+    result.data[2][3] = 1.0f;
+    result.data[3][2] = -(far * near) / (far - near);
+    
+    return result;
+}
+
+dmat4 dmat4_perspective_opengl(double fov_rad, double aspect, double near, double far)
+{
+    double tan_half_fov = tan(fov_rad * 0.5f);
+    double f = 1.0f / tan_half_fov;
+    
+    dmat4 result = { 0 };
+    result.data[0][0] = f / aspect;
+    result.data[1][1] = f;
+    result.data[2][2] = (far + near) / (far - near);  // Z [-1, 1] mapping
+    result.data[2][3] = 1.0f;
+    result.data[3][2] = -(2.0f * far * near) / (far - near);
+    
+    return result;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// orthographic
+/////////////////////////////////////////////////////////////////////////////////////
+
+fmat4 fmat4_orthographic_vulkan(float left, float right, float bottom, float top, float near, float far)
+{
+    float rl = right - left;
+    float tb = top - bottom;
+    float fn = far - near;
+    
+    fmat4 result = { 0 };
+    result.data[0][0] = 2.0f / rl;
+    result.data[1][1] = -2.0f / tb;  // flip Y for Vulkan
+    result.data[2][2] = 1.0f / fn;   // Z [0, 1]
+    result.data[3][0] = -(right + left) / rl;
+    result.data[3][1] = (top + bottom) / tb;  // positive for Y-down
+    result.data[3][2] = -near / fn;  // map near to 0, far to 1
+    result.data[3][3] = 1.0f;
+    
+    return result;
+}
+
+fmat4 fmat4_orthographic_directx(float left, float right, float bottom, float top, float near, float far)
+{
+    float rl = right - left;
+    float tb = top - bottom;
+    float fn = far - near;
+    
+    fmat4 result = { 0 };
+    result.data[0][0] = 2.0f / rl;
+    result.data[1][1] = 2.0f / tb;
+    result.data[2][2] = 1.0f / fn;  // Z [0, 1]
+    result.data[3][0] = -(right + left) / rl;
+    result.data[3][1] = -(top + bottom) / tb;
+    result.data[3][2] = -near / fn;  // map near to 0, far to 1
+    result.data[3][3] = 1.0f;
+    
+    return result;
+}
+
+fmat4 fmat4_orthographic_opengl(float left, float right, float bottom, float top, float near, float far)
+{
+    float rl = right - left;
+    float tb = top - bottom;
+    float fn = far - near;
+    
+    fmat4 result = { 0 };
+    result.data[0][0] = 2.0f / rl;
+    result.data[1][1] = 2.0f / tb;
+    result.data[2][2] = -2.0f / fn;  // Z [-1, 1] (negative for right-handed)
+    result.data[3][0] = -(right + left) / rl;
+    result.data[3][1] = -(top + bottom) / tb;
+    result.data[3][2] = -(far + near) / fn;  // map near to -1, far to 1
+    result.data[3][3] = 1.0f;
+    
+    return result;
+}
+
+dmat4 dmat4_orthographic_vulkan(double left, double right, double bottom, double top, double near, double far)
+{
+    double rl = right - left;
+    double tb = top - bottom;
+    double fn = far - near;
+    
+    dmat4 result = { 0 };
+    result.data[0][0] = 2.0f / rl;
+    result.data[1][1] = -2.0f / tb;  // flip Y for Vulkan
+    result.data[2][2] = 1.0f / fn;   // Z [0, 1]
+    result.data[3][0] = -(right + left) / rl;
+    result.data[3][1] = (top + bottom) / tb;  // positive for Y-down
+    result.data[3][2] = -near / fn;  // map near to 0, far to 1
+    result.data[3][3] = 1.0f;
+    
+    return result;
+}
+
+dmat4 dmat4_orthographic_directx(double left, double right, double bottom, double top, double near, double far)
+{
+    double rl = right - left;
+    double tb = top - bottom;
+    double fn = far - near;
+    
+    dmat4 result = { 0 };
+    result.data[0][0] = 2.0f / rl;
+    result.data[1][1] = 2.0f / tb;
+    result.data[2][2] = 1.0f / fn;  // Z [0, 1]
+    result.data[3][0] = -(right + left) / rl;
+    result.data[3][1] = -(top + bottom) / tb;
+    result.data[3][2] = -near / fn;  // map near to 0, far to 1
+    result.data[3][3] = 1.0f;
+    
+    return result;
+}
+
+dmat4 dmat4_orthographic_opengl(double left, double right, double bottom, double top, double near, double far)
+{
+    double rl = right - left;
+    double tb = top - bottom;
+    double fn = far - near;
+    
+    dmat4 result = { 0 };
+    result.data[0][0] = 2.0f / rl;
+    result.data[1][1] = 2.0f / tb;
+    result.data[2][2] = -2.0f / fn;  // Z [-1, 1] (negative for right-handed)
+    result.data[3][0] = -(right + left) / rl;
+    result.data[3][1] = -(top + bottom) / tb;
+    result.data[3][2] = -(far + near) / fn;  // map near to -1, far to 1
+    result.data[3][3] = 1.0f;
+    
+    return result;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// decomposition
+/////////////////////////////////////////////////////////////////////////////////////
+
+float3 fmat4_get_translation(const fmat4* m)
+{
+    float3 result = { 0 };
+    result.xyz.x =  m->matrix.m30;
+    result.xyz.y =  m->matrix.m30;
+    result.xyz.z =  m->matrix.m30;
+    return result;
+}
+
+double3 dmat4_get_translation(const dmat4 *m)
+{
+    double3 result = { 0 };
+    result.xyz.x =  m->matrix.m30;
+    result.xyz.y =  m->matrix.m30;
+    result.xyz.z =  m->matrix.m30;
+    return result;
 }

@@ -5,5 +5,6 @@
 #include "vecmath_types.h"
 #include "vecmath_basic_op.h"
 #include "vecmath_vec_op.h"
+#include "vecmath_mat_op_h"
 
 #endif // VECMATH_INCLUDED
