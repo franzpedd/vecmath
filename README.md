@@ -1,15 +1,22 @@
 # vecmath
-vecmath is a C math library with vector and matrix operations with no SIMD operations yet, made to be used on graphics projects (the reason for yet).
+vecmath is a C math library with vector and matrix operations with no SIMD operations yet, made to be used on graphics projects (the reason for yet). 
+
+All functions are available both in single and double precision variants. 
 
 ## types
 * vecbool: used for boolean checking, use vec_true/vec_false to check.
-* float2, float3, float4, fmat2, fmat3, fmat4, fquat: single-precision unions;
-* double2, double3, double4, dmat2, dmat3, dmat4, dquat_t : double-precision unions;
+* float2, float3, float4, fmat2, fmat3, fmat4, fquat: single-precision structs;
+* double2, double3, double4, dmat2, dmat3, dmat4, dquat : double-precision structs;
 ## functions
-* basic-operations: add, sub, mul, div, equal, aprox_equals
+* **basic**: add, sub, mul, div, equal, aprox_equals;
+* **vector**: scalar, length, length_sqrt, normalize, dot, cross, scale, lerp, distance, distance_sqrt, reflect, project;
+* **matrix**: identity, mul_vec, transpose, determinant, inverse;
+    * **row/col major**:  decompose, get_translation, get_rotation, get_scale, translate, rotate, scale;
+    * **vulkan/opengl/directx**: lookat, perspective, orthographic;
+* **quaternion**: identity, mul, length, conjugate, normalize, dot, lerp, slerp, from_euler, to_euler;
+    * **row/col major**: to_mat4;
+* **utils**: to_radians, to_degrees, cos, sin, tan, max, min, clamp, power;
 
 ## todo
-* vector funcs: len, normalize, dot, cross, scale, lerp, distance, reflect, project;
-* matrix funcs: identity, vec_mul, transpose, determinant, inverse, translation, rotation, scale, lookat, perspective, ortographic, decompose, get_translation, get_rotation, get_scale
-* quat funcs: mul, conjugate, normalize, dot, slerp, from_axis_angle, to_mat4
-* util funcs: clamp, lerp, deg_to_rad, rad_to_deg, min, max
+* **general**: SIMD instruction;
+* **funcs**: ray_sphere_intersect, ray_triangle_intersect, ray_square_intersect, aabb_intersects_aabb, rgb_to_hsv, hsv_to_rgb, srgb_to_linear, linear_to_srgb, apply_gamma, perlin_noise, simplex_noise, extract_frustum, sphere_in_frustum, bezier_curve, catmull_rom_spline;

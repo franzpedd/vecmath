@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////////////////////////////////////// scalar_const
 /////////////////////////////////////////////////////////////////////////////////////
 
-float2 float2_scalar_const(float2* v, const float value)
+float2 float2_scalar(float2* v, const float value)
 {
     float2 result = { 0 };
     result.xy.x = v->xy.x * value;
@@ -15,7 +15,7 @@ float2 float2_scalar_const(float2* v, const float value)
     return result;
 }
 
-float3 float3_scalar_const(float3* v, const float value)
+float3 float3_scalar(float3* v, const float value)
 {
     float3 result = { 0 };
     result.xyz.x = v->xyz.x * value;
@@ -24,7 +24,7 @@ float3 float3_scalar_const(float3* v, const float value)
     return result;
 }
 
-float4 float4_scalar_const(float4* v, const float value)
+float4 float4_scalar(float4* v, const float value)
 {
     float4 result = { 0 };
     result.xyzw.x = v->xyzw.x * value;
@@ -34,7 +34,7 @@ float4 float4_scalar_const(float4* v, const float value)
     return result;
 }
 
-double2 double2_scalar_const(double2 *v, const float value)
+double2 double2_scalar(double2 *v, const float value)
 {
     double2 result = { 0 };
     result.xy.x = v->xy.x * value;
@@ -42,7 +42,7 @@ double2 double2_scalar_const(double2 *v, const float value)
     return result;
 }
 
-double3 double3_scalar_const(double3 *v, const float value)
+double3 double3_scalar(double3 *v, const float value)
 {
     double3 result = { 0 };
     result.xyz.x = v->xyz.x * value;
@@ -51,7 +51,7 @@ double3 double3_scalar_const(double3 *v, const float value)
     return result;
 }
 
-double4 double4_scalar_const(double4 *v, const float value)
+double4 double4_scalar(double4 *v, const float value)
 {
     double4 result = { 0 };
     result.xyzw.x = v->xyzw.x * value;

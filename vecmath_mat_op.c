@@ -716,6 +716,342 @@ dmat4 dmat4_inverse(const dmat4* m)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// decompose
+/////////////////////////////////////////////////////////////////////////////////////
+
+void fmat4_decompose_rowmajor(const fmat4* m, float3* translation, float3* rotation, float3* scale)
+{
+    if (translation)    *translation = fmat4_get_translation_rowmajor(m);
+    if (scale)          *scale = fmat4_get_scale_rowmajor(m);
+    if (rotation)       *rotation = fmat4_get_rotation_rowmajor(m);
+}
+
+void fmat4_decompose_colmajor(const fmat4* m, float3* translation, float3* rotation, float3* scale)
+{
+    if (translation)    *translation = fmat4_get_translation_colmajor(m);
+    if (scale)          *scale = fmat4_get_scale_colmajor(m);
+    if (rotation)       *rotation = fmat4_get_rotation_colmajor(m);
+}
+
+void dmat4_decompose_rowmajor(const dmat4* m, double3* translation, double3* rotation, double3* scale)
+{
+    if (translation)    *translation = dmat4_get_translation_rowmajor(m);
+    if (scale)          *scale = dmat4_get_scale_rowmajor(m);
+    if (rotation)       *rotation = dmat4_get_rotation_rowmajor(m);
+}
+
+void dmat4_decompose_colmajor(const dmat4* m, double3* translation, double3* rotation, double3* scale)
+{
+    if (translation)    *translation = dmat4_get_translation_colmajor(m);
+    if (scale)          *scale = dmat4_get_scale_colmajor(m);
+    if (rotation)       *rotation = dmat4_get_rotation_colmajor(m);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// get_translation
+/////////////////////////////////////////////////////////////////////////////////////
+
+float3 fmat4_get_translation_rowmajor(const fmat4* m)
+{
+    float3 result = { 0 };
+    result.xyz.x = m->matrix.m03;
+    result.xyz.y = m->matrix.m13;
+    result.xyz.z = m->matrix.m23;
+    return result;
+}
+
+float3 fmat4_get_translation_colmajor(const fmat4* m)
+{
+    float3 result = { 0 };
+    result.xyz.x = m->matrix.m30;
+    result.xyz.y = m->matrix.m31;
+    result.xyz.z = m->matrix.m32;
+    return result;
+}
+
+double3 dmat4_get_translation_rowmajor(const dmat4* m)
+{
+    double3 result = { 0 };
+    result.xyz.x = m->matrix.m03;
+    result.xyz.y = m->matrix.m13;
+    result.xyz.z = m->matrix.m23;
+    return result;
+}
+
+double3 dmat4_get_translation_colmajor(const dmat4* m)
+{
+    double3 result = { 0 };
+    result.xyz.x = m->matrix.m30;
+    result.xyz.y = m->matrix.m31;
+    result.xyz.z = m->matrix.m32;
+    return result;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// get_rotation
+/////////////////////////////////////////////////////////////////////////////////////
+
+float3 fmat4_get_rotation_rowmajor(const fmat4* m)
+{
+    float3 scale = fmat4_get_scale_rowmajor(m);
+    float3 rotation = { 0 };
+    
+    if (scale.xyz.x < VECMATH_EPSILON_FZERO || scale.xyz.y < VECMATH_EPSILON_FZERO || scale.xyz.z < VECMATH_EPSILON_FZERO) {
+        return rotation;
+    }
+    
+    // remove scale from rows
+    float m00 = m->matrix.m00 / scale.xyz.x;
+    float m01 = m->matrix.m01 / scale.xyz.x;
+    float m02 = m->matrix.m02 / scale.xyz.x;
+    
+    float m10 = m->matrix.m10 / scale.xyz.y;
+    float m11 = m->matrix.m11 / scale.xyz.y;
+    float m12 = m->matrix.m12 / scale.xyz.y;
+    
+    float m20 = m->matrix.m20 / scale.xyz.z;
+    float m21 = m->matrix.m21 / scale.xyz.z;
+    float m22 = m->matrix.m22 / scale.xyz.z;
+    
+    // extract Euler angles from row-major rotation matrix
+    rotation.xyz.y = atan2f(m02, sqrtf(m00*m00 + m01*m01));
+    
+    if (fabsf(rotation.xyz.y - VECMATH_EPSILON_PI / 2.0f) < VECMATH_EPSILON_FZERO) {
+        rotation.xyz.x = atan2f(m10, m11);
+        rotation.xyz.z = 0.0f;
+    }
+
+    else if (fabsf(rotation.xyz.y + VECMATH_EPSILON_PI / 2.0f) < VECMATH_EPSILON_FZERO) {
+        rotation.xyz.x = -atan2f(m10, m11);
+        rotation.xyz.z = 0.0f;
+    }
+
+    else {
+        rotation.xyz.x = atan2f(m12, m22);
+        rotation.xyz.z = atan2f(m01, m00);
+    }
+    
+    return rotation;
+}
+
+float3 fmat4_get_rotation_colmajor(const fmat4* m)
+{
+    float3 scale = fmat4_get_scale_colmajor(m);
+    float3 rotation = { 0 };
+    
+    if (scale.xyz.x < VECMATH_EPSILON_FZERO || scale.xyz.y < VECMATH_EPSILON_FZERO || scale.xyz.z < VECMATH_EPSILON_FZERO) {
+        return rotation;
+    }
+    
+    // remove scale from columns
+    float m00 = m->matrix.m00 / scale.xyz.x;
+    float m10 = m->matrix.m10 / scale.xyz.x;
+    float m20 = m->matrix.m20 / scale.xyz.x;
+    
+    float m01 = m->matrix.m01 / scale.xyz.y;
+    float m11 = m->matrix.m11 / scale.xyz.y;
+    float m21 = m->matrix.m21 / scale.xyz.y;
+    
+    float m02 = m->matrix.m02 / scale.xyz.z;
+    float m12 = m->matrix.m12 / scale.xyz.z;
+    float m22 = m->matrix.m22 / scale.xyz.z;
+    
+    // extract euler angles from column-major rotation matrix
+    rotation.xyz.y = atan2f(-m20, sqrtf(m00*m00 + m10*m10));
+    
+    if (fabsf(rotation.xyz.y - VECMATH_EPSILON_PI / 2.0f) < VECMATH_EPSILON_FZERO) {
+        rotation.xyz.x = atan2f(m01, m11);
+        rotation.xyz.z = 0.0f;
+    }
+
+    else if (fabsf(rotation.xyz.y + VECMATH_EPSILON_PI / 2.0f) < VECMATH_EPSILON_FZERO) {
+        rotation.xyz.x = -atan2f(m01, m11);
+        rotation.xyz.z = 0.0f;
+    }
+
+    else {
+        rotation.xyz.x = atan2f(m21, m22);
+        rotation.xyz.z = atan2f(m10, m00);
+    }
+    
+    return rotation;
+}
+
+double3 dmat4_get_rotation_rowmajor(const dmat4* m)
+{
+    double3 scale = dmat4_get_scale_rowmajor(m);
+    double3 rotation = { 0 };
+    
+    if (scale.xyz.x < VECMATH_EPSILON_DZERO || scale.xyz.y < VECMATH_EPSILON_DZERO || scale.xyz.z < VECMATH_EPSILON_DZERO) {
+        return rotation;
+    }
+    
+    // remove scale from rows
+    double m00 = m->matrix.m00 / scale.xyz.x;
+    double m01 = m->matrix.m01 / scale.xyz.x;
+    double m02 = m->matrix.m02 / scale.xyz.x;
+    
+    double m10 = m->matrix.m10 / scale.xyz.y;
+    double m11 = m->matrix.m11 / scale.xyz.y;
+    double m12 = m->matrix.m12 / scale.xyz.y;
+    
+    double m20 = m->matrix.m20 / scale.xyz.z;
+    double m21 = m->matrix.m21 / scale.xyz.z;
+    double m22 = m->matrix.m22 / scale.xyz.z;
+    
+    // extract Euler angles from row-major rotation matrix
+    rotation.xyz.y = atan2(m02, sqrt(m00*m00 + m01*m01));
+    
+    if (fabs(rotation.xyz.y - VECMATH_EPSILON_PI / 2.0) < VECMATH_EPSILON_DZERO) {
+        rotation.xyz.x = atan2(m10, m11);
+        rotation.xyz.z = 0.0;
+    }
+
+    else if (fabs(rotation.xyz.y + VECMATH_EPSILON_PI / 2.0) < VECMATH_EPSILON_DZERO) {
+        rotation.xyz.x = -atan2(m10, m11);
+        rotation.xyz.z = 0.0;
+    }
+
+    else {
+        rotation.xyz.x = atan2(m12, m22);
+        rotation.xyz.z = atan2(m01, m00);
+    }
+    
+    return rotation;
+}
+
+double3 dmat4_get_rotation_colmajor(const dmat4* m)
+{
+    double3 scale = dmat4_get_scale_colmajor(m);
+    double3 rotation = { 0 };
+    
+    if (scale.xyz.x < VECMATH_EPSILON_DZERO || scale.xyz.y < VECMATH_EPSILON_DZERO || scale.xyz.z < VECMATH_EPSILON_DZERO) {
+        return rotation;
+    }
+    
+    // remove scale from columns
+    double m00 = m->matrix.m00 / scale.xyz.x;
+    double m10 = m->matrix.m10 / scale.xyz.x;
+    double m20 = m->matrix.m20 / scale.xyz.x;
+    
+    double m01 = m->matrix.m01 / scale.xyz.y;
+    double m11 = m->matrix.m11 / scale.xyz.y;
+    double m21 = m->matrix.m21 / scale.xyz.y;
+    
+    double m02 = m->matrix.m02 / scale.xyz.z;
+    double m12 = m->matrix.m12 / scale.xyz.z;
+    double m22 = m->matrix.m22 / scale.xyz.z;
+    
+    // extract euler angles from column-major rotation matrix
+    rotation.xyz.y = atan2(-m20, sqrt(m00*m00 + m10*m10));
+    
+    if (fabs(rotation.xyz.y - VECMATH_EPSILON_PI / 2.0) < VECMATH_EPSILON_DZERO) {
+        rotation.xyz.x = atan2(m01, m11);
+        rotation.xyz.z = 0.0;
+    }
+
+    else if (fabs(rotation.xyz.y + VECMATH_EPSILON_PI / 2.0) < VECMATH_EPSILON_DZERO) {
+        rotation.xyz.x = -atan2(m01, m11);
+        rotation.xyz.z = 0.0;
+    }
+
+    else {
+        rotation.xyz.x = atan2(m21, m22);
+        rotation.xyz.z = atan2(m10, m00);
+    }
+    
+    return rotation;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// get_scale
+/////////////////////////////////////////////////////////////////////////////////////
+
+float3 fmat4_get_scale_rowmajor(const fmat4* m)
+{
+    // scale is length of each row (basis vectors)
+    float3 scale;
+    scale.xyz.x = sqrtf(m->matrix.m00 * m->matrix.m00 + m->matrix.m01 * m->matrix.m01 + m->matrix.m02*m->matrix.m02);
+    scale.xyz.y = sqrtf(m->matrix.m10 * m->matrix.m10 + m->matrix.m11 * m->matrix.m11 + m->matrix.m12*m->matrix.m12);
+    scale.xyz.z = sqrtf(m->matrix.m20 * m->matrix.m20 + m->matrix.m21 * m->matrix.m21 + m->matrix.m22*m->matrix.m22);
+    
+    // check for negative scale
+    float det = 
+        m->matrix.m00 * (m->matrix.m11 * m->matrix.m22 - m->matrix.m12 * m->matrix.m21) -
+        m->matrix.m01 * (m->matrix.m10 * m->matrix.m22 - m->matrix.m12 * m->matrix.m20) +
+        m->matrix.m02 * (m->matrix.m10 * m->matrix.m21 - m->matrix.m11 * m->matrix.m20);
+    
+    if (det < 0) {
+        scale.xyz.x = -scale.xyz.x;
+    }
+    
+    return scale;
+}
+
+float3 fmat4_get_scale_colmajor(const fmat4* m)
+{
+    // scale is length of each column (basis vectors)
+    float3 scale;
+    scale.xyz.x = sqrtf(m->matrix.m00 * m->matrix.m00 + m->matrix.m10 * m->matrix.m10 + m->matrix.m20 * m->matrix.m20);
+    scale.xyz.y = sqrtf(m->matrix.m01 * m->matrix.m01 + m->matrix.m11 * m->matrix.m11 + m->matrix.m21 * m->matrix.m21);
+    scale.xyz.z = sqrtf(m->matrix.m02 * m->matrix.m02 + m->matrix.m12 * m->matrix.m12 + m->matrix.m22 * m->matrix.m22);
+    
+    // check for negative scale
+    float det =
+        m->matrix.m00 * (m->matrix.m11 * m->matrix.m22 - m->matrix.m12 * m->matrix.m21) -
+        m->matrix.m01 * (m->matrix.m10 * m->matrix.m22 - m->matrix.m12 * m->matrix.m20) +
+        m->matrix.m02 * (m->matrix.m10 * m->matrix.m21 - m->matrix.m11 * m->matrix.m20);
+    
+    if (det < 0) {
+        scale.xyz.x = -scale.xyz.x;
+    }
+    
+    return scale;
+}
+
+double3 dmat4_get_scale_rowmajor(const dmat4* m)
+{
+    // scale is length of each row (basis vectors)
+    double3 scale;
+    scale.xyz.x = sqrtf(m->matrix.m00 * m->matrix.m00 + m->matrix.m01 * m->matrix.m01 + m->matrix.m02*m->matrix.m02);
+    scale.xyz.y = sqrtf(m->matrix.m10 * m->matrix.m10 + m->matrix.m11 * m->matrix.m11 + m->matrix.m12*m->matrix.m12);
+    scale.xyz.z = sqrtf(m->matrix.m20 * m->matrix.m20 + m->matrix.m21 * m->matrix.m21 + m->matrix.m22*m->matrix.m22);
+    
+    // check for negative scale
+    double det = 
+        m->matrix.m00 * (m->matrix.m11 * m->matrix.m22 - m->matrix.m12 * m->matrix.m21) -
+        m->matrix.m01 * (m->matrix.m10 * m->matrix.m22 - m->matrix.m12 * m->matrix.m20) +
+        m->matrix.m02 * (m->matrix.m10 * m->matrix.m21 - m->matrix.m11 * m->matrix.m20);
+    
+    if (det < 0) {
+        scale.xyz.x = -scale.xyz.x;
+    }
+    
+    return scale;
+}
+
+double3 dmat4_get_scale_colmajor(const dmat4* m)
+{
+    // scale is length of each column (basis vectors)
+    double3 scale;
+    scale.xyz.x = sqrtf(m->matrix.m00 * m->matrix.m00 + m->matrix.m10 * m->matrix.m10 + m->matrix.m20 * m->matrix.m20);
+    scale.xyz.y = sqrtf(m->matrix.m01 * m->matrix.m01 + m->matrix.m11 * m->matrix.m11 + m->matrix.m21 * m->matrix.m21);
+    scale.xyz.z = sqrtf(m->matrix.m02 * m->matrix.m02 + m->matrix.m12 * m->matrix.m12 + m->matrix.m22 * m->matrix.m22);
+    
+    // check for negative scale
+    double det =
+        m->matrix.m00 * (m->matrix.m11 * m->matrix.m22 - m->matrix.m12 * m->matrix.m21) -
+        m->matrix.m01 * (m->matrix.m10 * m->matrix.m22 - m->matrix.m12 * m->matrix.m20) +
+        m->matrix.m02 * (m->matrix.m10 * m->matrix.m21 - m->matrix.m11 * m->matrix.m20);
+    
+    if (det < 0) {
+        scale.xyz.x = -scale.xyz.x;
+    }
+    
+    return scale;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////// translate
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -759,115 +1095,6 @@ dmat4 dmat4_translate_colmajor(const dmat4* m, const double3* dir)
     return result;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////// scale
-/////////////////////////////////////////////////////////////////////////////////////
-
-fmat4 fmat4_scale_rowmajor(const fmat4* m, const float3* dim)
-{
-    fmat4 result = { 0 };
-
-    result.data[0][0] = m->data[0][0] * dim->xyz.x;
-    result.data[0][1] = m->data[0][1] * dim->xyz.x;
-    result.data[0][2] = m->data[0][2] * dim->xyz.x;
-    result.data[0][3] = m->data[0][3] * dim->xyz.x;
-
-    result.data[1][0] = m->data[1][0] * dim->xyz.y;
-    result.data[1][1] = m->data[1][1] * dim->xyz.y;
-    result.data[1][2] = m->data[1][2] * dim->xyz.y;
-    result.data[1][3] = m->data[1][3] * dim->xyz.y;
-
-    result.data[2][0] = m->data[2][0] * dim->xyz.z;
-    result.data[2][1] = m->data[2][1] * dim->xyz.z;
-    result.data[2][2] = m->data[2][2] * dim->xyz.z;
-    result.data[2][3] = m->data[2][3] * dim->xyz.z;
-
-    result.data[3][0] = m->data[3][0];
-    result.data[3][1] = m->data[3][1];
-    result.data[3][2] = m->data[3][2];
-    result.data[3][3] = m->data[3][3];
-    return result;
-}
-
-fmat4 fmat4_scale_colmajor(const fmat4* m, const float3* dim)
-{
-    fmat4 result = { 0 };
-
-    result.data[0][0] = m->data[0][0] * dim->xyz.x;
-    result.data[1][0] = m->data[1][0] * dim->xyz.x;
-    result.data[2][0] = m->data[2][0] * dim->xyz.x;
-    result.data[3][0] = m->data[3][0] * dim->xyz.x;
-
-    result.data[0][1] = m->data[0][1] * dim->xyz.y;
-    result.data[1][1] = m->data[1][1] * dim->xyz.y;
-    result.data[2][1] = m->data[2][1] * dim->xyz.y;
-    result.data[3][1] = m->data[3][1] * dim->xyz.y;
-
-    result.data[0][2] = m->data[0][2] * dim->xyz.z;
-    result.data[1][2] = m->data[1][2] * dim->xyz.z;
-    result.data[2][2] = m->data[2][2] * dim->xyz.z;
-    result.data[3][2] = m->data[3][2] * dim->xyz.z;
-
-    result.data[0][3] = m->data[0][3];
-    result.data[1][3] = m->data[1][3];
-    result.data[2][3] = m->data[2][3];
-    result.data[3][3] = m->data[3][3];
-
-    return result;
-}
-
-dmat4 dmat4_scale_rowmajor(const dmat4* m, const double3* dim)
-{
-    dmat4 result = { 0 };
-
-    result.data[0][0] = m->data[0][0] * dim->xyz.x;
-    result.data[0][1] = m->data[0][1] * dim->xyz.x;
-    result.data[0][2] = m->data[0][2] * dim->xyz.x;
-    result.data[0][3] = m->data[0][3] * dim->xyz.x;
-
-    result.data[1][0] = m->data[1][0] * dim->xyz.y;
-    result.data[1][1] = m->data[1][1] * dim->xyz.y;
-    result.data[1][2] = m->data[1][2] * dim->xyz.y;
-    result.data[1][3] = m->data[1][3] * dim->xyz.y;
-
-    result.data[2][0] = m->data[2][0] * dim->xyz.z;
-    result.data[2][1] = m->data[2][1] * dim->xyz.z;
-    result.data[2][2] = m->data[2][2] * dim->xyz.z;
-    result.data[2][3] = m->data[2][3] * dim->xyz.z;
-
-    result.data[3][0] = m->data[3][0];
-    result.data[3][1] = m->data[3][1];
-    result.data[3][2] = m->data[3][2];
-    result.data[3][3] = m->data[3][3];
-    return result;
-}
-
-dmat4 dmat4_scale_colmajor(const dmat4* m, const double3* dim)
-{
-    dmat4 result = { 0 };
-
-    result.data[0][0] = m->data[0][0] * dim->xyz.x;
-    result.data[1][0] = m->data[1][0] * dim->xyz.x;
-    result.data[2][0] = m->data[2][0] * dim->xyz.x;
-    result.data[3][0] = m->data[3][0] * dim->xyz.x;
-
-    result.data[0][1] = m->data[0][1] * dim->xyz.y;
-    result.data[1][1] = m->data[1][1] * dim->xyz.y;
-    result.data[2][1] = m->data[2][1] * dim->xyz.y;
-    result.data[3][1] = m->data[3][1] * dim->xyz.y;
-
-    result.data[0][2] = m->data[0][2] * dim->xyz.z;
-    result.data[1][2] = m->data[1][2] * dim->xyz.z;
-    result.data[2][2] = m->data[2][2] * dim->xyz.z;
-    result.data[3][2] = m->data[3][2] * dim->xyz.z;
-
-    result.data[0][3] = m->data[0][3];
-    result.data[1][3] = m->data[1][3];
-    result.data[2][3] = m->data[2][3];
-    result.data[3][3] = m->data[3][3];
-
-    return result;
-}
 
 /////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////// rotate
@@ -1092,6 +1319,116 @@ dmat4 dmat4_rotate_rowmajor(const dmat4* m, double angle, const double3* axis)
     result.data[3][2] = m->data[3][2];
     result.data[3][3] = m->data[3][3];
     
+    return result;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// scale
+/////////////////////////////////////////////////////////////////////////////////////
+
+fmat4 fmat4_scale_rowmajor(const fmat4* m, const float3* dim)
+{
+    fmat4 result = { 0 };
+
+    result.data[0][0] = m->data[0][0] * dim->xyz.x;
+    result.data[0][1] = m->data[0][1] * dim->xyz.x;
+    result.data[0][2] = m->data[0][2] * dim->xyz.x;
+    result.data[0][3] = m->data[0][3] * dim->xyz.x;
+
+    result.data[1][0] = m->data[1][0] * dim->xyz.y;
+    result.data[1][1] = m->data[1][1] * dim->xyz.y;
+    result.data[1][2] = m->data[1][2] * dim->xyz.y;
+    result.data[1][3] = m->data[1][3] * dim->xyz.y;
+
+    result.data[2][0] = m->data[2][0] * dim->xyz.z;
+    result.data[2][1] = m->data[2][1] * dim->xyz.z;
+    result.data[2][2] = m->data[2][2] * dim->xyz.z;
+    result.data[2][3] = m->data[2][3] * dim->xyz.z;
+
+    result.data[3][0] = m->data[3][0];
+    result.data[3][1] = m->data[3][1];
+    result.data[3][2] = m->data[3][2];
+    result.data[3][3] = m->data[3][3];
+    return result;
+}
+
+fmat4 fmat4_scale_colmajor(const fmat4* m, const float3* dim)
+{
+    fmat4 result = { 0 };
+
+    result.data[0][0] = m->data[0][0] * dim->xyz.x;
+    result.data[1][0] = m->data[1][0] * dim->xyz.x;
+    result.data[2][0] = m->data[2][0] * dim->xyz.x;
+    result.data[3][0] = m->data[3][0] * dim->xyz.x;
+
+    result.data[0][1] = m->data[0][1] * dim->xyz.y;
+    result.data[1][1] = m->data[1][1] * dim->xyz.y;
+    result.data[2][1] = m->data[2][1] * dim->xyz.y;
+    result.data[3][1] = m->data[3][1] * dim->xyz.y;
+
+    result.data[0][2] = m->data[0][2] * dim->xyz.z;
+    result.data[1][2] = m->data[1][2] * dim->xyz.z;
+    result.data[2][2] = m->data[2][2] * dim->xyz.z;
+    result.data[3][2] = m->data[3][2] * dim->xyz.z;
+
+    result.data[0][3] = m->data[0][3];
+    result.data[1][3] = m->data[1][3];
+    result.data[2][3] = m->data[2][3];
+    result.data[3][3] = m->data[3][3];
+
+    return result;
+}
+
+dmat4 dmat4_scale_rowmajor(const dmat4* m, const double3* dim)
+{
+    dmat4 result = { 0 };
+
+    result.data[0][0] = m->data[0][0] * dim->xyz.x;
+    result.data[0][1] = m->data[0][1] * dim->xyz.x;
+    result.data[0][2] = m->data[0][2] * dim->xyz.x;
+    result.data[0][3] = m->data[0][3] * dim->xyz.x;
+
+    result.data[1][0] = m->data[1][0] * dim->xyz.y;
+    result.data[1][1] = m->data[1][1] * dim->xyz.y;
+    result.data[1][2] = m->data[1][2] * dim->xyz.y;
+    result.data[1][3] = m->data[1][3] * dim->xyz.y;
+
+    result.data[2][0] = m->data[2][0] * dim->xyz.z;
+    result.data[2][1] = m->data[2][1] * dim->xyz.z;
+    result.data[2][2] = m->data[2][2] * dim->xyz.z;
+    result.data[2][3] = m->data[2][3] * dim->xyz.z;
+
+    result.data[3][0] = m->data[3][0];
+    result.data[3][1] = m->data[3][1];
+    result.data[3][2] = m->data[3][2];
+    result.data[3][3] = m->data[3][3];
+    return result;
+}
+
+dmat4 dmat4_scale_colmajor(const dmat4* m, const double3* dim)
+{
+    dmat4 result = { 0 };
+
+    result.data[0][0] = m->data[0][0] * dim->xyz.x;
+    result.data[1][0] = m->data[1][0] * dim->xyz.x;
+    result.data[2][0] = m->data[2][0] * dim->xyz.x;
+    result.data[3][0] = m->data[3][0] * dim->xyz.x;
+
+    result.data[0][1] = m->data[0][1] * dim->xyz.y;
+    result.data[1][1] = m->data[1][1] * dim->xyz.y;
+    result.data[2][1] = m->data[2][1] * dim->xyz.y;
+    result.data[3][1] = m->data[3][1] * dim->xyz.y;
+
+    result.data[0][2] = m->data[0][2] * dim->xyz.z;
+    result.data[1][2] = m->data[1][2] * dim->xyz.z;
+    result.data[2][2] = m->data[2][2] * dim->xyz.z;
+    result.data[3][2] = m->data[3][2] * dim->xyz.z;
+
+    result.data[0][3] = m->data[0][3];
+    result.data[1][3] = m->data[1][3];
+    result.data[2][3] = m->data[2][3];
+    result.data[3][3] = m->data[3][3];
+
     return result;
 }
 
@@ -1501,27 +1838,5 @@ dmat4 dmat4_orthographic_opengl(double left, double right, double bottom, double
     result.data[3][2] = -(far + near) / fn;  // map near to -1, far to 1
     result.data[3][3] = 1.0f;
     
-    return result;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////// decomposition
-/////////////////////////////////////////////////////////////////////////////////////
-
-float3 fmat4_get_translation(const fmat4* m)
-{
-    float3 result = { 0 };
-    result.xyz.x =  m->matrix.m30;
-    result.xyz.y =  m->matrix.m30;
-    result.xyz.z =  m->matrix.m30;
-    return result;
-}
-
-double3 dmat4_get_translation(const dmat4 *m)
-{
-    double3 result = { 0 };
-    result.xyz.x =  m->matrix.m30;
-    result.xyz.y =  m->matrix.m30;
-    result.xyz.z =  m->matrix.m30;
     return result;
 }
