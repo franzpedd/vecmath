@@ -1,2 +1,5 @@
 # paths
 .vscode
+
+# files
+tools/make_singleheader

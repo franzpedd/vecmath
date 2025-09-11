@@ -1,5 +1,4 @@
 #include "vecmath_basic_op.h"
-
 #include <math.h>
 #include <string.h>
 
@@ -7,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////////// add 
 /////////////////////////////////////////////////////////////////////////////////////
 
-float2 float2_add(const float2* a, const float2* b)
+VECMATH_API float2 float2_add(const float2* a, const float2* b)
 {
     float2 result = { 0 };
     result.xy.x = a->xy.x + b->xy.x;
@@ -15,7 +14,7 @@ float2 float2_add(const float2* a, const float2* b)
     return result;
 }
 
-float3 float3_add(const float3* a, const float3* b)
+VECMATH_API float3 float3_add(const float3* a, const float3* b)
 {
     float3 result = { 0 };
     result.xyz.x = a->xyz.x + b->xyz.x;
@@ -24,7 +23,7 @@ float3 float3_add(const float3* a, const float3* b)
     return result;
 }
 
-float4 float4_add(const float4* a, const float4* b)
+VECMATH_API float4 float4_add(const float4* a, const float4* b)
 {
     float4 result = { 0 };
     result.xyzw.x = a->xyzw.x + b->xyzw.x;
@@ -34,7 +33,7 @@ float4 float4_add(const float4* a, const float4* b)
     return result;
 }
 
-fmat2 fmat2_add(const fmat2* a, const fmat2* b)
+VECMATH_API fmat2 fmat2_add(const fmat2* a, const fmat2* b)
 {
     fmat2 result = { 0 };
     result.matrix.m00 = a->matrix.m00 + b->matrix.m00;
@@ -45,7 +44,7 @@ fmat2 fmat2_add(const fmat2* a, const fmat2* b)
     return result;
 }
 
-fmat3 fmat3_add(const fmat3* a, const fmat3* b)
+VECMATH_API fmat3 fmat3_add(const fmat3* a, const fmat3* b)
 {
     fmat3 result = { 0 };
     result.matrix.m00 = a->matrix.m00 + b->matrix.m00;
@@ -62,7 +61,7 @@ fmat3 fmat3_add(const fmat3* a, const fmat3* b)
     return result;
 }
 
-fmat4 fmat4_add(const fmat4* a, const fmat4* b)
+VECMATH_API fmat4 fmat4_add(const fmat4* a, const fmat4* b)
 {
     fmat4 result = { 0 };
     result.matrix.m00 = a->matrix.m00 + b->matrix.m00;
@@ -87,7 +86,7 @@ fmat4 fmat4_add(const fmat4* a, const fmat4* b)
     return result;
 }
 
-double2 double2_add(const double2* a, const double2* b)
+VECMATH_API double2 double2_add(const double2* a, const double2* b)
 {
     double2 result = { 0 };
     result.xy.x = a->xy.x + b->xy.x;
@@ -95,7 +94,7 @@ double2 double2_add(const double2* a, const double2* b)
     return result;
 }
 
-double3 double3_add(const double3* a, const double3* b)
+VECMATH_API double3 double3_add(const double3* a, const double3* b)
 {
     double3 result = { 0 };
     result.xyz.x = a->xyz.x + b->xyz.x;
@@ -104,7 +103,7 @@ double3 double3_add(const double3* a, const double3* b)
     return result;
 }
 
-double4 double4_add(const double4* a, const double4* b)
+VECMATH_API double4 double4_add(const double4* a, const double4* b)
 {
     double4 result = { 0 };
     result.xyzw.x = a->xyzw.x + b->xyzw.x;
@@ -114,7 +113,7 @@ double4 double4_add(const double4* a, const double4* b)
     return result;
 }
 
-dmat2 dmat2_add(const dmat2* a, const dmat2* b)
+VECMATH_API dmat2 dmat2_add(const dmat2* a, const dmat2* b)
 {
     dmat2 result = { 0 };
     result.matrix.m00 = a->matrix.m00 + b->matrix.m00;
@@ -125,7 +124,7 @@ dmat2 dmat2_add(const dmat2* a, const dmat2* b)
     return result;
 }
 
-dmat3 dmat3_add(const dmat3* a, const dmat3* b)
+VECMATH_API dmat3 dmat3_add(const dmat3* a, const dmat3* b)
 {
     dmat3 result = { 0 };
     result.matrix.m00 = a->matrix.m00 + b->matrix.m00;
@@ -142,7 +141,7 @@ dmat3 dmat3_add(const dmat3* a, const dmat3* b)
     return result;
 }
 
-dmat4 dmat4_add(const dmat4* a, const dmat4* b)
+VECMATH_API dmat4 dmat4_add(const dmat4* a, const dmat4* b)
 {
     dmat4 result = { 0 };
     result.matrix.m00 = a->matrix.m00 + b->matrix.m00;
@@ -171,7 +170,7 @@ dmat4 dmat4_add(const dmat4* a, const dmat4* b)
 ///////////////////////////////////////////////////////////////////////////////////// sub
 /////////////////////////////////////////////////////////////////////////////////////
 
-float2 float2_sub(const float2* a, const float2* b)
+VECMATH_API float2 float2_sub(const float2* a, const float2* b)
 {
     float2 result = { 0 };
     result.xy.x = a->xy.x - b->xy.x;
@@ -179,7 +178,7 @@ float2 float2_sub(const float2* a, const float2* b)
     return result;
 }
 
-float3 float3_sub(const float3* a, const float3* b)
+VECMATH_API float3 float3_sub(const float3* a, const float3* b)
 {
     float3 result = { 0 };
     result.xyz.x = a->xyz.x - b->xyz.x;
@@ -188,7 +187,7 @@ float3 float3_sub(const float3* a, const float3* b)
     return result;
 }
 
-float4 float4_sub(const float4* a, const float4* b)
+VECMATH_API float4 float4_sub(const float4* a, const float4* b)
 {
     float4 result = { 0 };
     result.xyzw.x = a->xyzw.x - b->xyzw.x;
@@ -198,7 +197,7 @@ float4 float4_sub(const float4* a, const float4* b)
     return result;
 }
 
-fmat2 fmat2_sub(const fmat2* a, const fmat2* b)
+VECMATH_API fmat2 fmat2_sub(const fmat2* a, const fmat2* b)
 {
     fmat2 result = { 0 };
     result.matrix.m00 = a->matrix.m00 - b->matrix.m00;
@@ -209,7 +208,7 @@ fmat2 fmat2_sub(const fmat2* a, const fmat2* b)
     return result;
 }
 
-fmat3 fmat3_sub(const fmat3* a, const fmat3* b)
+VECMATH_API fmat3 fmat3_sub(const fmat3* a, const fmat3* b)
 {
     fmat3 result = { 0 };
     result.matrix.m00 = a->matrix.m00 - b->matrix.m00;
@@ -226,7 +225,7 @@ fmat3 fmat3_sub(const fmat3* a, const fmat3* b)
     return result;
 }
 
-fmat4 fmat4_sub(const fmat4* a, const fmat4* b)
+VECMATH_API fmat4 fmat4_sub(const fmat4* a, const fmat4* b)
 {
     fmat4 result = { 0 };
     result.matrix.m00 = a->matrix.m00 - b->matrix.m00;
@@ -251,7 +250,7 @@ fmat4 fmat4_sub(const fmat4* a, const fmat4* b)
     return result;
 }
 
-double2 double2_sub(const double2* a, const double2* b)
+VECMATH_API double2 double2_sub(const double2* a, const double2* b)
 {
     double2 result = { 0 };
     result.xy.x = a->xy.x - b->xy.x;
@@ -259,7 +258,7 @@ double2 double2_sub(const double2* a, const double2* b)
     return result;
 }
 
-double3 double3_sub(const double3* a, const double3* b)
+VECMATH_API double3 double3_sub(const double3* a, const double3* b)
 {
     double3 result = { 0 };
     result.xyz.x = a->xyz.x - b->xyz.x;
@@ -268,7 +267,7 @@ double3 double3_sub(const double3* a, const double3* b)
     return result;
 }
 
-double4 double4_sub(const double4* a, const double4* b)
+VECMATH_API double4 double4_sub(const double4* a, const double4* b)
 {
     double4 result = { 0 };
     result.xyzw.x = a->xyzw.x - b->xyzw.x;
@@ -278,7 +277,7 @@ double4 double4_sub(const double4* a, const double4* b)
     return result;
 }
 
-dmat2 dmat2_sub(const dmat2* a, const dmat2* b)
+VECMATH_API dmat2 dmat2_sub(const dmat2* a, const dmat2* b)
 {
     dmat2 result = { 0 };
     result.matrix.m00 = a->matrix.m00 - b->matrix.m00;
@@ -289,7 +288,7 @@ dmat2 dmat2_sub(const dmat2* a, const dmat2* b)
     return result;
 }
 
-dmat3 dmat3_sub(const dmat3* a, const dmat3* b)
+VECMATH_API dmat3 dmat3_sub(const dmat3* a, const dmat3* b)
 {
     dmat3 result = { 0 };
     result.matrix.m00 = a->matrix.m00 - b->matrix.m00;
@@ -306,7 +305,7 @@ dmat3 dmat3_sub(const dmat3* a, const dmat3* b)
     return result;
 }
 
-dmat4 dmat4_sub(const dmat4* a, const dmat4* b)
+VECMATH_API dmat4 dmat4_sub(const dmat4* a, const dmat4* b)
 {
     dmat4 result = { 0 };
     result.matrix.m00 = a->matrix.m00 - b->matrix.m00;
@@ -335,14 +334,14 @@ dmat4 dmat4_sub(const dmat4* a, const dmat4* b)
 ///////////////////////////////////////////////////////////////////////////////////// mul
 /////////////////////////////////////////////////////////////////////////////////////
 
-float2 float2_mul(const float2* a, const float2* b)
+VECMATH_API float2 float2_mul(const float2* a, const float2* b)
 {
     float2 result = { 0 };
     result.xy.x = a->xy.x * b->xy.x;
     result.xy.y = a->xy.y * b->xy.y;
 }
 
-float3 float3_mul(const float3* a, const float3* b)
+VECMATH_API float3 float3_mul(const float3* a, const float3* b)
 {
     float3 result = { 0 };
     result.xyz.x = a->xyz.x * b->xyz.x;
@@ -350,7 +349,7 @@ float3 float3_mul(const float3* a, const float3* b)
     result.xyz.z = a->xyz.z * b->xyz.z;
 }
 
-float4 float4_mul(const float4* a, const float4* b)
+VECMATH_API float4 float4_mul(const float4* a, const float4* b)
 {
     float4 result = { 0 };
     result.xyzw.x = a->xyzw.x * b->xyzw.x;
@@ -360,7 +359,7 @@ float4 float4_mul(const float4* a, const float4* b)
     return result;
 }
 
-fmat2 fmat2_mul(const fmat2* a, const fmat2* b)
+VECMATH_API fmat2 fmat2_mul(const fmat2* a, const fmat2* b)
 {
     fmat2 result = { 0 };
     result.matrix.m00 = a->matrix.m00 * b->matrix.m00;
@@ -371,7 +370,7 @@ fmat2 fmat2_mul(const fmat2* a, const fmat2* b)
     return result;
 }
 
-fmat3 fmat3_mul(const fmat3* a, const fmat3* b)
+VECMATH_API fmat3 fmat3_mul(const fmat3* a, const fmat3* b)
 {
     fmat3 result = { 0 };
     result.matrix.m00 = a->matrix.m00 * b->matrix.m00;
@@ -388,7 +387,7 @@ fmat3 fmat3_mul(const fmat3* a, const fmat3* b)
     return result;
 }
 
-fmat4 fmat4_mul(const fmat4* a, const fmat4* b)
+VECMATH_API fmat4 fmat4_mul(const fmat4* a, const fmat4* b)
 {
     fmat4 result = { 0 };
     result.matrix.m00 = a->matrix.m00 * b->matrix.m00;
@@ -413,7 +412,7 @@ fmat4 fmat4_mul(const fmat4* a, const fmat4* b)
     return result;
 }
 
-double2 double2_mul(const double2* a, const double2* b)
+VECMATH_API double2 double2_mul(const double2* a, const double2* b)
 {
     double2 result = { 0 };
     result.xy.x = a->xy.x * b->xy.x;
@@ -430,7 +429,7 @@ double3 double3_mul(const double3* a, const double3* b)
     return result;
 }
 
-double4 double4_mul(const double4* a, const double4* b)
+VECMATH_API double4 double4_mul(const double4* a, const double4* b)
 {
     double4 result = { 0 };
     result.xyzw.x = a->xyzw.x * b->xyzw.x;
@@ -440,7 +439,7 @@ double4 double4_mul(const double4* a, const double4* b)
     return result;
 }
 
-dmat2 dmat2_mul(const dmat2* a, const dmat2* b)
+VECMATH_API dmat2 dmat2_mul(const dmat2* a, const dmat2* b)
 {
     dmat2 result = { 0 };
     result.matrix.m00 = a->matrix.m00 * b->matrix.m00;
@@ -451,7 +450,7 @@ dmat2 dmat2_mul(const dmat2* a, const dmat2* b)
     return result;
 }
 
-dmat3 dmat3_mul(const dmat3* a, const dmat3* b)
+VECMATH_API dmat3 dmat3_mul(const dmat3* a, const dmat3* b)
 {
     dmat3 result = { 0 };
     result.matrix.m00 = a->matrix.m00 * b->matrix.m00;
@@ -468,7 +467,7 @@ dmat3 dmat3_mul(const dmat3* a, const dmat3* b)
     return result;
 }
 
-dmat4 dmat4_mul(const dmat4* a, const dmat4* b)
+VECMATH_API dmat4 dmat4_mul(const dmat4* a, const dmat4* b)
 {
     dmat4 result = { 0 };
     result.matrix.m00 = a->matrix.m00 * b->matrix.m00;
@@ -497,7 +496,7 @@ dmat4 dmat4_mul(const dmat4* a, const dmat4* b)
 ///////////////////////////////////////////////////////////////////////////////////// div
 /////////////////////////////////////////////////////////////////////////////////////
 
-float2 float2_div(const float2* a, const float2* b)
+VECMATH_API float2 float2_div(const float2* a, const float2* b)
 {
     float2 result = { 0 };
     result.xy.x = a->xy.x / b->xy.x;
@@ -505,7 +504,7 @@ float2 float2_div(const float2* a, const float2* b)
     return result;
 }
 
-float3 float3_div(const float3* a, const float3* b)
+VECMATH_API float3 float3_div(const float3* a, const float3* b)
 {
     float3 result = { 0 };
     result.xyz.x = a->xyz.x / b->xyz.x;
@@ -514,7 +513,7 @@ float3 float3_div(const float3* a, const float3* b)
     return result;
 }
 
-float4 float4_div(const float4* a, const float4* b)
+VECMATH_API float4 float4_div(const float4* a, const float4* b)
 {
     float4 result = { 0 };
     result.xyzw.x = a->xyzw.x * b->xyzw.x;
@@ -524,7 +523,7 @@ float4 float4_div(const float4* a, const float4* b)
     return result;
 }
 
-fmat2 fmat2_div(const fmat2* a, const fmat2* b)
+VECMATH_API fmat2 fmat2_div(const fmat2* a, const fmat2* b)
 {
     fmat2 result = { 0 };
     result.matrix.m00 = a->matrix.m00 / b->matrix.m00;
@@ -535,7 +534,7 @@ fmat2 fmat2_div(const fmat2* a, const fmat2* b)
     return result;
 }
 
-fmat3 fmat3_div(const fmat3* a, const fmat3* b)
+VECMATH_API fmat3 fmat3_div(const fmat3* a, const fmat3* b)
 {
     fmat3 result = { 0 };
     result.matrix.m00 = a->matrix.m00 / b->matrix.m00;
@@ -552,7 +551,7 @@ fmat3 fmat3_div(const fmat3* a, const fmat3* b)
     return result;
 }
 
-fmat4 fmat4_div(const fmat4* a, const fmat4* b)
+VECMATH_API fmat4 fmat4_div(const fmat4* a, const fmat4* b)
 {
     fmat4 result = { 0 };
     result.matrix.m00 = a->matrix.m00 / b->matrix.m00;
@@ -577,7 +576,7 @@ fmat4 fmat4_div(const fmat4* a, const fmat4* b)
     return result;
 }
 
-double2 double2_div(const double2* a, const double2* b)
+VECMATH_API double2 double2_div(const double2* a, const double2* b)
 {
     double2 result = { 0 };
     result.xy.x = a->xy.x / b->xy.x;
@@ -585,7 +584,7 @@ double2 double2_div(const double2* a, const double2* b)
     return result;
 }
 
-double3 double3_div(const double3* a, const double3* b)
+VECMATH_API double3 double3_div(const double3* a, const double3* b)
 {
     double3 result = { 0 };
     result.xyz.x = a->xyz.x / b->xyz.x;
@@ -594,7 +593,7 @@ double3 double3_div(const double3* a, const double3* b)
     return result;
 }
 
-double4 double4_div(const double4* a, const double4* b)
+VECMATH_API double4 double4_div(const double4* a, const double4* b)
 {
     double4 result = { 0 };
     result.xyzw.x = a->xyzw.x / b->xyzw.x;
@@ -604,7 +603,7 @@ double4 double4_div(const double4* a, const double4* b)
     return result;
 }
 
-dmat2 dmat2_div(const dmat2* a, const dmat2* b)
+VECMATH_API dmat2 dmat2_div(const dmat2* a, const dmat2* b)
 {
     dmat2 result = { 0 };
     result.matrix.m00 = a->matrix.m00 / b->matrix.m00;
@@ -615,7 +614,7 @@ dmat2 dmat2_div(const dmat2* a, const dmat2* b)
     return result;
 }
 
-dmat3 dmat3_div(const dmat3* a, const dmat3* b)
+VECMATH_API dmat3 dmat3_div(const dmat3* a, const dmat3* b)
 {
     dmat3 result = { 0 };
     result.matrix.m00 = a->matrix.m00 / b->matrix.m00;
@@ -632,7 +631,7 @@ dmat3 dmat3_div(const dmat3* a, const dmat3* b)
     return result;
 }
 
-dmat4 dmat4_div(const dmat4* a, const dmat4* b)
+VECMATH_API dmat4 dmat4_div(const dmat4* a, const dmat4* b)
 {
     dmat4 result = { 0 };
     result.matrix.m00 = a->matrix.m00 / b->matrix.m00;
@@ -661,62 +660,62 @@ dmat4 dmat4_div(const dmat4* a, const dmat4* b)
 ///////////////////////////////////////////////////////////////////////////////////// equals
 /////////////////////////////////////////////////////////////////////////////////////
 
-vecbool float2_equals(const float2 *a, const float2 *b)
+VECMATH_API vecbool float2_equals(const float2 *a, const float2 *b)
 {
     return memcmp(a->data, b->data, sizeof(a->data)) == 0;
 }
 
-vecbool float3_equals(const float3 *a, const float3 *b)
+VECMATH_API vecbool float3_equals(const float3 *a, const float3 *b)
 {
     return memcmp(a->data, b->data, sizeof(a->data)) == 0;
 }
 
-vecbool float4_equals(const float4 *a, const float4 *b)
+VECMATH_API vecbool float4_equals(const float4 *a, const float4 *b)
 {
     return memcmp(a->data, b->data, sizeof(a->data)) == 0;
 }
 
-vecbool fmat2_equals(const fmat2 *a, const fmat2 *b)
+VECMATH_API vecbool fmat2_equals(const fmat2 *a, const fmat2 *b)
 {
     return memcmp(a->data, b->data, sizeof(a->data)) == 0;
 }
 
-vecbool fmat3_equals(const fmat3 *a, const fmat3 *b)
+VECMATH_API vecbool fmat3_equals(const fmat3 *a, const fmat3 *b)
 {
     return memcmp(a->data, b->data, sizeof(a->data)) == 0;
 }
 
-vecbool fmat4_equals(const fmat4 *a, const fmat4 *b)
+VECMATH_API vecbool fmat4_equals(const fmat4 *a, const fmat4 *b)
 {
     return memcmp(a->data, b->data, sizeof(a->data)) == 0;
 }
 
-vecbool double2_equals(const double2 *a, const double2 *b)
+VECMATH_API vecbool double2_equals(const double2 *a, const double2 *b)
 {
     return memcmp(a->data, b->data, sizeof(a->data)) == 0;
 }
 
-vecbool double3_equals(const double3 *a, const double3 *b)
+VECMATH_API vecbool double3_equals(const double3 *a, const double3 *b)
 {
     return memcmp(a->data, b->data, sizeof(a->data)) == 0;
 }
 
-vecbool double4_equals(const double4 *a, const double4 *b)
+VECMATH_API vecbool double4_equals(const double4 *a, const double4 *b)
 {
     return memcmp(a->data, b->data, sizeof(a->data)) == 0;
 }
 
-vecbool dmat2_equals(const dmat2 *a, const dmat2 *b)
+VECMATH_API vecbool dmat2_equals(const dmat2 *a, const dmat2 *b)
 {
     return memcmp(a->data, b->data, sizeof(a->data)) == 0;
 }
 
-vecbool dmat3_equals(const dmat3 *a, const dmat3 *b)
+VECMATH_API vecbool dmat3_equals(const dmat3 *a, const dmat3 *b)
 {
     return memcmp(a->data, b->data, sizeof(a->data)) == 0;
 }
 
-vecbool dmat4_equals(const dmat4 *a, const dmat4 *b)
+VECMATH_API vecbool dmat4_equals(const dmat4 *a, const dmat4 *b)
 {
     return memcmp(a->data, b->data, sizeof(a->data)) == 0;
 }
@@ -725,20 +724,20 @@ vecbool dmat4_equals(const dmat4 *a, const dmat4 *b)
 ///////////////////////////////////////////////////////////////////////////////////// aprox_equals
 /////////////////////////////////////////////////////////////////////////////////////
 
-vecbool float2_aprox_equals(const float2 *a, const float2 *b)
+VECMATH_API vecbool float2_aprox_equals(const float2 *a, const float2 *b)
 {
     return  (fabsf(a->xy.x - b->xy.x) <= VECMATH_EPSILON_FZERO) &&
             (fabsf(a->xy.y - b->xy.y) <= VECMATH_EPSILON_FZERO);
 }
 
-vecbool float3_aprox_equals(const float3 *a, const float3 *b)
+VECMATH_API vecbool float3_aprox_equals(const float3 *a, const float3 *b)
 {
     return  (fabsf(a->xyz.x - b->xyz.x) <= VECMATH_EPSILON_FZERO) &&
             (fabsf(a->xyz.y - b->xyz.y) <= VECMATH_EPSILON_FZERO) && 
             (fabsf(a->xyz.z - b->xyz.z) <= VECMATH_EPSILON_FZERO);
 }
 
-vecbool float4_aprox_equals(const float4 *a, const float4 *b)
+VECMATH_API vecbool float4_aprox_equals(const float4 *a, const float4 *b)
 {
     return  (fabsf(a->xyzw.x - b->xyzw.x) <= VECMATH_EPSILON_FZERO) &&
             (fabsf(a->xyzw.y - b->xyzw.y) <= VECMATH_EPSILON_FZERO) && 
@@ -746,7 +745,7 @@ vecbool float4_aprox_equals(const float4 *a, const float4 *b)
             (fabsf(a->xyzw.w - b->xyzw.w) <= VECMATH_EPSILON_FZERO);
 }
 
-vecbool fmat2_aprox_equals(const fmat2 *a, const fmat2 *b)
+VECMATH_API vecbool fmat2_aprox_equals(const fmat2 *a, const fmat2 *b)
 {
     return  (fabsf(a->matrix.m00 - b->matrix.m00) <= VECMATH_EPSILON_FZERO) &&
             (fabsf(a->matrix.m01 - b->matrix.m01) <= VECMATH_EPSILON_FZERO) && 
@@ -755,7 +754,7 @@ vecbool fmat2_aprox_equals(const fmat2 *a, const fmat2 *b)
             (fabsf(a->matrix.m11 - b->matrix.m11) <= VECMATH_EPSILON_FZERO);
 }
 
-vecbool fmat3_aprox_equals(const fmat3 *a, const fmat3 *b)
+VECMATH_API vecbool fmat3_aprox_equals(const fmat3 *a, const fmat3 *b)
 {
     return  (fabsf(a->matrix.m00 - b->matrix.m00) <= VECMATH_EPSILON_FZERO) &&
             (fabsf(a->matrix.m01 - b->matrix.m01) <= VECMATH_EPSILON_FZERO) && 
@@ -770,7 +769,7 @@ vecbool fmat3_aprox_equals(const fmat3 *a, const fmat3 *b)
             (fabsf(a->matrix.m22 - b->matrix.m22) <= VECMATH_EPSILON_FZERO);
 }
 
-vecbool fmat4_aprox_equals(const fmat4 *a, const fmat4 *b)
+VECMATH_API vecbool fmat4_aprox_equals(const fmat4 *a, const fmat4 *b)
 {
     return  (fabsf(a->matrix.m00 - b->matrix.m00) <= VECMATH_EPSILON_FZERO) &&
             (fabsf(a->matrix.m01 - b->matrix.m01) <= VECMATH_EPSILON_FZERO) && 
@@ -793,20 +792,20 @@ vecbool fmat4_aprox_equals(const fmat4 *a, const fmat4 *b)
             (fabsf(a->matrix.m33 - b->matrix.m33) <= VECMATH_EPSILON_FZERO);
 }
 
-vecbool double2_aprox_equals(const double2 *a, const double2 *b)
+VECMATH_API vecbool double2_aprox_equals(const double2 *a, const double2 *b)
 {
     return  (fabs(a->xy.x - b->xy.x) <= VECMATH_EPSILON_DZERO) &&
             (fabs(a->xy.y - b->xy.y) <= VECMATH_EPSILON_DZERO);
 }
 
-vecbool double3_aprox_equals(const double3 *a, const double3 *b)
+VECMATH_API vecbool double3_aprox_equals(const double3 *a, const double3 *b)
 {
     return  (fabs(a->xyz.x - b->xyz.x) <= VECMATH_EPSILON_DZERO) &&
             (fabs(a->xyz.y - b->xyz.y) <= VECMATH_EPSILON_DZERO) && 
             (fabs(a->xyz.z - b->xyz.z) <= VECMATH_EPSILON_DZERO);
 }
 
-vecbool double4_aprox_equals(const double4 *a, const double4 *b)
+VECMATH_API vecbool double4_aprox_equals(const double4 *a, const double4 *b)
 {
     return  (fabs(a->xyzw.x - b->xyzw.x) <= VECMATH_EPSILON_DZERO) &&
             (fabs(a->xyzw.y - b->xyzw.y) <= VECMATH_EPSILON_DZERO) && 
@@ -814,7 +813,7 @@ vecbool double4_aprox_equals(const double4 *a, const double4 *b)
             (fabs(a->xyzw.w - b->xyzw.w) <= VECMATH_EPSILON_DZERO);
 }
 
-vecbool dmat2_aprox_equals(const dmat2 *a, const dmat2 *b)
+VECMATH_API vecbool dmat2_aprox_equals(const dmat2 *a, const dmat2 *b)
 {
     return  (fabs(a->matrix.m00 - b->matrix.m00) <= VECMATH_EPSILON_DZERO) &&
             (fabs(a->matrix.m01 - b->matrix.m01) <= VECMATH_EPSILON_DZERO) && 
@@ -823,7 +822,7 @@ vecbool dmat2_aprox_equals(const dmat2 *a, const dmat2 *b)
             (fabs(a->matrix.m11 - b->matrix.m11) <= VECMATH_EPSILON_DZERO);
 }
 
-vecbool dmat3_aprox_equals(const dmat3 *a, const dmat3 *b)
+VECMATH_API vecbool dmat3_aprox_equals(const dmat3 *a, const dmat3 *b)
 {
     return  (fabs(a->matrix.m00 - b->matrix.m00) <= VECMATH_EPSILON_DZERO) &&
             (fabs(a->matrix.m01 - b->matrix.m01) <= VECMATH_EPSILON_DZERO) && 
@@ -838,7 +837,7 @@ vecbool dmat3_aprox_equals(const dmat3 *a, const dmat3 *b)
             (fabs(a->matrix.m22 - b->matrix.m22) <= VECMATH_EPSILON_DZERO);
 }
 
-vecbool dmat4_aprox_equals(const dmat4 *a, const dmat4 *b)
+VECMATH_API vecbool dmat4_aprox_equals(const dmat4 *a, const dmat4 *b)
 {
     return  (fabs(a->matrix.m00 - b->matrix.m00) <= VECMATH_EPSILON_DZERO) &&
             (fabs(a->matrix.m01 - b->matrix.m01) <= VECMATH_EPSILON_DZERO) && 

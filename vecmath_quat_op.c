@@ -1,13 +1,11 @@
 #include "vecmath_quat_op.h"
-
-#include "vecmath_macros.h"
 #include <math.h>
 
 /////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////// identity
 /////////////////////////////////////////////////////////////////////////////////////
 
-fquat fquat_identity()
+VECMATH_API fquat fquat_identity()
 {
     fquat result = { 0 };
     result.vector.x = 0;
@@ -17,7 +15,7 @@ fquat fquat_identity()
     return result;
 }
 
-dquat dquat_identity()
+VECMATH_API dquat dquat_identity()
 {
     dquat result = { 0 };
     result.vector.x = 0;
@@ -31,7 +29,7 @@ dquat dquat_identity()
 ///////////////////////////////////////////////////////////////////////////////////// mul
 /////////////////////////////////////////////////////////////////////////////////////
 
-fquat fquat_mul(const fquat* q1, const fquat* q2)
+VECMATH_API fquat fquat_mul(const fquat* q1, const fquat* q2)
 {
     fquat result = { 0 };
     result.vector.x = q1->vector.w * q2->vector.x + q1->vector.x * q2->vector.w + q1->vector.y * q2->vector.z - q1->vector.z * q2->vector.y;
@@ -41,7 +39,7 @@ fquat fquat_mul(const fquat* q1, const fquat* q2)
     return result;
 }
 
-dquat dquat_mul(const dquat* q1, const dquat* q2)
+VECMATH_API dquat dquat_mul(const dquat* q1, const dquat* q2)
 {
     dquat result = { 0 };
     result.vector.x = q1->vector.w * q2->vector.x + q1->vector.x * q2->vector.w + q1->vector.y * q2->vector.z - q1->vector.z * q2->vector.y;
@@ -55,12 +53,12 @@ dquat dquat_mul(const dquat* q1, const dquat* q2)
 ///////////////////////////////////////////////////////////////////////////////////// length
 /////////////////////////////////////////////////////////////////////////////////////
 
-float fquat_length(const fquat* q)
+VECMATH_API float fquat_length(const fquat* q)
 {
     return sqrtf(q->vector.x * q->vector.x + q->vector.y * q->vector.y + q->vector.z * q->vector.z + q->vector.w * q->vector.w);
 }
 
-double dquat_length(const dquat* q)
+VECMATH_API double dquat_length(const dquat* q)
 {
     return sqrt(q->vector.x * q->vector.x + q->vector.y * q->vector.y + q->vector.z * q->vector.z + q->vector.w * q->vector.w);
 }
@@ -69,7 +67,7 @@ double dquat_length(const dquat* q)
 ///////////////////////////////////////////////////////////////////////////////////// conjugate
 /////////////////////////////////////////////////////////////////////////////////////
 
-fquat fquat_conjugate(const fquat* q)
+VECMATH_API fquat fquat_conjugate(const fquat* q)
 {
     fquat result = { 0 };
     result.vector.x = -q->vector.x;
@@ -79,7 +77,7 @@ fquat fquat_conjugate(const fquat* q)
     return result;
 }
 
-dquat dquat_conjugate(const dquat* q)
+VECMATH_API dquat dquat_conjugate(const dquat* q)
 {
     dquat result = { 0 };
     result.vector.x = -q->vector.x;
@@ -93,7 +91,7 @@ dquat dquat_conjugate(const dquat* q)
 ///////////////////////////////////////////////////////////////////////////////////// normalize
 /////////////////////////////////////////////////////////////////////////////////////
 
-fquat fquat_normalize(const fquat *q)
+VECMATH_API fquat fquat_normalize(const fquat *q)
 {
     float len = sqrtf(q->vector.x * q->vector.x + q->vector.y * q->vector.y + q->vector.z * q->vector.z + q->vector.w * q->vector.w);
     if (len > VECMATH_EPSILON_FZERO) {
@@ -107,7 +105,7 @@ fquat fquat_normalize(const fquat *q)
     return fquat_identity();
 }
 
-dquat dquat_normalize(const dquat* q)
+VECMATH_API dquat dquat_normalize(const dquat* q)
 {
     double len = sqrt(q->vector.x * q->vector.x + q->vector.y * q->vector.y + q->vector.z * q->vector.z + q->vector.w * q->vector.w);
     if (len > VECMATH_EPSILON_DZERO) {
@@ -125,12 +123,12 @@ dquat dquat_normalize(const dquat* q)
 ///////////////////////////////////////////////////////////////////////////////////// dot
 /////////////////////////////////////////////////////////////////////////////////////
 
-float fquat_dot(const fquat* q1, const fquat* q2)
+VECMATH_API float fquat_dot(const fquat* q1, const fquat* q2)
 {
     return q1->vector.x * q2->vector.x + q1->vector.y * q2->vector.y + q1->vector.z * q2->vector.z + q1->vector.w * q2->vector.w;
 }
 
-double dquat_dot(const dquat* q1, const dquat* q2)
+VECMATH_API double dquat_dot(const dquat* q1, const dquat* q2)
 {
     return q1->vector.x * q2->vector.x + q1->vector.y * q2->vector.y + q1->vector.z * q2->vector.z + q1->vector.w * q2->vector.w;
 }
@@ -139,7 +137,7 @@ double dquat_dot(const dquat* q1, const dquat* q2)
 ///////////////////////////////////////////////////////////////////////////////////// lerp
 /////////////////////////////////////////////////////////////////////////////////////
 
-fquat fquat_lerp(const fquat *q1, const fquat *q2, float t)
+VECMATH_API fquat fquat_lerp(const fquat *q1, const fquat *q2, float t)
 {
     fquat result = { 0 };
     result.vector.x = q1->vector.x + t * (q2->vector.x - q1->vector.x);
@@ -149,7 +147,7 @@ fquat fquat_lerp(const fquat *q1, const fquat *q2, float t)
     return result;
 }
 
-dquat dquat_lerp(const dquat *q1, const dquat *q2, double t)
+VECMATH_API dquat dquat_lerp(const dquat *q1, const dquat *q2, double t)
 {
     dquat result = { 0 };
     result.vector.x = q1->vector.x + t * (q2->vector.x - q1->vector.x);
@@ -163,7 +161,7 @@ dquat dquat_lerp(const dquat *q1, const dquat *q2, double t)
 ///////////////////////////////////////////////////////////////////////////////////// slerp
 /////////////////////////////////////////////////////////////////////////////////////
 
-fquat fquat_slerp(const fquat* q1, const fquat* q2, float t)
+VECMATH_API fquat fquat_slerp(const fquat* q1, const fquat* q2, float t)
 {
     float cos_theta = fquat_dot(q1, q2);
     
@@ -198,7 +196,7 @@ fquat fquat_slerp(const fquat* q1, const fquat* q2, float t)
     return result;
 }
 
-dquat dquat_slerp(const dquat* q1, const dquat* q2, double t)
+VECMATH_API dquat dquat_slerp(const dquat* q1, const dquat* q2, double t)
 {
     double cos_theta = dquat_dot(q1, q2);
     
@@ -237,7 +235,7 @@ dquat dquat_slerp(const dquat* q1, const dquat* q2, double t)
 ///////////////////////////////////////////////////////////////////////////////////// from_euler
 /////////////////////////////////////////////////////////////////////////////////////
 
-fquat fquat_from_euler(const float3* axis, float angle_rad)
+VECMATH_API fquat fquat_from_euler(const float3* axis, float angle_rad)
 {
     float half_angle = angle_rad * 0.5f;
     float sin_half = sinf(half_angle);
@@ -255,7 +253,7 @@ fquat fquat_from_euler(const float3* axis, float angle_rad)
     return fquat_identity();
 }
 
-dquat dquat_from_euler(const double3 *axis, double angle_rad)
+VECMATH_API dquat dquat_from_euler(const double3 *axis, double angle_rad)
 {
     double half_angle = angle_rad * 0.5f;
     double sin_half = sin(half_angle);
@@ -277,7 +275,7 @@ dquat dquat_from_euler(const double3 *axis, double angle_rad)
 ///////////////////////////////////////////////////////////////////////////////////// to_euler
 /////////////////////////////////////////////////////////////////////////////////////
 
-float3 fquat_to_euler(const fquat* q)
+VECMATH_API float3 fquat_to_euler(const fquat* q)
 {
     float3 angles = { 0 };
     fquat q_norm = fquat_normalize(q);
@@ -305,7 +303,7 @@ float3 fquat_to_euler(const fquat* q)
     return angles;
 }
 
-double3 dquat_to_euler(const dquat *q)
+VECMATH_API double3 dquat_to_euler(const dquat *q)
 {
     double3 angles = { 0 };
     dquat q_norm = dquat_normalize(q);
@@ -337,7 +335,7 @@ double3 dquat_to_euler(const dquat *q)
 ///////////////////////////////////////////////////////////////////////////////////// to_matrix
 /////////////////////////////////////////////////////////////////////////////////////
 
-fmat4 fquat_to_fmat4_rowmajor(const fquat *q)
+VECMATH_API fmat4 fquat_to_fmat4_rowmajor(const fquat *q)
 {
     fquat q_norm = fquat_normalize(q);
     float x = q_norm.vector.x, y = q_norm.vector.y, z = q_norm.vector.z, w = q_norm.vector.w;
@@ -359,7 +357,7 @@ fmat4 fquat_to_fmat4_rowmajor(const fquat *q)
     return result;
 }
 
-fmat4 fquat_to_fmat4_colmajor(const fquat *q)
+VECMATH_API fmat4 fquat_to_fmat4_colmajor(const fquat *q)
 {
     fquat q_norm = fquat_normalize(q);
     float x = q_norm.vector.x, y = q_norm.vector.y, z = q_norm.vector.z, w = q_norm.vector.w;
@@ -381,7 +379,7 @@ fmat4 fquat_to_fmat4_colmajor(const fquat *q)
     return result;
 }
 
-dmat4 dquat_to_dmat4_rowmajor(const dquat *q)
+VECMATH_API dmat4 dquat_to_dmat4_rowmajor(const dquat *q)
 {
     dquat q_norm = dquat_normalize(q);
     double x = q_norm.vector.x, y = q_norm.vector.y, z = q_norm.vector.z, w = q_norm.vector.w;
@@ -403,7 +401,7 @@ dmat4 dquat_to_dmat4_rowmajor(const dquat *q)
     return result;
 }
 
-dmat4 dquat_to_dmat4_colmajor(const dquat *q)
+VECMATH_API dmat4 dquat_to_dmat4_colmajor(const dquat *q)
 {
     dquat q_norm = dquat_normalize(q);
     double x = q_norm.vector.x, y = q_norm.vector.y, z = q_norm.vector.z, w = q_norm.vector.w;

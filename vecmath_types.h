@@ -36,7 +36,7 @@ typedef union fmat2_t {
 
 typedef union fmat3_t {
     float data[3][3];
-    struct { float3 c0; float3 c1; float3 c2 } column;
+    struct { float3 c0; float3 c1; float3 c2; } column;
     struct { 
         float m00, m01, m02; 
         float m10, m11, m12; 
@@ -46,7 +46,7 @@ typedef union fmat3_t {
 
 typedef union fmat4_t {
     float data[4][4];
-    struct { float4 c0; float4 c1; float4 c2; float4 c3 } column;
+    struct { float4 c0; float4 c1; float4 c2; float4 c3; } column;
     struct { 
         float m00, m01, m02, m03; 
         float m10, m11, m12, m13; 
@@ -90,7 +90,7 @@ typedef union dmat2_t {
 
 typedef union dmat3_t {
     double data[3][3];
-    struct { double3 c0; double3 c1; double3 c2 } column;
+    struct { double3 c0; double3 c1; double3 c2; } column;
     struct { 
         double m00, m01, m02; 
         double m10, m11, m12; 
@@ -100,7 +100,7 @@ typedef union dmat3_t {
 
 typedef union dmat4_t {
     double data[4][4];
-    struct { double4 c0; double4 c1; double4 c2; double4 c3 } column;
+    struct { double4 c0; double4 c1; double4 c2; double4 c3; } column;
     struct { 
         double m00, m01, m02, m03; 
         double m10, m11, m12, m13; 

@@ -1,13 +1,11 @@
 #include "vecmath_vec_op.h"
-
-#include "vecmath_macros.h"
 #include <math.h>
 
 /////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////// scalar_const
 /////////////////////////////////////////////////////////////////////////////////////
 
-float2 float2_scalar(float2* v, const float value)
+VECMATH_API float2 float2_scalar(float2* v, const float value)
 {
     float2 result = { 0 };
     result.xy.x = v->xy.x * value;
@@ -15,7 +13,7 @@ float2 float2_scalar(float2* v, const float value)
     return result;
 }
 
-float3 float3_scalar(float3* v, const float value)
+VECMATH_API float3 float3_scalar(float3* v, const float value)
 {
     float3 result = { 0 };
     result.xyz.x = v->xyz.x * value;
@@ -24,7 +22,7 @@ float3 float3_scalar(float3* v, const float value)
     return result;
 }
 
-float4 float4_scalar(float4* v, const float value)
+VECMATH_API float4 float4_scalar(float4* v, const float value)
 {
     float4 result = { 0 };
     result.xyzw.x = v->xyzw.x * value;
@@ -34,7 +32,7 @@ float4 float4_scalar(float4* v, const float value)
     return result;
 }
 
-double2 double2_scalar(double2 *v, const float value)
+VECMATH_API double2 double2_scalar(double2 *v, const float value)
 {
     double2 result = { 0 };
     result.xy.x = v->xy.x * value;
@@ -42,7 +40,7 @@ double2 double2_scalar(double2 *v, const float value)
     return result;
 }
 
-double3 double3_scalar(double3 *v, const float value)
+VECMATH_API double3 double3_scalar(double3 *v, const float value)
 {
     double3 result = { 0 };
     result.xyz.x = v->xyz.x * value;
@@ -51,7 +49,7 @@ double3 double3_scalar(double3 *v, const float value)
     return result;
 }
 
-double4 double4_scalar(double4 *v, const float value)
+VECMATH_API double4 double4_scalar(double4 *v, const float value)
 {
     double4 result = { 0 };
     result.xyzw.x = v->xyzw.x * value;
@@ -65,32 +63,32 @@ double4 double4_scalar(double4 *v, const float value)
 ///////////////////////////////////////////////////////////////////////////////////// length
 /////////////////////////////////////////////////////////////////////////////////////
 
-float float2_length(const float2 *v)
+VECMATH_API float float2_length(const float2 *v)
 {
     return sqrtf((v->xy.x * v->xy.x) + (v->xy.y * v->xy.y));
 }
 
-float float3_length(const float3* v)
+VECMATH_API float float3_length(const float3* v)
 {
     return sqrtf((v->xyz.x * v->xyz.x) + (v->xyz.y * v->xyz.y) + (v->xyz.z * v->xyz.z));
 }
 
-float float4_length(const float4* v)
+VECMATH_API float float4_length(const float4* v)
 {
     return sqrtf((v->xyzw.x * v->xyzw.x) + (v->xyzw.y * v->xyzw.y) + (v->xyzw.z * v->xyzw.z) + (v->xyzw.w * v->xyzw.w));
 }
 
-double double2_length(const double2* v)
+VECMATH_API double double2_length(const double2* v)
 {
     return sqrt((v->xy.x * v->xy.x) + (v->xy.y * v->xy.y));
 }
 
-double double3_length(const double3* v)
+VECMATH_API double double3_length(const double3* v)
 {
     return sqrt((v->xyz.x * v->xyz.x) + (v->xyz.y * v->xyz.y) + (v->xyz.z * v->xyz.z));
 }
 
-double double4_length(const double4* v)
+VECMATH_API double double4_length(const double4* v)
 {
     return sqrt((v->xyzw.x * v->xyzw.x) + (v->xyzw.y * v->xyzw.y) + (v->xyzw.z * v->xyzw.z) + (v->xyzw.w * v->xyzw.w));
 }
@@ -99,32 +97,32 @@ double double4_length(const double4* v)
 ///////////////////////////////////////////////////////////////////////////////////// length_sqrt 
 /////////////////////////////////////////////////////////////////////////////////////
 
-float float2_length_sqrt(const float2* v)
+VECMATH_API float float2_length_sqrt(const float2* v)
 {
     return (v->xy.x * v->xy.x) + (v->xy.y * v->xy.y);
 }
 
-float float3_length_sqrt(const float3* v)
+VECMATH_API float float3_length_sqrt(const float3* v)
 {
     return (v->xyz.x * v->xyz.x) + (v->xyz.y * v->xyz.y) + (v->xyz.z * v->xyz.z);
 }
 
-float float4_length_sqrt(const float4* v)
+VECMATH_API float float4_length_sqrt(const float4* v)
 {
     return (v->xyzw.x * v->xyzw.x) + (v->xyzw.y * v->xyzw.y) + (v->xyzw.z * v->xyzw.z) + (v->xyzw.w * v->xyzw.w);
 }
 
-double double2_length_sqrt(const double2 *v)
+VECMATH_API double double2_length_sqrt(const double2 *v)
 {
     return (v->xy.x * v->xy.x) + (v->xy.y * v->xy.y);
 }
 
-double double3_length_sqrt(const double3 *v)
+VECMATH_API double double3_length_sqrt(const double3 *v)
 {
     return (v->xyz.x * v->xyz.x) + (v->xyz.y * v->xyz.y) + (v->xyz.z * v->xyz.z);
 }
 
-double double4_length_sqrt(const double4* v)
+VECMATH_API double double4_length_sqrt(const double4* v)
 {
     return (v->xyzw.x * v->xyzw.x) + (v->xyzw.y * v->xyzw.y) + (v->xyzw.z * v->xyzw.z) + (v->xyzw.w * v->xyzw.w);
 }
@@ -133,7 +131,7 @@ double double4_length_sqrt(const double4* v)
 ///////////////////////////////////////////////////////////////////////////////////// normalize 
 /////////////////////////////////////////////////////////////////////////////////////
 
-float2 float2_normalize(const float2* v)
+VECMATH_API float2 float2_normalize(const float2* v)
 {
     float len = float2_length(v);
     float2 result = { 0 };
@@ -147,7 +145,7 @@ float2 float2_normalize(const float2* v)
     return result;
 }
 
-float3 float3_normalize(const float3* v)
+VECMATH_API float3 float3_normalize(const float3* v)
 {
     float len = float3_length(v);
     float3 result = { 0 };
@@ -163,7 +161,7 @@ float3 float3_normalize(const float3* v)
     return result;
 }
 
-float4 float4_normalize(const float4* v)
+VECMATH_API float4 float4_normalize(const float4* v)
 {
     float len = float4_length(v);
     float4 result = { 0 };
@@ -182,7 +180,7 @@ float4 float4_normalize(const float4* v)
     return result;
 }
 
-double2 double2_normalize(const double2* v)
+VECMATH_API double2 double2_normalize(const double2* v)
 {
     double len = double2_length(v);
     double2 result = { 0 };
@@ -196,7 +194,7 @@ double2 double2_normalize(const double2* v)
     return result;
 }
 
-double3 double3_normalize(const double3 *v)
+VECMATH_API double3 double3_normalize(const double3 *v)
 {
     double len = double3_length(v);
     double3 result = { 0 };
@@ -212,7 +210,7 @@ double3 double3_normalize(const double3 *v)
     return result;
 }
 
-double4 double4_normalize(const double4* v)
+VECMATH_API double4 double4_normalize(const double4* v)
 {
     double len = double4_length(v);
     double4 result = { 0 };
@@ -234,32 +232,32 @@ double4 double4_normalize(const double4* v)
 ///////////////////////////////////////////////////////////////////////////////////// dot 
 /////////////////////////////////////////////////////////////////////////////////////
 
-float float2_dot(const float2 *a, const float2 *b)
+VECMATH_API float float2_dot(const float2 *a, const float2 *b)
 {
     return (a->xy.x * b->xy.x) + (a->xy.y * b->xy.y);
 }
 
-float float3_dot(const float3* a, const float3* b)
+VECMATH_API float float3_dot(const float3* a, const float3* b)
 {
     return (a->xyz.x * b->xyz.x) + (a->xyz.y * b->xyz.y) + (a->xyz.z * b->xyz.z);
 }
 
-float float4_dot(const float4* a, const float4* b)
+VECMATH_API float float4_dot(const float4* a, const float4* b)
 {
     return (a->xyzw.x * b->xyzw.x) + (a->xyzw.y * b->xyzw.y) + (a->xyzw.z * b->xyzw.z) + (a->xyzw.w * b->xyzw.w);
 }
 
-double double2_dot(const double2* a, const double2* b)
+VECMATH_API double double2_dot(const double2* a, const double2* b)
 {
     return (a->xy.x * b->xy.x) + (a->xy.y * b->xy.y);
 }
 
-double double3_dot(const double3* a, const double3* b)
+VECMATH_API double double3_dot(const double3* a, const double3* b)
 {
     return (a->xyz.x * b->xyz.x) + (a->xyz.y * b->xyz.y) + (a->xyz.z * b->xyz.z);
 }
 
-double double4_dot(const double4* a, const double4* b)
+VECMATH_API double double4_dot(const double4* a, const double4* b)
 {
     return (a->xyzw.x * b->xyzw.x) + (a->xyzw.y * b->xyzw.y) + (a->xyzw.z * b->xyzw.z) + (a->xyzw.w * b->xyzw.w);
 }
@@ -268,12 +266,12 @@ double double4_dot(const double4* a, const double4* b)
 ///////////////////////////////////////////////////////////////////////////////////// cross 
 /////////////////////////////////////////////////////////////////////////////////////
 
-float float2_cross(const float2* a, const float2* b)
+VECMATH_API float float2_cross(const float2* a, const float2* b)
 {
     return (a->xy.x * b->xy.y) - (a->xy.y * b->xy.x);
 }
 
-float3 float3_cross(const float3* a, const float3* b)
+VECMATH_API float3 float3_cross(const float3* a, const float3* b)
 {
     float3 result = { 0 };
     result.xyz.x = a->xyz.y * b->xyz.z - a->xyz.z * b->xyz.y;
@@ -282,12 +280,12 @@ float3 float3_cross(const float3* a, const float3* b)
     return result; 
 }
 
-double double2_cross(const double2* a, const double2* b)
+VECMATH_API double double2_cross(const double2* a, const double2* b)
 {
     return (a->xy.x * b->xy.y) - (a->xy.y * b->xy.x);
 }
 
-double3 double3_cross(const double3* a, const double3* b)
+VECMATH_API double3 double3_cross(const double3* a, const double3* b)
 {
     double3 result = { 0 };
     result.xyz.x = a->xyz.y * b->xyz.z - a->xyz.z * b->xyz.y;
@@ -300,7 +298,7 @@ double3 double3_cross(const double3* a, const double3* b)
 ///////////////////////////////////////////////////////////////////////////////////// scale 
 /////////////////////////////////////////////////////////////////////////////////////
 
-float2 float2_scale(const float2* v, float scalar)
+VECMATH_API float2 float2_scale(const float2* v, float scalar)
 {
     float2 result = { 0 };
     result.xy.x = v->xy.x * scalar;
@@ -308,7 +306,7 @@ float2 float2_scale(const float2* v, float scalar)
     return result;
 }
 
-float3 float3_scale(const float3* v, float scalar)
+VECMATH_API float3 float3_scale(const float3* v, float scalar)
 {
     float3 result = { 0 };
     result.xyz.x = v->xyz.x * scalar;
@@ -317,7 +315,7 @@ float3 float3_scale(const float3* v, float scalar)
     return result;
 }
 
-float4 float4_scale(const float4* v, float scalar)
+VECMATH_API float4 float4_scale(const float4* v, float scalar)
 {
     float4 result = { 0 };
     result.xyzw.x = v->xyzw.x * scalar;
@@ -327,7 +325,7 @@ float4 float4_scale(const float4* v, float scalar)
     return result;
 }
 
-double2 double2_scale(const double2* v, double scalar)
+VECMATH_API double2 double2_scale(const double2* v, double scalar)
 {
     double2 result = { 0 };
     result.xy.x = v->xy.x * scalar;
@@ -335,7 +333,7 @@ double2 double2_scale(const double2* v, double scalar)
     return result;
 }
 
-double3 double3_scale(const double3* v, double scalar)
+VECMATH_API double3 double3_scale(const double3* v, double scalar)
 {
     double3 result = { 0 };
     result.xyz.x = v->xyz.x * scalar;
@@ -344,7 +342,7 @@ double3 double3_scale(const double3* v, double scalar)
     return result;
 }
 
-double4 double4_scale(const double4* v, double scalar)
+VECMATH_API double4 double4_scale(const double4* v, double scalar)
 {
     double4 result = { 0 };
     result.xyzw.x = v->xyzw.x * scalar;
@@ -358,7 +356,7 @@ double4 double4_scale(const double4* v, double scalar)
 ///////////////////////////////////////////////////////////////////////////////////// lerp 
 /////////////////////////////////////////////////////////////////////////////////////
 
-float2 float2_lerp(const float2* a, const float2* b, float t)
+VECMATH_API float2 float2_lerp(const float2* a, const float2* b, float t)
 {
     float2 result = { 0 };
     result.xy.x = a->xy.x + (b->xy.x - a->xy.x) * t;
@@ -366,7 +364,7 @@ float2 float2_lerp(const float2* a, const float2* b, float t)
     return result;
 }
 
-float3 float3_lerp(const float3* a, const float3* b, float t)
+VECMATH_API float3 float3_lerp(const float3* a, const float3* b, float t)
 {
     float3 result = { 0 };
     result.xyz.x = a->xyz.x + (b->xyz.x - a->xyz.x) * t;
@@ -375,7 +373,7 @@ float3 float3_lerp(const float3* a, const float3* b, float t)
     return result;
 }
 
-float4 float4_lerp(const float4* a, const float4* b, float t)
+VECMATH_API float4 float4_lerp(const float4* a, const float4* b, float t)
 {
     float4 result = { 0 };
     result.xyzw.x = a->xyzw.x + (b->xyzw.x - a->xyzw.x) * t;
@@ -385,7 +383,7 @@ float4 float4_lerp(const float4* a, const float4* b, float t)
     return result;
 }
 
-double2 double2_lerp(const double2* a, const double2* b, double t)
+VECMATH_API double2 double2_lerp(const double2* a, const double2* b, double t)
 {
     double2 result = { 0 };
     result.xy.x = a->xy.x + (b->xy.x - a->xy.x) * t;
@@ -393,7 +391,7 @@ double2 double2_lerp(const double2* a, const double2* b, double t)
     return result;
 }
 
-double3 double3_lerp(const double3* a, const double3* b, double t)
+VECMATH_API double3 double3_lerp(const double3* a, const double3* b, double t)
 {
     double3 result = { 0 };
     result.xyz.x = a->xyz.x + (b->xyz.x - a->xyz.x) * t;
@@ -402,7 +400,7 @@ double3 double3_lerp(const double3* a, const double3* b, double t)
     return result;
 }
 
-double4 double4_lerp(const double4* a, const double4* b, double t)
+VECMATH_API double4 double4_lerp(const double4* a, const double4* b, double t)
 {
     double4 result = { 0 };
     result.xyzw.x = a->xyzw.x + (b->xyzw.x - a->xyzw.x) * t;
@@ -416,14 +414,14 @@ double4 double4_lerp(const double4* a, const double4* b, double t)
 ///////////////////////////////////////////////////////////////////////////////////// distance 
 /////////////////////////////////////////////////////////////////////////////////////
 
-float float2_distance(const float2* a, const float2* b)
+VECMATH_API float float2_distance(const float2* a, const float2* b)
 {
     float dx = a->xy.x - b->xy.x;
     float dy = a->xy.y - b->xy.y;
     return sqrtf(dx * dx + dy * dy);
 }
 
-float float3_distance(const float3* a, const float3* b)
+VECMATH_API float float3_distance(const float3* a, const float3* b)
 {
     float dx = a->xyz.x - b->xyz.x;
     float dy = a->xyz.y - b->xyz.y;
@@ -431,7 +429,7 @@ float float3_distance(const float3* a, const float3* b)
     return sqrtf(dx * dx + dy * dy + dz * dz);
 }
 
-float float4_distance(const float4* a, const float4* b)
+VECMATH_API float float4_distance(const float4* a, const float4* b)
 {
     float dx = a->xyzw.x - b->xyzw.x;
     float dy = a->xyzw.y - b->xyzw.y;
@@ -440,14 +438,14 @@ float float4_distance(const float4* a, const float4* b)
     return sqrtf(dx * dx + dy * dy + dz * dz + dw * dw);
 }
 
-double double2_distance(const double2* a, const double2* b)
+VECMATH_API double double2_distance(const double2* a, const double2* b)
 {
     double dx = a->xy.x - b->xy.x;
     double dy = a->xy.y - b->xy.y;
     return sqrt(dx * dx + dy * dy);
 }
 
-double double3_distance(const double3* a, const double3* b)
+VECMATH_API double double3_distance(const double3* a, const double3* b)
 {
     double dx = a->xyz.x - b->xyz.x;
     double dy = a->xyz.y - b->xyz.y;
@@ -455,7 +453,7 @@ double double3_distance(const double3* a, const double3* b)
     return sqrt(dx * dx + dy * dy + dz * dz);
 }
 
-double double4_distance(const double4* a, const double4* b)
+VECMATH_API double double4_distance(const double4* a, const double4* b)
 {
     double dx = a->xyzw.x - b->xyzw.x;
     double dy = a->xyzw.y - b->xyzw.y;
@@ -468,14 +466,14 @@ double double4_distance(const double4* a, const double4* b)
 ///////////////////////////////////////////////////////////////////////////////////// distance_sqrt 
 /////////////////////////////////////////////////////////////////////////////////////
 
-float float2_distance_sqrt(const float2* a, const float2* b)
+VECMATH_API float float2_distance_sqrt(const float2* a, const float2* b)
 {
     float dx = a->xy.x - b->xy.x;
     float dy = a->xy.y - b->xy.y;
     return dx * dx + dy * dy;
 }
 
-float float3_distance_sqrt(const float3* a, const float3* b)
+VECMATH_API float float3_distance_sqrt(const float3* a, const float3* b)
 {
     float dx = a->xyz.x - b->xyz.x;
     float dy = a->xyz.y - b->xyz.y;
@@ -483,7 +481,7 @@ float float3_distance_sqrt(const float3* a, const float3* b)
     return dx * dx + dy * dy + dz * dz;
 }
 
-float float4_distance_sqrt(const float4* a, const float4* b)
+VECMATH_API float float4_distance_sqrt(const float4* a, const float4* b)
 {
     float dx = a->xyzw.x - b->xyzw.x;
     float dy = a->xyzw.y - b->xyzw.y;
@@ -492,14 +490,14 @@ float float4_distance_sqrt(const float4* a, const float4* b)
     return dx * dx + dy * dy + dz * dz + dw * dw;
 }
 
-double double2_distance_sqrt(const double2* a, const double2*b )
+VECMATH_API double double2_distance_sqrt(const double2* a, const double2*b )
 {
     double dx = a->xy.x - b->xy.x;
     double dy = a->xy.y - b->xy.y;
     return dx * dx + dy * dy;
 }
 
-double double3_distance_sqrt(const double3* a, const double3* b)
+VECMATH_API double double3_distance_sqrt(const double3* a, const double3* b)
 {
     double dx = a->xyz.x - b->xyz.x;
     double dy = a->xyz.y - b->xyz.y;
@@ -507,7 +505,7 @@ double double3_distance_sqrt(const double3* a, const double3* b)
     return dx * dx + dy * dy + dz * dz;
 }
 
-double double4_distance_sqrt(const double4* a, const double4* b)
+VECMATH_API double double4_distance_sqrt(const double4* a, const double4* b)
 {
     double dx = a->xyzw.x - b->xyzw.x;
     double dy = a->xyzw.y - b->xyzw.y;
@@ -520,7 +518,7 @@ double double4_distance_sqrt(const double4* a, const double4* b)
 ///////////////////////////////////////////////////////////////////////////////////// reflect
 /////////////////////////////////////////////////////////////////////////////////////
 
-float2 float2_reflect(const float2* v, const float2* normal)
+VECMATH_API float2 float2_reflect(const float2* v, const float2* normal)
 {
     float2 result = { 0 };
     double dot = float2_dot(v, normal);
@@ -534,7 +532,7 @@ float2 float2_reflect(const float2* v, const float2* normal)
     return result;
 }
 
-float3 float3_reflect(const float3* v, const float3* normal)
+VECMATH_API float3 float3_reflect(const float3* v, const float3* normal)
 {
     float3 result = { 0 };
     float dot = float3_dot(v, normal);
@@ -549,7 +547,7 @@ float3 float3_reflect(const float3* v, const float3* normal)
     return result;
 }
 
-float4 float4_reflect(const float4* v, const float4* normal)
+VECMATH_API float4 float4_reflect(const float4* v, const float4* normal)
 {
     float4 result = { 0 };
     float dot = float4_dot(v, normal);
@@ -565,7 +563,7 @@ float4 float4_reflect(const float4* v, const float4* normal)
     return result;
 }
 
-double2 double2_reflect(const double2* v, const double2* normal)
+VECMATH_API double2 double2_reflect(const double2* v, const double2* normal)
 {
     double2 result = { 0 };
     double dot = double2_dot(v, normal);
@@ -579,7 +577,7 @@ double2 double2_reflect(const double2* v, const double2* normal)
     return result;
 }
 
-double3 double3_reflect(const double3* v, const double3* normal)
+VECMATH_API double3 double3_reflect(const double3* v, const double3* normal)
 {
     double3 result = { 0 };
     double dot = double3_dot(v, normal);
@@ -594,7 +592,7 @@ double3 double3_reflect(const double3* v, const double3* normal)
     return result;
 }
 
-double4 double4_reflect(const double4* v, const double4* normal)
+VECMATH_API double4 double4_reflect(const double4* v, const double4* normal)
 {
     double4 result = { 0 };
     double dot = double4_dot(v, normal);
@@ -614,7 +612,7 @@ double4 double4_reflect(const double4* v, const double4* normal)
 ///////////////////////////////////////////////////////////////////////////////////// project
 /////////////////////////////////////////////////////////////////////////////////////
 
-float2 float2_project(const float2* a, const float2* b)
+VECMATH_API float2 float2_project(const float2* a, const float2* b)
 {
     float2 result = { 0 };
     result.xy.x = 0.0f;
@@ -632,7 +630,7 @@ float2 float2_project(const float2* a, const float2* b)
     return result;
 }
 
-float3 float3_project(const float3* a, const float3* b)
+VECMATH_API float3 float3_project(const float3* a, const float3* b)
 {
     float3 result = { 0 };
     result.xyz.x = 0.0f;
@@ -651,7 +649,7 @@ float3 float3_project(const float3* a, const float3* b)
     return result;
 }
 
-float4 float4_project(const float4 *a, const float4 *b)
+VECMATH_API float4 float4_project(const float4 *a, const float4 *b)
 {
     float4 result = { 0 };
     result.xyzw.x = 0.0f;
@@ -672,7 +670,7 @@ float4 float4_project(const float4 *a, const float4 *b)
     return result;
 }
 
-double2 double2_project(const double2* a, const double2* b)
+VECMATH_API double2 double2_project(const double2* a, const double2* b)
 {
     double2 result = { 0 };
     result.xy.x = 0.0f;
@@ -689,7 +687,7 @@ double2 double2_project(const double2* a, const double2* b)
     return result;
 }
 
-double3 double3_project(const double3 *a, const double3 *b)
+VECMATH_API double3 double3_project(const double3 *a, const double3 *b)
 {
     double3 result = { 0 };
     result.xyz.x = 0.0f;
@@ -708,7 +706,7 @@ double3 double3_project(const double3 *a, const double3 *b)
     return result;
 }
 
-double4 double4_project(const double4 *a, const double4 *b)
+VECMATH_API double4 double4_project(const double4 *a, const double4 *b)
 {
     double4 result = { 0 };
     result.xyzw.x = 0.0f;

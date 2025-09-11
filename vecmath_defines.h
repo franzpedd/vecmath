@@ -10,4 +10,11 @@
 
 #define VECMATH_EPSILON_INT_MIN (-2147483647 - 1)
 
+/// @brief when using the header-only version this will be defined
+#ifdef VECMATH_REQUESTING_HEADER_ONLY
+    #define VECMATH_API static
+#else
+    #define VECMATH_API
+#endif
+
 #endif // VECMATH_DEFINES_INCLUDED

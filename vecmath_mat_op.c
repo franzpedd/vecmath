@@ -1,6 +1,4 @@
 #include "vecmath_mat_op.h"
-
-#include "vecmath_macros.h"
 #include "vecmath_basic_op.h"
 #include "vecmath_vec_op.h"
 #include <math.h>
@@ -9,7 +7,7 @@
 ///////////////////////////////////////////////////////////////////////////////////// identity 
 /////////////////////////////////////////////////////////////////////////////////////
 
-fmat2 fmat2_identity()
+VECMATH_API fmat2 fmat2_identity()
 {
     fmat2 mat;
     mat.matrix.m00 = 1.0f; mat.matrix.m01 = 0.0f;
@@ -17,7 +15,7 @@ fmat2 fmat2_identity()
     return mat;
 }
 
-fmat3 fmat3_identity()
+VECMATH_API fmat3 fmat3_identity()
 {
     fmat3 mat;
     mat.matrix.m00 = 1.0f; mat.matrix.m01 = 0.0f; mat.matrix.m02 = 0.0f;
@@ -26,7 +24,7 @@ fmat3 fmat3_identity()
     return mat;
 }
 
-fmat4 fmat4_identity()
+VECMATH_API fmat4 fmat4_identity()
 {
     fmat4 mat;
     mat.matrix.m00 = 1.0f; mat.matrix.m01 = 0.0f; mat.matrix.m02 = 0.0f; mat.matrix.m03 = 0.0f;
@@ -36,7 +34,7 @@ fmat4 fmat4_identity()
     return mat;
 }
 
-dmat2 dmat2_identity()
+VECMATH_API dmat2 dmat2_identity()
 {
     dmat2 mat;
     mat.matrix.m00 = 1.0f; mat.matrix.m01 = 0.0f;
@@ -44,7 +42,7 @@ dmat2 dmat2_identity()
     return mat;
 }
 
-dmat3 dmat3_identity()
+VECMATH_API dmat3 dmat3_identity()
 {
     dmat3 mat;
     mat.matrix.m00 = 1.0f; mat.matrix.m01 = 0.0f; mat.matrix.m02 = 0.0f;
@@ -53,7 +51,7 @@ dmat3 dmat3_identity()
     return mat;
 }
 
-dmat4 dmat4_identity()
+VECMATH_API dmat4 dmat4_identity()
 {
     dmat4 mat;
     mat.matrix.m00 = 1.0f; mat.matrix.m01 = 0.0f; mat.matrix.m02 = 0.0f; mat.matrix.m03 = 0.0f;
@@ -67,7 +65,7 @@ dmat4 dmat4_identity()
 ///////////////////////////////////////////////////////////////////////////////////// mul_vec 
 /////////////////////////////////////////////////////////////////////////////////////
 
-fmat2 fmat2_mul_float2(const fmat2* m, const float2* v)
+VECMATH_API fmat2 fmat2_mul_float2(const fmat2* m, const float2* v)
 {
     fmat2 result = { 0 };
     result.matrix.m00 = m->matrix.m00 * v->xy.x;
@@ -78,7 +76,7 @@ fmat2 fmat2_mul_float2(const fmat2* m, const float2* v)
     return result;
 }
 
-fmat3 fmat3_mul_float3(const fmat3* m, const float3* v)
+VECMATH_API fmat3 fmat3_mul_float3(const fmat3* m, const float3* v)
 {
     fmat3 result = { 0 };
     result.matrix.m00 = m->matrix.m00 * v->xyz.x;
@@ -95,7 +93,7 @@ fmat3 fmat3_mul_float3(const fmat3* m, const float3* v)
     return result;
 }
 
-fmat4 fmat4_mul_float4(const fmat4* m, const float4* v)
+VECMATH_API fmat4 fmat4_mul_float4(const fmat4* m, const float4* v)
 {
     fmat4 result = { 0 };
     result.matrix.m00 = m->matrix.m00 * v->xyzw.x;
@@ -120,7 +118,7 @@ fmat4 fmat4_mul_float4(const fmat4* m, const float4* v)
     return result;
 }
 
-dmat2 dmat2_mul_double2(const dmat2* m, const double2* v)
+VECMATH_API dmat2 dmat2_mul_double2(const dmat2* m, const double2* v)
 {
     dmat2 result = { 0 };
     result.matrix.m00 = m->matrix.m00 * v->xy.x;
@@ -131,7 +129,7 @@ dmat2 dmat2_mul_double2(const dmat2* m, const double2* v)
     return result;
 }
 
-dmat3 dmat3_mul_double3(const dmat3* m, const double3* v)
+VECMATH_API dmat3 dmat3_mul_double3(const dmat3* m, const double3* v)
 {
     dmat3 result = { 0 };
     result.matrix.m00 = m->matrix.m00 * v->xyz.x;
@@ -148,7 +146,7 @@ dmat3 dmat3_mul_double3(const dmat3* m, const double3* v)
     return result;
 }
 
-dmat4 dmat4_mul_double4(const dmat4* m, const double4* v)
+VECMATH_API dmat4 dmat4_mul_double4(const dmat4* m, const double4* v)
 {
     dmat4 result = { 0 };
     result.matrix.m00 = m->matrix.m00 * v->xyzw.x;
@@ -177,7 +175,7 @@ dmat4 dmat4_mul_double4(const dmat4* m, const double4* v)
 ///////////////////////////////////////////////////////////////////////////////////// transpose 
 /////////////////////////////////////////////////////////////////////////////////////
 
-fmat2 fmat2_transpose(const fmat2* m)
+VECMATH_API fmat2 fmat2_transpose(const fmat2* m)
 {
     fmat2 result = { 0 };
     result.matrix.m00 = m->matrix.m00; 
@@ -188,7 +186,7 @@ fmat2 fmat2_transpose(const fmat2* m)
     return result;
 }
 
-fmat3 fmat3_transpose(const fmat3* m)
+VECMATH_API fmat3 fmat3_transpose(const fmat3* m)
 {
     fmat3 result = { 0 };
     result.matrix.m00 = m->matrix.m00;
@@ -205,7 +203,7 @@ fmat3 fmat3_transpose(const fmat3* m)
     return result;
 }
 
-fmat4 fmat4_transpose(const fmat4* m)
+VECMATH_API fmat4 fmat4_transpose(const fmat4* m)
 {
     fmat4 result = { 0 };
     result.matrix.m00 = m->matrix.m00;
@@ -230,7 +228,7 @@ fmat4 fmat4_transpose(const fmat4* m)
     return result;
 }
 
-dmat2 dmat2_transpose(const dmat2* m)
+VECMATH_API dmat2 dmat2_transpose(const dmat2* m)
 {
     dmat2 result = { 0 };
     result.matrix.m00 = m->matrix.m00; 
@@ -241,7 +239,7 @@ dmat2 dmat2_transpose(const dmat2* m)
     return result;
 }
 
-dmat3 dmat3_transpose(const dmat3* m)
+VECMATH_API dmat3 dmat3_transpose(const dmat3* m)
 {
     dmat3 result = { 0 };
     result.matrix.m00 = m->matrix.m00;
@@ -258,7 +256,7 @@ dmat3 dmat3_transpose(const dmat3* m)
     return result;
 }
 
-dmat4 dmat4_transpose(const dmat4* m)
+VECMATH_API dmat4 dmat4_transpose(const dmat4* m)
 {
     dmat4 result = { 0 };
     result.matrix.m00 = m->matrix.m00;
@@ -287,19 +285,19 @@ dmat4 dmat4_transpose(const dmat4* m)
 ///////////////////////////////////////////////////////////////////////////////////// determinant 
 /////////////////////////////////////////////////////////////////////////////////////
 
-float fmat2_determinant(const fmat2* m)
+VECMATH_API float fmat2_determinant(const fmat2* m)
 {
     return (m->matrix.m00 * m->matrix.m11) - (m->matrix.m01 * m->matrix.m10);
 }
 
-float fmat3_determinant(const fmat3* m)
+VECMATH_API float fmat3_determinant(const fmat3* m)
 {
     return m->matrix.m00 * (m->matrix.m11 * m->matrix.m22 - m->matrix.m12 * m->matrix.m21) 
         - m->matrix.m01 * (m->matrix.m10 * m->matrix.m22 - m->matrix.m12 * m->matrix.m20) 
         + m->matrix.m02 * (m->matrix.m10 * m->matrix.m21 - m->matrix.m11 * m->matrix.m20);
 }
 
-float fmat4_determinant(const fmat4* m)
+VECMATH_API float fmat4_determinant(const fmat4* m)
 {
     float det = 0;
     float sub[3][3];
@@ -323,19 +321,19 @@ float fmat4_determinant(const fmat4* m)
     return det;
 }
 
-double double2_determinant(const dmat2* m)
+VECMATH_API double dmat2_determinant(const dmat2* m)
 {
     return (m->matrix.m00 * m->matrix.m11) - (m->matrix.m01 * m->matrix.m10);
 }
 
-double double3_determinant(const dmat3* m)
+VECMATH_API double dmat3_determinant(const dmat3* m)
 {
     return m->matrix.m00 * (m->matrix.m11 * m->matrix.m22 - m->matrix.m12 * m->matrix.m21) 
         - m->matrix.m01 * (m->matrix.m10 * m->matrix.m22 - m->matrix.m12 * m->matrix.m20) 
         + m->matrix.m02 * (m->matrix.m10 * m->matrix.m21 - m->matrix.m11 * m->matrix.m20);
 }
 
-double double4_determinant(const dmat4* m)
+VECMATH_API double dmat4_determinant(const dmat4* m)
 {
     double det = 0;
     double sub[3][3];
@@ -363,7 +361,7 @@ double double4_determinant(const dmat4* m)
 ///////////////////////////////////////////////////////////////////////////////////// inverse 
 /////////////////////////////////////////////////////////////////////////////////////
 
-fmat2 fmat2_inverse(const fmat2* m)
+VECMATH_API fmat2 fmat2_inverse(const fmat2* m)
 {
     fmat2 result = { 0 };
     float det = fmat2_determinant(m);
@@ -380,7 +378,7 @@ fmat2 fmat2_inverse(const fmat2* m)
     return result;
 }
 
-fmat3 fmat3_inverse(const fmat3* m)
+VECMATH_API fmat3 fmat3_inverse(const fmat3* m)
 {
     fmat3 result = { 0 };
     float det = fmat3_determinant(m);
@@ -403,7 +401,7 @@ fmat3 fmat3_inverse(const fmat3* m)
     return result;
 }
 
-fmat4 fmat4_inverse(const fmat4 *m)
+VECMATH_API fmat4 fmat4_inverse(const fmat4 *m)
 {
     fmat4 result = { 0 };
     float inv[4][4];
@@ -539,10 +537,10 @@ fmat4 fmat4_inverse(const fmat4 *m)
     return result;
 }
 
-dmat2 dmat2_inverse(const dmat2* m)
+VECMATH_API dmat2 dmat2_inverse(const dmat2* m)
 {
     dmat2 result = { 0 };
-    double det = fmat2_determinant(m);
+    double det = dmat2_determinant(m);
 
     if (fabs(det) < VECMATH_EPSILON_DZERO) {
         return dmat2_identity();
@@ -556,10 +554,10 @@ dmat2 dmat2_inverse(const dmat2* m)
     return result;
 }
 
-dmat3 dmat3_inverse(const dmat3* m)
+VECMATH_API dmat3 dmat3_inverse(const dmat3* m)
 {
     dmat3 result = { 0 };
-    double det = fmat3_determinant(m);
+    double det = dmat3_determinant(m);
     if (fabs(det) < VECMATH_EPSILON_DZERO) {
         return dmat3_identity();
     }
@@ -579,7 +577,7 @@ dmat3 dmat3_inverse(const dmat3* m)
     return result;
 }
 
-dmat4 dmat4_inverse(const dmat4* m)
+VECMATH_API dmat4 dmat4_inverse(const dmat4* m)
 {
     dmat4 result = { 0 };
     double inv[4][4];
@@ -698,7 +696,7 @@ dmat4 dmat4_inverse(const dmat4* m)
         m->matrix.m20 * m->matrix.m02 * m->matrix.m11;
 
     // calculate determinant
-    float det = m->matrix.m00 * inv[0][0] + m->matrix.m01 * inv[1][0] + m->matrix.m02 * inv[2][0] + m->matrix.m03 * inv[3][0];
+    double det = m->matrix.m00 * inv[0][0] + m->matrix.m01 * inv[1][0] + m->matrix.m02 * inv[2][0] + m->matrix.m03 * inv[3][0];
 
     if (fabs(det) < VECMATH_EPSILON_DZERO) {
         return dmat4_identity();
@@ -719,28 +717,28 @@ dmat4 dmat4_inverse(const dmat4* m)
 ///////////////////////////////////////////////////////////////////////////////////// decompose
 /////////////////////////////////////////////////////////////////////////////////////
 
-void fmat4_decompose_rowmajor(const fmat4* m, float3* translation, float3* rotation, float3* scale)
+VECMATH_API void fmat4_decompose_rowmajor(const fmat4* m, float3* translation, float3* rotation, float3* scale)
 {
     if (translation)    *translation = fmat4_get_translation_rowmajor(m);
     if (scale)          *scale = fmat4_get_scale_rowmajor(m);
     if (rotation)       *rotation = fmat4_get_rotation_rowmajor(m);
 }
 
-void fmat4_decompose_colmajor(const fmat4* m, float3* translation, float3* rotation, float3* scale)
+VECMATH_API void fmat4_decompose_colmajor(const fmat4* m, float3* translation, float3* rotation, float3* scale)
 {
     if (translation)    *translation = fmat4_get_translation_colmajor(m);
     if (scale)          *scale = fmat4_get_scale_colmajor(m);
     if (rotation)       *rotation = fmat4_get_rotation_colmajor(m);
 }
 
-void dmat4_decompose_rowmajor(const dmat4* m, double3* translation, double3* rotation, double3* scale)
+VECMATH_API void dmat4_decompose_rowmajor(const dmat4* m, double3* translation, double3* rotation, double3* scale)
 {
     if (translation)    *translation = dmat4_get_translation_rowmajor(m);
     if (scale)          *scale = dmat4_get_scale_rowmajor(m);
     if (rotation)       *rotation = dmat4_get_rotation_rowmajor(m);
 }
 
-void dmat4_decompose_colmajor(const dmat4* m, double3* translation, double3* rotation, double3* scale)
+VECMATH_API void dmat4_decompose_colmajor(const dmat4* m, double3* translation, double3* rotation, double3* scale)
 {
     if (translation)    *translation = dmat4_get_translation_colmajor(m);
     if (scale)          *scale = dmat4_get_scale_colmajor(m);
@@ -751,7 +749,7 @@ void dmat4_decompose_colmajor(const dmat4* m, double3* translation, double3* rot
 ///////////////////////////////////////////////////////////////////////////////////// get_translation
 /////////////////////////////////////////////////////////////////////////////////////
 
-float3 fmat4_get_translation_rowmajor(const fmat4* m)
+VECMATH_API float3 fmat4_get_translation_rowmajor(const fmat4* m)
 {
     float3 result = { 0 };
     result.xyz.x = m->matrix.m03;
@@ -760,7 +758,7 @@ float3 fmat4_get_translation_rowmajor(const fmat4* m)
     return result;
 }
 
-float3 fmat4_get_translation_colmajor(const fmat4* m)
+VECMATH_API float3 fmat4_get_translation_colmajor(const fmat4* m)
 {
     float3 result = { 0 };
     result.xyz.x = m->matrix.m30;
@@ -769,7 +767,7 @@ float3 fmat4_get_translation_colmajor(const fmat4* m)
     return result;
 }
 
-double3 dmat4_get_translation_rowmajor(const dmat4* m)
+VECMATH_API double3 dmat4_get_translation_rowmajor(const dmat4* m)
 {
     double3 result = { 0 };
     result.xyz.x = m->matrix.m03;
@@ -778,7 +776,7 @@ double3 dmat4_get_translation_rowmajor(const dmat4* m)
     return result;
 }
 
-double3 dmat4_get_translation_colmajor(const dmat4* m)
+VECMATH_API double3 dmat4_get_translation_colmajor(const dmat4* m)
 {
     double3 result = { 0 };
     result.xyz.x = m->matrix.m30;
@@ -791,7 +789,7 @@ double3 dmat4_get_translation_colmajor(const dmat4* m)
 ///////////////////////////////////////////////////////////////////////////////////// get_rotation
 /////////////////////////////////////////////////////////////////////////////////////
 
-float3 fmat4_get_rotation_rowmajor(const fmat4* m)
+VECMATH_API float3 fmat4_get_rotation_rowmajor(const fmat4* m)
 {
     float3 scale = fmat4_get_scale_rowmajor(m);
     float3 rotation = { 0 };
@@ -834,7 +832,7 @@ float3 fmat4_get_rotation_rowmajor(const fmat4* m)
     return rotation;
 }
 
-float3 fmat4_get_rotation_colmajor(const fmat4* m)
+VECMATH_API float3 fmat4_get_rotation_colmajor(const fmat4* m)
 {
     float3 scale = fmat4_get_scale_colmajor(m);
     float3 rotation = { 0 };
@@ -877,7 +875,7 @@ float3 fmat4_get_rotation_colmajor(const fmat4* m)
     return rotation;
 }
 
-double3 dmat4_get_rotation_rowmajor(const dmat4* m)
+VECMATH_API double3 dmat4_get_rotation_rowmajor(const dmat4* m)
 {
     double3 scale = dmat4_get_scale_rowmajor(m);
     double3 rotation = { 0 };
@@ -920,7 +918,7 @@ double3 dmat4_get_rotation_rowmajor(const dmat4* m)
     return rotation;
 }
 
-double3 dmat4_get_rotation_colmajor(const dmat4* m)
+VECMATH_API double3 dmat4_get_rotation_colmajor(const dmat4* m)
 {
     double3 scale = dmat4_get_scale_colmajor(m);
     double3 rotation = { 0 };
@@ -967,7 +965,7 @@ double3 dmat4_get_rotation_colmajor(const dmat4* m)
 ///////////////////////////////////////////////////////////////////////////////////// get_scale
 /////////////////////////////////////////////////////////////////////////////////////
 
-float3 fmat4_get_scale_rowmajor(const fmat4* m)
+VECMATH_API float3 fmat4_get_scale_rowmajor(const fmat4* m)
 {
     // scale is length of each row (basis vectors)
     float3 scale;
@@ -988,7 +986,7 @@ float3 fmat4_get_scale_rowmajor(const fmat4* m)
     return scale;
 }
 
-float3 fmat4_get_scale_colmajor(const fmat4* m)
+VECMATH_API float3 fmat4_get_scale_colmajor(const fmat4* m)
 {
     // scale is length of each column (basis vectors)
     float3 scale;
@@ -1009,7 +1007,7 @@ float3 fmat4_get_scale_colmajor(const fmat4* m)
     return scale;
 }
 
-double3 dmat4_get_scale_rowmajor(const dmat4* m)
+VECMATH_API double3 dmat4_get_scale_rowmajor(const dmat4* m)
 {
     // scale is length of each row (basis vectors)
     double3 scale;
@@ -1030,7 +1028,7 @@ double3 dmat4_get_scale_rowmajor(const dmat4* m)
     return scale;
 }
 
-double3 dmat4_get_scale_colmajor(const dmat4* m)
+VECMATH_API double3 dmat4_get_scale_colmajor(const dmat4* m)
 {
     // scale is length of each column (basis vectors)
     double3 scale;
@@ -1055,7 +1053,7 @@ double3 dmat4_get_scale_colmajor(const dmat4* m)
 ///////////////////////////////////////////////////////////////////////////////////// translate
 /////////////////////////////////////////////////////////////////////////////////////
 
-fmat4 fmat4_translate_rowmajor(const fmat4* m, const float3* dir)
+VECMATH_API fmat4 fmat4_translate_rowmajor(const fmat4* m, const float3* dir)
 {
     fmat4 result = *m;
 
@@ -1065,7 +1063,7 @@ fmat4 fmat4_translate_rowmajor(const fmat4* m, const float3* dir)
     return result;
 }
 
-fmat4 fmat4_translate_colmajor(const fmat4* m, const float3 *dir)
+VECMATH_API fmat4 fmat4_translate_colmajor(const fmat4* m, const float3 *dir)
 {
     fmat4 result = *m;
 
@@ -1075,7 +1073,7 @@ fmat4 fmat4_translate_colmajor(const fmat4* m, const float3 *dir)
     return result;
 }
 
-dmat4 dmat4_translate_rowmajor(const dmat4* m, const double3* dir)
+VECMATH_API dmat4 dmat4_translate_rowmajor(const dmat4* m, const double3* dir)
 {
     dmat4 result = *m;
 
@@ -1085,7 +1083,7 @@ dmat4 dmat4_translate_rowmajor(const dmat4* m, const double3* dir)
     return result;
 }
 
-dmat4 dmat4_translate_colmajor(const dmat4* m, const double3* dir)
+VECMATH_API dmat4 dmat4_translate_colmajor(const dmat4* m, const double3* dir)
 {
     dmat4 result = *m;
 
@@ -1100,7 +1098,7 @@ dmat4 dmat4_translate_colmajor(const dmat4* m, const double3* dir)
 ///////////////////////////////////////////////////////////////////////////////////// rotate
 /////////////////////////////////////////////////////////////////////////////////////
 
-fmat4 fmat4_rotate_colmajor(const fmat4* m, float angle, const float3* axis)
+VECMATH_API fmat4 fmat4_rotate_colmajor(const fmat4* m, float angle, const float3* axis)
 {
     // normalize axis and compute temp values
     float3 axis_n = float3_normalize(axis);
@@ -1152,7 +1150,7 @@ fmat4 fmat4_rotate_colmajor(const fmat4* m, float angle, const float3* axis)
     return result;
 }
 
-fmat4 fmat4_rotate_rowmajor(const fmat4* m, float angle, const float3* axis)
+VECMATH_API fmat4 fmat4_rotate_rowmajor(const fmat4* m, float angle, const float3* axis)
 {
     // normalize axis and compute temp values
     float3 axis_n = float3_normalize(axis);
@@ -1211,7 +1209,7 @@ fmat4 fmat4_rotate_rowmajor(const fmat4* m, float angle, const float3* axis)
     return result;
 }
 
-dmat4 dmat4_rotate_colmajor(const dmat4* m, double angle, const double3* axis)
+VECMATH_API dmat4 dmat4_rotate_colmajor(const dmat4* m, double angle, const double3* axis)
 {
     // normalize axis and compute temp values
     double3 axis_n = double3_normalize(axis);
@@ -1263,7 +1261,7 @@ dmat4 dmat4_rotate_colmajor(const dmat4* m, double angle, const double3* axis)
     return result;
 }
 
-dmat4 dmat4_rotate_rowmajor(const dmat4* m, double angle, const double3* axis)
+VECMATH_API dmat4 dmat4_rotate_rowmajor(const dmat4* m, double angle, const double3* axis)
 {
     // normalize axis and compute temp values
     double3 axis_n = double3_normalize(axis);
@@ -1326,7 +1324,7 @@ dmat4 dmat4_rotate_rowmajor(const dmat4* m, double angle, const double3* axis)
 ///////////////////////////////////////////////////////////////////////////////////// scale
 /////////////////////////////////////////////////////////////////////////////////////
 
-fmat4 fmat4_scale_rowmajor(const fmat4* m, const float3* dim)
+VECMATH_API fmat4 fmat4_scale_rowmajor(const fmat4* m, const float3* dim)
 {
     fmat4 result = { 0 };
 
@@ -1352,7 +1350,7 @@ fmat4 fmat4_scale_rowmajor(const fmat4* m, const float3* dim)
     return result;
 }
 
-fmat4 fmat4_scale_colmajor(const fmat4* m, const float3* dim)
+VECMATH_API fmat4 fmat4_scale_colmajor(const fmat4* m, const float3* dim)
 {
     fmat4 result = { 0 };
 
@@ -1379,7 +1377,7 @@ fmat4 fmat4_scale_colmajor(const fmat4* m, const float3* dim)
     return result;
 }
 
-dmat4 dmat4_scale_rowmajor(const dmat4* m, const double3* dim)
+VECMATH_API dmat4 dmat4_scale_rowmajor(const dmat4* m, const double3* dim)
 {
     dmat4 result = { 0 };
 
@@ -1405,7 +1403,7 @@ dmat4 dmat4_scale_rowmajor(const dmat4* m, const double3* dim)
     return result;
 }
 
-dmat4 dmat4_scale_colmajor(const dmat4* m, const double3* dim)
+VECMATH_API dmat4 dmat4_scale_colmajor(const dmat4* m, const double3* dim)
 {
     dmat4 result = { 0 };
 
@@ -1436,7 +1434,7 @@ dmat4 dmat4_scale_colmajor(const dmat4* m, const double3* dim)
 ///////////////////////////////////////////////////////////////////////////////////// lookat
 /////////////////////////////////////////////////////////////////////////////////////
 
-fmat4 fmat4_lookat_vulkan(const float3* eye, const float3* target, const float3* up)
+VECMATH_API fmat4 fmat4_lookat_vulkan(const float3* eye, const float3* target, const float3* up)
 {
     float3 sub = float3_sub(target, eye);
     float3 f = float3_normalize(&sub);
@@ -1469,7 +1467,7 @@ fmat4 fmat4_lookat_vulkan(const float3* eye, const float3* target, const float3*
     return result;
 }
 
-fmat4 fmat4_lookat_directx(const float3* eye, const float3* target, const float3* up)
+VECMATH_API fmat4 fmat4_lookat_directx(const float3* eye, const float3* target, const float3* up)
 {
     float3 sub = float3_sub(target, eye);
     float3 f = float3_normalize(&sub);
@@ -1502,7 +1500,7 @@ fmat4 fmat4_lookat_directx(const float3* eye, const float3* target, const float3
     return result;
 }
 
-fmat4 fmat4_lookat_opengl(const float3 *eye, const float3 *target, const float3 *up)
+VECMATH_API fmat4 fmat4_lookat_opengl(const float3 *eye, const float3 *target, const float3 *up)
 {
     float3 sub = float3_sub(target, eye);
     float3 f = float3_normalize(&sub);
@@ -1536,7 +1534,7 @@ fmat4 fmat4_lookat_opengl(const float3 *eye, const float3 *target, const float3 
     return result;
 }
 
-dmat4 dmat4_lookat_vulkan(const double3* eye, const double3* target, const double3* up)
+VECMATH_API dmat4 dmat4_lookat_vulkan(const double3* eye, const double3* target, const double3* up)
 {
     double3 sub = double3_sub(target, eye);
     double3 f = double3_normalize(&sub);
@@ -1549,17 +1547,17 @@ dmat4 dmat4_lookat_vulkan(const double3* eye, const double3* target, const doubl
     result.data[0][0] = s.xyz.x;
     result.data[0][1] = -s.xyz.y;  // flip Y for Vulkan
     result.data[0][2] = s.xyz.z;
-    result.data[0][3] = -float3_dot(&s, eye);
+    result.data[0][3] = -double3_dot(&s, eye);
     
     result.data[1][0] = u.xyz.x;
     result.data[1][1] = -u.xyz.y;  // flip Y for Vulkan
     result.data[1][2] = u.xyz.z;
-    result.data[1][3] = -float3_dot(&u, eye);
+    result.data[1][3] = -double3_dot(&u, eye);
     
     result.data[2][0] = -f.xyz.x;  // negative Z for right-handed view space
     result.data[2][1] = f.xyz.y;   // Y already flipped above
     result.data[2][2] = -f.xyz.z;  // negative Z for right-handed view space
-    result.data[2][3] = float3_dot(&f, eye);  // positive for right-handed
+    result.data[2][3] = double3_dot(&f, eye);  // positive for right-handed
     
     result.data[3][0] = 0.0f;
     result.data[3][1] = 0.0f;
@@ -1569,7 +1567,7 @@ dmat4 dmat4_lookat_vulkan(const double3* eye, const double3* target, const doubl
     return result;
 }
 
-dmat4 dmat4_lookat_directx(const double3* eye, const double3* target, const double3* up)
+VECMATH_API dmat4 dmat4_lookat_directx(const double3* eye, const double3* target, const double3* up)
 {
     double3 sub = double3_sub(target, eye);
     double3 f = double3_normalize(&sub);
@@ -1594,22 +1592,22 @@ dmat4 dmat4_lookat_directx(const double3* eye, const double3* target, const doub
     result.data[2][2] = f.xyz.z;
     result.data[2][3] = 0.0f;
     
-    result.data[3][0] = -float3_dot(&s, eye);
-    result.data[3][1] = -float3_dot(&u, eye);
-    result.data[3][2] = -float3_dot(&f, eye);
+    result.data[3][0] = -double3_dot(&s, eye);
+    result.data[3][1] = -double3_dot(&u, eye);
+    result.data[3][2] = -double3_dot(&f, eye);
     result.data[3][3] = 1.0f;
     
     return result;
 }
 
-dmat4 dmat4_lookat_opengl(const double3* eye, const double3* target, const double3* up)
+VECMATH_API dmat4 dmat4_lookat_opengl(const double3* eye, const double3* target, const double3* up)
 {
-    float3 sub = float3_sub(target, eye);
-    float3 f = float3_normalize(&sub);
-    float3 cross0 = float3_cross(&f, up);
-    float3 s = float3_normalize(&cross0);
-    float3 cross1 = float3_cross(&s, &f);
-    float3 u = float3_normalize(&cross1);
+    double3 sub = double3_sub(target, eye);
+    double3 f = double3_normalize(&sub);
+    double3 cross0 = double3_cross(&f, up);
+    double3 s = double3_normalize(&cross0);
+    double3 cross1 = double3_cross(&s, &f);
+    double3 u = double3_normalize(&cross1);
     
     dmat4 result = { 0 };
     result.data[0][0] = s.xyz.x;
@@ -1627,9 +1625,9 @@ dmat4 dmat4_lookat_opengl(const double3* eye, const double3* target, const doubl
     result.data[2][2] = -f.xyz.z;  // negative for right-handed view space
     result.data[2][3] = 0.0f;
     
-    result.data[3][0] = -float3_dot(&s, eye);
-    result.data[3][1] = -float3_dot(&u, eye);
-    result.data[3][2] = float3_dot(&f, eye);  // positive for right-handed
+    result.data[3][0] = -double3_dot(&s, eye);
+    result.data[3][1] = -double3_dot(&u, eye);
+    result.data[3][2] = double3_dot(&f, eye);  // positive for right-handed
     result.data[3][3] = 1.0f;
     
     return result;
@@ -1639,7 +1637,7 @@ dmat4 dmat4_lookat_opengl(const double3* eye, const double3* target, const doubl
 ///////////////////////////////////////////////////////////////////////////////////// perspective
 /////////////////////////////////////////////////////////////////////////////////////
 
-fmat4 fmat4_perspective_vulkan(float fov_rad, float aspect, float near, float far)
+VECMATH_API fmat4 fmat4_perspective_vulkan(float fov_rad, float aspect, float near, float far)
 {
     float tan_half_fov = tanf(fov_rad * 0.5f);
     float f = 1.0f / tan_half_fov;
@@ -1654,7 +1652,7 @@ fmat4 fmat4_perspective_vulkan(float fov_rad, float aspect, float near, float fa
     return result;
 }
 
-fmat4 fmat4_perspective_directx(float fov_rad, float aspect, float near, float far)
+VECMATH_API fmat4 fmat4_perspective_directx(float fov_rad, float aspect, float near, float far)
 {
     float tan_half_fov = tanf(fov_rad * 0.5f);
     float f = 1.0f / tan_half_fov;
@@ -1669,7 +1667,7 @@ fmat4 fmat4_perspective_directx(float fov_rad, float aspect, float near, float f
     return result;
 }
 
-fmat4 fmat4_perspective_opengl(float fov_rad, float aspect, float near, float far)
+VECMATH_API fmat4 fmat4_perspective_opengl(float fov_rad, float aspect, float near, float far)
 {
     float tan_half_fov = tanf(fov_rad * 0.5f);
     float f = 1.0f / tan_half_fov;
@@ -1684,7 +1682,7 @@ fmat4 fmat4_perspective_opengl(float fov_rad, float aspect, float near, float fa
     return result;
 }
 
-dmat4 dmat4_perspective_vulkan(double fov_rad, double aspect, double near, double far)
+VECMATH_API dmat4 dmat4_perspective_vulkan(double fov_rad, double aspect, double near, double far)
 {
     double tan_half_fov = tan(fov_rad * 0.5f);
     double f = 1.0f / tan_half_fov;
@@ -1699,7 +1697,7 @@ dmat4 dmat4_perspective_vulkan(double fov_rad, double aspect, double near, doubl
     return result;
 }
 
-dmat4 dmat4_perspective_directx(double fov_rad, double aspect, double near, double far)
+VECMATH_API dmat4 dmat4_perspective_directx(double fov_rad, double aspect, double near, double far)
 {
     double tan_half_fov = tan(fov_rad * 0.5f);
     double f = 1.0f / tan_half_fov;
@@ -1714,7 +1712,7 @@ dmat4 dmat4_perspective_directx(double fov_rad, double aspect, double near, doub
     return result;
 }
 
-dmat4 dmat4_perspective_opengl(double fov_rad, double aspect, double near, double far)
+VECMATH_API dmat4 dmat4_perspective_opengl(double fov_rad, double aspect, double near, double far)
 {
     double tan_half_fov = tan(fov_rad * 0.5f);
     double f = 1.0f / tan_half_fov;
@@ -1733,7 +1731,7 @@ dmat4 dmat4_perspective_opengl(double fov_rad, double aspect, double near, doubl
 ///////////////////////////////////////////////////////////////////////////////////// orthographic
 /////////////////////////////////////////////////////////////////////////////////////
 
-fmat4 fmat4_orthographic_vulkan(float left, float right, float bottom, float top, float near, float far)
+VECMATH_API fmat4 fmat4_orthographic_vulkan(float left, float right, float bottom, float top, float near, float far)
 {
     float rl = right - left;
     float tb = top - bottom;
@@ -1751,7 +1749,7 @@ fmat4 fmat4_orthographic_vulkan(float left, float right, float bottom, float top
     return result;
 }
 
-fmat4 fmat4_orthographic_directx(float left, float right, float bottom, float top, float near, float far)
+VECMATH_API fmat4 fmat4_orthographic_directx(float left, float right, float bottom, float top, float near, float far)
 {
     float rl = right - left;
     float tb = top - bottom;
@@ -1769,7 +1767,7 @@ fmat4 fmat4_orthographic_directx(float left, float right, float bottom, float to
     return result;
 }
 
-fmat4 fmat4_orthographic_opengl(float left, float right, float bottom, float top, float near, float far)
+VECMATH_API fmat4 fmat4_orthographic_opengl(float left, float right, float bottom, float top, float near, float far)
 {
     float rl = right - left;
     float tb = top - bottom;
@@ -1787,7 +1785,7 @@ fmat4 fmat4_orthographic_opengl(float left, float right, float bottom, float top
     return result;
 }
 
-dmat4 dmat4_orthographic_vulkan(double left, double right, double bottom, double top, double near, double far)
+VECMATH_API dmat4 dmat4_orthographic_vulkan(double left, double right, double bottom, double top, double near, double far)
 {
     double rl = right - left;
     double tb = top - bottom;
@@ -1805,7 +1803,7 @@ dmat4 dmat4_orthographic_vulkan(double left, double right, double bottom, double
     return result;
 }
 
-dmat4 dmat4_orthographic_directx(double left, double right, double bottom, double top, double near, double far)
+VECMATH_API dmat4 dmat4_orthographic_directx(double left, double right, double bottom, double top, double near, double far)
 {
     double rl = right - left;
     double tb = top - bottom;
@@ -1823,7 +1821,7 @@ dmat4 dmat4_orthographic_directx(double left, double right, double bottom, doubl
     return result;
 }
 
-dmat4 dmat4_orthographic_opengl(double left, double right, double bottom, double top, double near, double far)
+VECMATH_API dmat4 dmat4_orthographic_opengl(double left, double right, double bottom, double top, double near, double far)
 {
     double rl = right - left;
     double tb = top - bottom;
