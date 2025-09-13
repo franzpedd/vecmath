@@ -998,7 +998,7 @@ VECMATH_API vecbool dmat4_aprox_equals(const dmat4 *a, const dmat4 *b)
 ///////////////////////////////////////////////////////////////////////////////////// scalar_const
 /////////////////////////////////////////////////////////////////////////////////////
 
-VECMATH_API float2 float2_scalar(float2* v, const float value)
+VECMATH_API float2 float2_scalar(const float2* v, const float value)
 {
     float2 result = { 0 };
     result.xy.x = v->xy.x * value;
@@ -1006,7 +1006,7 @@ VECMATH_API float2 float2_scalar(float2* v, const float value)
     return result;
 }
 
-VECMATH_API float3 float3_scalar(float3* v, const float value)
+VECMATH_API float3 float3_scalar(const float3* v, const float value)
 {
     float3 result = { 0 };
     result.xyz.x = v->xyz.x * value;
@@ -1015,7 +1015,7 @@ VECMATH_API float3 float3_scalar(float3* v, const float value)
     return result;
 }
 
-VECMATH_API float4 float4_scalar(float4* v, const float value)
+VECMATH_API float4 float4_scalar(const float4* v, const float value)
 {
     float4 result = { 0 };
     result.xyzw.x = v->xyzw.x * value;
@@ -1025,7 +1025,7 @@ VECMATH_API float4 float4_scalar(float4* v, const float value)
     return result;
 }
 
-VECMATH_API double2 double2_scalar(double2 *v, const float value)
+VECMATH_API double2 double2_scalar(const double2 *v, const float value)
 {
     double2 result = { 0 };
     result.xy.x = v->xy.x * value;
@@ -1033,7 +1033,7 @@ VECMATH_API double2 double2_scalar(double2 *v, const float value)
     return result;
 }
 
-VECMATH_API double3 double3_scalar(double3 *v, const float value)
+VECMATH_API double3 double3_scalar(const double3 *v, const float value)
 {
     double3 result = { 0 };
     result.xyz.x = v->xyz.x * value;
@@ -1042,7 +1042,7 @@ VECMATH_API double3 double3_scalar(double3 *v, const float value)
     return result;
 }
 
-VECMATH_API double4 double4_scalar(double4 *v, const float value)
+VECMATH_API double4 double4_scalar(const double4 *v, const float value)
 {
     double4 result = { 0 };
     result.xyzw.x = v->xyzw.x * value;
@@ -1618,7 +1618,6 @@ VECMATH_API float2 float2_project(const float2* a, const float2* b)
         float scale = dot_ab / dot_bb;
         result.xy.x = b->xy.x * scale;
         result.xy.y = b->xy.y * scale;
-        return;
     }
     return result;
 }
