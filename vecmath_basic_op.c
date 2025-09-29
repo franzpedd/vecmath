@@ -339,6 +339,7 @@ VECMATH_API float2 float2_mul(const float2* a, const float2* b)
     float2 result = { 0 };
     result.xy.x = a->xy.x * b->xy.x;
     result.xy.y = a->xy.y * b->xy.y;
+    return result;
 }
 
 VECMATH_API float3 float3_mul(const float3* a, const float3* b)
@@ -347,6 +348,7 @@ VECMATH_API float3 float3_mul(const float3* a, const float3* b)
     result.xyz.x = a->xyz.x * b->xyz.x;
     result.xyz.y = a->xyz.y * b->xyz.y;
     result.xyz.z = a->xyz.z * b->xyz.z;
+    return result;
 }
 
 VECMATH_API float4 float4_mul(const float4* a, const float4* b)

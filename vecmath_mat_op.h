@@ -89,9 +89,11 @@ VECMATH_API dmat4 dmat4_scale_rowmajor(const dmat4* m, const double3* dim);
 VECMATH_API dmat4 dmat4_scale_colmajor(const dmat4* m, const double3* dim);
 
 /// @brief lookat taking into account multiple rendering api coordinates
+VECMATH_API fmat4 fmat4_lookat_agnostic(const float3* eye, const float3* target, const float3* up);
 VECMATH_API fmat4 fmat4_lookat_vulkan(const float3* eye, const float3* target, const float3* up);
 VECMATH_API fmat4 fmat4_lookat_directx(const float3* eye, const float3* target, const float3* up);
 VECMATH_API fmat4 fmat4_lookat_opengl(const float3* eye, const float3* target, const float3* up);
+VECMATH_API dmat4 dmat4_lookat_agnostic(const double3* eye, const double3* target, const double3* up);
 VECMATH_API dmat4 dmat4_lookat_vulkan(const double3* eye, const double3* target, const double3* up);
 VECMATH_API dmat4 dmat4_lookat_directx(const double3* eye, const double3* target, const double3* up);
 VECMATH_API dmat4 dmat4_lookat_opengl(const double3* eye, const double3* target, const double3* up);
