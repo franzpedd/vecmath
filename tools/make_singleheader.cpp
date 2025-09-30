@@ -49,10 +49,10 @@ void create_header_only()
     char separator[] = "// functions definitions\n\n";
 
     content_node_t types; types.start = 3; types.end = 116; types.file = "../vecmath_types.h";
-    content_node_t defines; defines.start = 3; defines.end = 19; defines.file = "../vecmath_defines.h";
-    content_node_t basic; basic.start = 4; basic.end = 862; basic.file = "../vecmath_basic_op.c";
+    content_node_t defines; defines.start = 3; defines.end = 30; defines.file = "../vecmath_defines.h";
+    content_node_t basic; basic.start = 4; basic.end = 864; basic.file = "../vecmath_basic_op.c";
     content_node_t vec; vec.start = 3; vec.end = 729; vec.file = "../vecmath_vec_op.c";
-    content_node_t mat; mat.start = 5; mat.end = 1841; mat.file = "../vecmath_mat_op.c";
+    content_node_t mat; mat.start = 5; mat.end = 1897; mat.file = "../vecmath_mat_op.c";
     content_node_t quat; quat.start = 3; quat.end = 425; quat.file = "../vecmath_quat_op.c";
     content_node_t util; util.start = 3; util.end = 130; util.file = "../vecmath_util.c";
     

@@ -124,17 +124,28 @@ typedef union dquat_t {
 /// @brief used macro definitions
 #define VECMATH_EPSILON_FZERO 1e-6f
 #define VECMATH_EPSILON_DZERO 1e-12
-
 #define VECMATH_EPSILON_PI 3.14159265358979323846
 #define VECMATH_EPSILON_FLT 1.192092896e-07F
-
 #define VECMATH_EPSILON_INT_MIN (-2147483647 - 1)
 
-/// @brief when using the header-only version this will be defined
-#ifdef VECMATH_REQUESTING_HEADER_ONLY
-    #define VECMATH_API static
+/// @brief compilation options
+#if defined(VECMATH_REQUESTING_HEADER_ONLY)
+    #define VECMATH_API static inline // Header-only version - use static inline
+    #undef VECMATH_BUILD_SHARED // header-only overrides shared library build
+#elif defined(VECMATH_BUILD_SHARED) // Shared library build
+    #if defined(_WIN32) || defined(_WIN64)
+        #if defined(VECMATH_EXPORTS)
+            #define VECMATH_API __declspec(dllexport)
+        #else
+            #define VECMATH_API __declspec(dllimport)
+        #endif
+    #elif defined(__linux__) && !defined(__ANDROID__)
+        #define VECMATH_API __attribute__((visibility("default")))
+    #else
+        #define VECMATH_API
+    #endif
 #else
-    #define VECMATH_API
+    #define VECMATH_API // static library
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -474,6 +485,7 @@ VECMATH_API float2 float2_mul(const float2* a, const float2* b)
     float2 result = { 0 };
     result.xy.x = a->xy.x * b->xy.x;
     result.xy.y = a->xy.y * b->xy.y;
+    return result;
 }
 
 VECMATH_API float3 float3_mul(const float3* a, const float3* b)
@@ -482,6 +494,7 @@ VECMATH_API float3 float3_mul(const float3* a, const float3* b)
     result.xyz.x = a->xyz.x * b->xyz.x;
     result.xyz.y = a->xyz.y * b->xyz.y;
     result.xyz.z = a->xyz.z * b->xyz.z;
+    return result;
 }
 
 VECMATH_API float4 float4_mul(const float4* a, const float4* b)
@@ -994,6 +1007,7 @@ VECMATH_API vecbool dmat4_aprox_equals(const dmat4 *a, const dmat4 *b)
             (fabs(a->matrix.m32 - b->matrix.m32) <= VECMATH_EPSILON_DZERO) &&
             (fabs(a->matrix.m33 - b->matrix.m33) <= VECMATH_EPSILON_DZERO);
 }
+
 /////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////// scalar_const
 /////////////////////////////////////////////////////////////////////////////////////
@@ -3149,6 +3163,34 @@ VECMATH_API dmat4 dmat4_scale_colmajor(const dmat4* m, const double3* dim)
 ///////////////////////////////////////////////////////////////////////////////////// lookat
 /////////////////////////////////////////////////////////////////////////////////////
 
+VECMATH_API fmat4 fmat4_lookat_agnostic(const float3 *eye, const float3 *target, const float3 *up)
+{
+    float3 sub = float3_sub(target, eye);
+    float3 f = float3_normalize(&sub);
+    float3 cross = float3_cross(&f, up);
+    float3 s = float3_normalize(&cross);
+    float3 u = float3_cross(&s, &f);
+    fmat4 result = fmat4_identity();
+    
+    result.data[0][0] = s.xyz.x;
+    result.data[0][1] = u.xyz.x;
+    result.data[0][2] = -f.xyz.x;
+    
+    result.data[1][0] = s.xyz.y;
+    result.data[1][1] = u.xyz.y;
+    result.data[1][2] = -f.xyz.y;
+    
+    result.data[2][0] = s.xyz.z;
+    result.data[2][1] = u.xyz.z;
+    result.data[2][2] = -f.xyz.z;
+    
+    result.data[0][3] = -float3_dot(&s, eye);
+    result.data[1][3] = -float3_dot(&u, eye);
+    result.data[2][3] = float3_dot(&f, eye);
+    
+    return result;
+}
+
 VECMATH_API fmat4 fmat4_lookat_vulkan(const float3* eye, const float3* target, const float3* up)
 {
     float3 sub = float3_sub(target, eye);
@@ -3245,6 +3287,34 @@ VECMATH_API fmat4 fmat4_lookat_opengl(const float3 *eye, const float3 *target, c
     result.data[3][1] = -float3_dot(&u, eye);
     result.data[3][2] = float3_dot(&f, eye);  // positive for right-handed
     result.data[3][3] = 1.0f;
+    
+    return result;
+}
+
+VECMATH_API dmat4 dmat4_lookat_agnostic(const double3 *eye, const double3 *target, const double3 *up)
+{
+    double3 sub = double3_sub(target, eye);
+    double3 f = double3_normalize(&sub);
+    double3 cross = double3_cross(&f, up);
+    double3 s = double3_normalize(&cross);
+    double3 u = double3_cross(&s, &f);
+    dmat4 result = dmat4_identity();
+    
+    result.data[0][0] = s.xyz.x;
+    result.data[0][1] = u.xyz.x;
+    result.data[0][2] = -f.xyz.x;
+    
+    result.data[1][0] = s.xyz.y;
+    result.data[1][1] = u.xyz.y;
+    result.data[1][2] = -f.xyz.y;
+    
+    result.data[2][0] = s.xyz.z;
+    result.data[2][1] = u.xyz.z;
+    result.data[2][2] = -f.xyz.z;
+    
+    result.data[0][3] = -double3_dot(&s, eye);
+    result.data[1][3] = -double3_dot(&u, eye);
+    result.data[2][3] = double3_dot(&f, eye);
     
     return result;
 }
@@ -3553,6 +3623,7 @@ VECMATH_API dmat4 dmat4_orthographic_opengl(double left, double right, double bo
     
     return result;
 }
+
 /////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////// identity
 /////////////////////////////////////////////////////////////////////////////////////
