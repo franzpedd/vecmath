@@ -401,139 +401,138 @@ VECMATH_API fmat3 fmat3_inverse(const fmat3* m)
     return result;
 }
 
-VECMATH_API fmat4 fmat4_inverse(const fmat4 *m)
+VECMATH_API fmat4 fmat4_inverse(const fmat4* m)
 {
-    fmat4 result = { 0 };
-    float inv[4][4];
+    // Using your matrix struct for clarity
+    const float* mm = &m->matrix.m00;
     
-    // calculate cofactors and determinant
-    inv[0][0] = m->matrix.m11 * m->matrix.m22 * m->matrix.m33 - 
-        m->matrix.m11 * m->matrix.m23 * m->matrix.m32 - 
-        m->matrix.m21 * m->matrix.m12 * m->matrix.m33 + 
-        m->matrix.m21 * m->matrix.m13 * m->matrix.m32 + 
-        m->matrix.m31 * m->matrix.m12 * m->matrix.m23 - 
-        m->matrix.m31 * m->matrix.m13 * m->matrix.m22;
+    float inv[16];
+    
+    inv[0] = mm[5]  * mm[10] * mm[15] - 
+             mm[5]  * mm[11] * mm[14] - 
+             mm[9]  * mm[6]  * mm[15] + 
+             mm[9]  * mm[7]  * mm[14] +
+             mm[13] * mm[6]  * mm[11] - 
+             mm[13] * mm[7]  * mm[10];
 
-    inv[1][0] = -m->matrix.m10 * m->matrix.m22 * m->matrix.m33 + 
-        m->matrix.m10 * m->matrix.m23 * m->matrix.m32 + 
-        m->matrix.m20 * m->matrix.m12 * m->matrix.m33 - 
-        m->matrix.m20 * m->matrix.m13 * m->matrix.m32 - 
-        m->matrix.m30 * m->matrix.m12 * m->matrix.m23 + 
-        m->matrix.m30 * m->matrix.m13 * m->matrix.m22;
+    inv[4] = -mm[4]  * mm[10] * mm[15] + 
+              mm[4]  * mm[11] * mm[14] + 
+              mm[8]  * mm[6]  * mm[15] - 
+              mm[8]  * mm[7]  * mm[14] - 
+              mm[12] * mm[6]  * mm[11] + 
+              mm[12] * mm[7]  * mm[10];
 
-    inv[2][0] = m->matrix.m10 * m->matrix.m21 * m->matrix.m33 - 
-        m->matrix.m10 * m->matrix.m23 * m->matrix.m31 - 
-        m->matrix.m20 * m->matrix.m11 * m->matrix.m33 + 
-        m->matrix.m20 * m->matrix.m13 * m->matrix.m31 + 
-        m->matrix.m30 * m->matrix.m11 * m->matrix.m23 - 
-        m->matrix.m30 * m->matrix.m13 * m->matrix.m21;
+    inv[8] = mm[4]  * mm[9] * mm[15] - 
+             mm[4]  * mm[11] * mm[13] - 
+             mm[8]  * mm[5] * mm[15] + 
+             mm[8]  * mm[7] * mm[13] + 
+             mm[12] * mm[5] * mm[11] - 
+             mm[12] * mm[7] * mm[9];
 
-    inv[3][0] = -m->matrix.m10 * m->matrix.m21 * m->matrix.m32 + 
-        m->matrix.m10 * m->matrix.m22 * m->matrix.m31 + 
-        m->matrix.m20 * m->matrix.m11 * m->matrix.m32 - 
-        m->matrix.m20 * m->matrix.m12 * m->matrix.m31 - 
-        m->matrix.m30 * m->matrix.m11 * m->matrix.m22 + 
-        m->matrix.m30 * m->matrix.m12 * m->matrix.m21;
+    inv[12] = -mm[4]  * mm[9] * mm[14] + 
+               mm[4]  * mm[10] * mm[13] +
+               mm[8]  * mm[5] * mm[14] - 
+               mm[8]  * mm[6] * mm[13] - 
+               mm[12] * mm[5] * mm[10] + 
+               mm[12] * mm[6] * mm[9];
 
-    inv[0][1] = -m->matrix.m01 * m->matrix.m22 * m->matrix.m33 + 
-        m->matrix.m01 * m->matrix.m23 * m->matrix.m32 + 
-        m->matrix.m21 * m->matrix.m02 * m->matrix.m33 - 
-        m->matrix.m21 * m->matrix.m03 * m->matrix.m32 - 
-        m->matrix.m31 * m->matrix.m02 * m->matrix.m23 + 
-        m->matrix.m31 * m->matrix.m03 * m->matrix.m22;
+    inv[1] = -mm[1]  * mm[10] * mm[15] + 
+              mm[1]  * mm[11] * mm[14] + 
+              mm[9]  * mm[2] * mm[15] - 
+              mm[9]  * mm[3] * mm[14] - 
+              mm[13] * mm[2] * mm[11] + 
+              mm[13] * mm[3] * mm[10];
 
-    inv[1][1] = m->matrix.m00 * m->matrix.m22 * m->matrix.m33 - 
-        m->matrix.m00 * m->matrix.m23 * m->matrix.m32 - 
-        m->matrix.m20 * m->matrix.m02 * m->matrix.m33 + 
-        m->matrix.m20 * m->matrix.m03 * m->matrix.m32 + 
-        m->matrix.m30 * m->matrix.m02 * m->matrix.m23 - 
-        m->matrix.m30 * m->matrix.m03 * m->matrix.m22;
+    inv[5] = mm[0]  * mm[10] * mm[15] - 
+             mm[0]  * mm[11] * mm[14] - 
+             mm[8]  * mm[2] * mm[15] + 
+             mm[8]  * mm[3] * mm[14] + 
+             mm[12] * mm[2] * mm[11] - 
+             mm[12] * mm[3] * mm[10];
 
-    inv[2][1] = -m->matrix.m00 * m->matrix.m21 * m->matrix.m33 + 
-        m->matrix.m00 * m->matrix.m23 * m->matrix.m31 + 
-        m->matrix.m20 * m->matrix.m01 * m->matrix.m33 - 
-        m->matrix.m20 * m->matrix.m03 * m->matrix.m31 - 
-        m->matrix.m30 * m->matrix.m01 * m->matrix.m23 + 
-        m->matrix.m30 * m->matrix.m03 * m->matrix.m21;
+    inv[9] = -mm[0]  * mm[9] * mm[15] + 
+              mm[0]  * mm[11] * mm[13] + 
+              mm[8]  * mm[1] * mm[15] - 
+              mm[8]  * mm[3] * mm[13] - 
+              mm[12] * mm[1] * mm[11] + 
+              mm[12] * mm[3] * mm[9];
 
-    inv[3][1] = m->matrix.m00 * m->matrix.m21 * m->matrix.m32 - 
-        m->matrix.m00 * m->matrix.m22 * m->matrix.m31 - 
-        m->matrix.m20 * m->matrix.m01 * m->matrix.m32 + 
-        m->matrix.m20 * m->matrix.m02 * m->matrix.m31 + 
-        m->matrix.m30 * m->matrix.m01 * m->matrix.m22 - 
-        m->matrix.m30 * m->matrix.m02 * m->matrix.m21;
+    inv[13] = mm[0]  * mm[9] * mm[14] - 
+              mm[0]  * mm[10] * mm[13] - 
+              mm[8]  * mm[1] * mm[14] + 
+              mm[8]  * mm[2] * mm[13] + 
+              mm[12] * mm[1] * mm[10] - 
+              mm[12] * mm[2] * mm[9];
 
-    inv[0][2] = m->matrix.m01 * m->matrix.m12 * m->matrix.m33 - 
-        m->matrix.m01 * m->matrix.m13 * m->matrix.m32 - 
-        m->matrix.m11 * m->matrix.m02 * m->matrix.m33 + 
-        m->matrix.m11 * m->matrix.m03 * m->matrix.m32 + 
-        m->matrix.m31 * m->matrix.m02 * m->matrix.m13 - 
-        m->matrix.m31 * m->matrix.m03 * m->matrix.m12;
+    inv[2] = mm[1]  * mm[6] * mm[15] - 
+             mm[1]  * mm[7] * mm[14] - 
+             mm[5]  * mm[2] * mm[15] + 
+             mm[5]  * mm[3] * mm[14] + 
+             mm[13] * mm[2] * mm[7] - 
+             mm[13] * mm[3] * mm[6];
 
-    inv[1][2] = -m->matrix.m00 * m->matrix.m12 * m->matrix.m33 + 
-        m->matrix.m00 * m->matrix.m13 * m->matrix.m32 + 
-        m->matrix.m10 * m->matrix.m02 * m->matrix.m33 - 
-        m->matrix.m10 * m->matrix.m03 * m->matrix.m32 - 
-        m->matrix.m30 * m->matrix.m02 * m->matrix.m13 + 
-        m->matrix.m30 * m->matrix.m03 * m->matrix.m12;
+    inv[6] = -mm[0]  * mm[6] * mm[15] + 
+              mm[0]  * mm[7] * mm[14] + 
+              mm[4]  * mm[2] * mm[15] - 
+              mm[4]  * mm[3] * mm[14] - 
+              mm[12] * mm[2] * mm[7] + 
+              mm[12] * mm[3] * mm[6];
 
-    inv[2][2] = m->matrix.m00 * m->matrix.m11 * m->matrix.m33 - 
-        m->matrix.m00 * m->matrix.m13 * m->matrix.m31 - 
-        m->matrix.m10 * m->matrix.m01 * m->matrix.m33 + 
-        m->matrix.m10 * m->matrix.m03 * m->matrix.m31 + 
-        m->matrix.m30 * m->matrix.m01 * m->matrix.m13 - 
-        m->matrix.m30 * m->matrix.m03 * m->matrix.m11;
+    inv[10] = mm[0]  * mm[5] * mm[15] - 
+              mm[0]  * mm[7] * mm[13] - 
+              mm[4]  * mm[1] * mm[15] + 
+              mm[4]  * mm[3] * mm[13] + 
+              mm[12] * mm[1] * mm[7] - 
+              mm[12] * mm[3] * mm[5];
 
-    inv[3][2] = -m->matrix.m00 * m->matrix.m11 * m->matrix.m32 + 
-        m->matrix.m00 * m->matrix.m12 * m->matrix.m31 + 
-        m->matrix.m10 * m->matrix.m01 * m->matrix.m32 - 
-        m->matrix.m10 * m->matrix.m02 * m->matrix.m31 - 
-        m->matrix.m30 * m->matrix.m01 * m->matrix.m12 + 
-        m->matrix.m30 * m->matrix.m02 * m->matrix.m11;
+    inv[14] = -mm[0]  * mm[5] * mm[14] + 
+               mm[0]  * mm[6] * mm[13] + 
+               mm[4]  * mm[1] * mm[14] - 
+               mm[4]  * mm[2] * mm[13] - 
+               mm[12] * mm[1] * mm[6] + 
+               mm[12] * mm[2] * mm[5];
 
-    inv[0][3] = -m->matrix.m01 * m->matrix.m12 * m->matrix.m23 + 
-        m->matrix.m01 * m->matrix.m13 * m->matrix.m22 + 
-        m->matrix.m11 * m->matrix.m02 * m->matrix.m23 - 
-        m->matrix.m11 * m->matrix.m03 * m->matrix.m22 - 
-        m->matrix.m21 * m->matrix.m02 * m->matrix.m13 + 
-        m->matrix.m21 * m->matrix.m03 * m->matrix.m12;
+    inv[3] = -mm[1] * mm[6] * mm[11] + 
+              mm[1] * mm[7] * mm[10] + 
+              mm[5] * mm[2] * mm[11] - 
+              mm[5] * mm[3] * mm[10] - 
+              mm[9] * mm[2] * mm[7] + 
+              mm[9] * mm[3] * mm[6];
 
-    inv[1][3] = m->matrix.m00 * m->matrix.m12 * m->matrix.m23 - 
-        m->matrix.m00 * m->matrix.m13 * m->matrix.m22 - 
-        m->matrix.m10 * m->matrix.m02 * m->matrix.m23 + 
-        m->matrix.m10 * m->matrix.m03 * m->matrix.m22 + 
-        m->matrix.m20 * m->matrix.m02 * m->matrix.m13 - 
-        m->matrix.m20 * m->matrix.m03 * m->matrix.m12;
+    inv[7] = mm[0] * mm[6] * mm[11] - 
+             mm[0] * mm[7] * mm[10] - 
+             mm[4] * mm[2] * mm[11] + 
+             mm[4] * mm[3] * mm[10] + 
+             mm[8] * mm[2] * mm[7] - 
+             mm[8] * mm[3] * mm[6];
 
-    inv[2][3] = -m->matrix.m00 * m->matrix.m11 * m->matrix.m23 + 
-        m->matrix.m00 * m->matrix.m13 * m->matrix.m21 + 
-        m->matrix.m10 * m->matrix.m01 * m->matrix.m23 - 
-        m->matrix.m10 * m->matrix.m03 * m->matrix.m21 - 
-        m->matrix.m20 * m->matrix.m01 * m->matrix.m13 + 
-        m->matrix.m20 * m->matrix.m03 * m->matrix.m11;
+    inv[11] = -mm[0] * mm[5] * mm[11] + 
+               mm[0] * mm[7] * mm[9] + 
+               mm[4] * mm[1] * mm[11] - 
+               mm[4] * mm[3] * mm[9] - 
+               mm[8] * mm[1] * mm[7] + 
+               mm[8] * mm[3] * mm[5];
 
-    inv[3][3] = m->matrix.m00 * m->matrix.m11 * m->matrix.m22 - 
-        m->matrix.m00 * m->matrix.m12 * m->matrix.m21 - 
-        m->matrix.m10 * m->matrix.m01 * m->matrix.m22 + 
-        m->matrix.m10 * m->matrix.m02 * m->matrix.m21 + 
-        m->matrix.m20 * m->matrix.m01 * m->matrix.m12 - 
-        m->matrix.m20 * m->matrix.m02 * m->matrix.m11;
+    inv[15] = mm[0] * mm[5] * mm[10] - 
+              mm[0] * mm[6] * mm[9] - 
+              mm[4] * mm[1] * mm[10] + 
+              mm[4] * mm[2] * mm[9] + 
+              mm[8] * mm[1] * mm[6] - 
+              mm[8] * mm[2] * mm[5];
 
-    // calculate determinant
-    float det = m->matrix.m00 * inv[0][0] + m->matrix.m01 * inv[1][0] + m->matrix.m02 * inv[2][0] + m->matrix.m03 * inv[3][0];
-
-    if (fabsf(det) < VECMATH_EPSILON_FZERO) {
-        return fmat4_identity();
+    float det = mm[0] * inv[0] + mm[1] * inv[4] + mm[2] * inv[8] + mm[3] * inv[12];
+    
+    if (det == 0.0f) {
+        return fmat4_identity(); // Fallback
     }
-
-    // scale by 1/determinant
-    float inv_det = 1.0f / det;
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-            result.data[i][j] = inv[i][j] * inv_det;
-        }
+    
+    det = 1.0f / det;
+    
+    fmat4 result;
+    for (int i = 0; i < 16; i++) {
+        (&result.matrix.m00)[i] = inv[i] * det;
     }
-
+    
     return result;
 }
 
@@ -1466,31 +1465,31 @@ VECMATH_API fmat4 fmat4_lookat_vulkan(const float3* eye, const float3* target, c
 {
     float3 sub = float3_sub(target, eye);
     float3 f = float3_normalize(&sub);
-    float3 cross0 = float3_cross(&f, up);
-    float3 s = float3_normalize(&cross0);
-    float3 cross1 = float3_cross(&s, &f);
-    float3 u = float3_normalize(&cross1);
+    float3 cross = float3_cross(up, &f);
+    float3 r = float3_normalize(&cross);
+    float3 u = float3_cross(&f, &r);
     
     fmat4 result = { 0 };
-    result.data[0][0] = s.xyz.x;
-    result.data[0][1] = -s.xyz.y;  // flip Y for Vulkan
-    result.data[0][2] = s.xyz.z;
-    result.data[0][3] = -float3_dot(&s, eye);
     
-    result.data[1][0] = u.xyz.x;
-    result.data[1][1] = -u.xyz.y;  // flip Y for Vulkan
-    result.data[1][2] = u.xyz.z;
-    result.data[1][3] = -float3_dot(&u, eye);
+    result.matrix.m00 = r.xyz.x;
+    result.matrix.m10 = r.xyz.y;
+    result.matrix.m20 = r.xyz.z;
+    result.matrix.m30 = -float3_dot(&r, eye);
     
-    result.data[2][0] = -f.xyz.x;  // negative Z for right-handed view space
-    result.data[2][1] = f.xyz.y;   // Y already flipped above
-    result.data[2][2] = -f.xyz.z;  // negative Z for right-handed view space
-    result.data[2][3] = float3_dot(&f, eye);  // positive for right-handed
+    result.matrix.m01 = -u.xyz.x;  // Y flip for Vulkan
+    result.matrix.m11 = -u.xyz.y;  // Y flip for Vulkan
+    result.matrix.m21 = -u.xyz.z;  // Y flip for Vulkan
+    result.matrix.m31 = float3_dot(&u, eye);
     
-    result.data[3][0] = 0.0f;
-    result.data[3][1] = 0.0f;
-    result.data[3][2] = 0.0f;
-    result.data[3][3] = 1.0f;
+    result.matrix.m02 = -f.xyz.x;  // Right-handed: negative Z forward
+    result.matrix.m12 = -f.xyz.y;  // Right-handed: negative Z forward
+    result.matrix.m22 = -f.xyz.z;  // Right-handed: negative Z forward
+    result.matrix.m32 = float3_dot(&f, eye);
+    
+    result.matrix.m03 = 0.0f;
+    result.matrix.m13 = 0.0f;
+    result.matrix.m23 = 0.0f;
+    result.matrix.m33 = 1.0f;
     
     return result;
 }
@@ -1697,13 +1696,16 @@ VECMATH_API fmat4 fmat4_perspective_vulkan(float fov_rad, float aspect, float ne
 {
     float tan_half_fov = tanf(fov_rad * 0.5f);
     float f = 1.0f / tan_half_fov;
+    float range_inv = 1.0f / (near - far);
     
     fmat4 result = { 0 };
+    
+    // column-major order for Vulkan
     result.data[0][0] = f / aspect;
-    result.data[1][1] = -f;  // flip Y for Vulkan's Y-down
-    result.data[2][2] = far / (far - near);  // Z [0, 1] mapping
-    result.data[2][3] = 1.0f;
-    result.data[3][2] = -(far * near) / (far - near);
+    result.data[1][1] = -f;
+    result.data[2][2] = far * range_inv;
+    result.data[2][3] = -1.0f;
+    result.data[3][2] = far * near * range_inv;
     
     return result;
 }

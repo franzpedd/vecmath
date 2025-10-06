@@ -4,6 +4,10 @@
 #include "vecmath_defines.h"
 #include "vecmath_types.h"
 
+#ifdef __cplusplus 
+extern "C" {
+#endif
+
 /// @brief returns identity quaternion
 VECMATH_API fquat fquat_identity();
 VECMATH_API dquat dquat_identity();
@@ -49,5 +53,9 @@ VECMATH_API fmat4 fquat_to_fmat4_rowmajor(const fquat* q);
 VECMATH_API fmat4 fquat_to_fmat4_colmajor(const fquat* q);
 VECMATH_API dmat4 dquat_to_dmat4_rowmajor(const dquat* q);
 VECMATH_API dmat4 dquat_to_dmat4_colmajor(const dquat* q);
+
+#ifdef __cplusplus 
+}
+#endif
 
 #endif // VECMATH_QUAT_OP_INCLUDED

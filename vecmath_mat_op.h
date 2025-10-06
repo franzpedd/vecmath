@@ -4,7 +4,9 @@
 #include "vecmath_defines.h"
 #include "vecmath_types.h"
 
-// translation, rotation, scale, lookat, perspective, ortographic, decompose, get_translation, get_rotation, get_scale
+#ifdef __cplusplus 
+extern "C" {
+#endif
 
 /// @brief returns the identity matrix
 VECMATH_API fmat2 fmat2_identity();
@@ -113,5 +115,9 @@ VECMATH_API fmat4 fmat4_orthographic_opengl(float left, float right, float botto
 VECMATH_API dmat4 dmat4_orthographic_vulkan(double left, double right, double bottom, double top, double near, double far);
 VECMATH_API dmat4 dmat4_orthographic_directx(double left, double right, double bottom, double top, double near, double far);
 VECMATH_API dmat4 dmat4_orthographic_opengl(double left, double right, double bottom, double top, double near, double far);
+
+#ifdef __cplusplus 
+}
+#endif
 
 #endif // VECMATH_MAT_OP_INCLUDED

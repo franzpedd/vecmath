@@ -4,6 +4,10 @@
 #include "vecmath_defines.h"
 #include "vecmath_types.h"
 
+#ifdef __cplusplus 
+extern "C" {
+#endif
+
 /// @brief performs a+b
 VECMATH_API float2 float2_add(const float2* a, const float2* b);
 VECMATH_API float3 float3_add(const float3* a, const float3* b);
@@ -93,5 +97,9 @@ VECMATH_API vecbool double4_aprox_equals(const double4* a, const double4* b);
 VECMATH_API vecbool dmat2_aprox_equals(const dmat2* a, const dmat2* b);
 VECMATH_API vecbool dmat3_aprox_equals(const dmat3* a, const dmat3* b);
 VECMATH_API vecbool dmat4_aprox_equals(const dmat4* a, const dmat4* b);
+
+#ifdef __cplusplus 
+}
+#endif
 
 #endif // VECMATH_BASIC_OP_INCLUDED

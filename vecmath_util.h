@@ -3,6 +3,10 @@
 
 #include "vecmath_defines.h"
 
+#ifdef __cplusplus 
+extern "C" {
+#endif
+
 /// @brief angle utilities
 VECMATH_API float to_fradians(float degrees);
 VECMATH_API float to_fdegrees(float radians);
@@ -28,5 +32,9 @@ VECMATH_API double d_clamp(const double x, const double upper, const double lowe
 /// @brief calculates b^e smartly (OlogN)
 VECMATH_API float f_power(float b, int e);
 VECMATH_API double d_power(double b, int e);
+
+#ifdef __cplusplus 
+}
+#endif
 
 #endif // VECMATH_UTIL_INCLUDED

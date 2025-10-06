@@ -4,6 +4,10 @@
 #include "vecmath_defines.h"
 #include "vecmath_types.h"
 
+#ifdef __cplusplus 
+extern "C" {
+#endif
+
 /// @ performs v * scalar whe n v is constant
 VECMATH_API float2 float2_scalar(const float2* v, const float value);
 VECMATH_API float3 float3_scalar(const float3* v, const float value);
@@ -97,5 +101,9 @@ VECMATH_API float4 float4_project(const float4* a, const float4* b);
 VECMATH_API double2 double2_project(const double2* a, const double2* b);
 VECMATH_API double3 double3_project(const double3* a, const double3* b);
 VECMATH_API double4 double4_project(const double4* a, const double4* b);
+
+#ifdef __cplusplus 
+}
+#endif
 
 #endif // VECMATH_VEC_OP_INCLUDED
