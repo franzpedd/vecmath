@@ -235,40 +235,38 @@ VECMATH_API dquat dquat_slerp(const dquat* q1, const dquat* q2, double t)
 ///////////////////////////////////////////////////////////////////////////////////// from_euler
 /////////////////////////////////////////////////////////////////////////////////////
 
-VECMATH_API fquat fquat_from_euler(const float3* axis, float angle_rad)
+VECMATH_API fquat fquat_from_euler(const float3* f)
 {
-    float half_angle = angle_rad * 0.5f;
-    float sin_half = sinf(half_angle);
-    
-    float len = sqrtf(axis->xyz.x * axis->xyz.x + axis->xyz.y * axis->xyz.y + axis->xyz.z * axis->xyz.z);
-    if (len > VECMATH_EPSILON_FZERO) {
-        float inv_len = 1.0f / len;
-        fquat result = { 0 };
-        result.vector.x = axis->xyz.x * inv_len * sin_half;
-        result.vector.y = axis->xyz.y * inv_len * sin_half;
-        result.vector.z = axis->xyz.z * inv_len * sin_half;
-        result.vector.w = cosf(half_angle);
-        return result;
-    }
-    return fquat_identity();
+    float cy = cosf(f->xyz.y * 0.5f);
+    float sy = sinf(f->xyz.y * 0.5f);
+    float cp = cosf(f->xyz.x * 0.5f);
+    float sp = sinf(f->xyz.x * 0.5f);
+    float cr = cosf(f->xyz.z * 0.5f);
+    float sr = sinf(f->xyz.z * 0.5f);
+
+    fquat q;
+    q.vector.w = cr * cp * cy + sr * sp * sy;
+    q.vector.x = sr * cp * cy - cr * sp * sy;
+    q.vector.y = cr * sp * cy + sr * cp * sy;
+    q.vector.z = cr * cp * sy - sr * sp * cy;
+    return q;
 }
 
-VECMATH_API dquat dquat_from_euler(const double3 *axis, double angle_rad)
+VECMATH_API dquat dquat_from_euler(const double3* d)
 {
-    double half_angle = angle_rad * 0.5f;
-    double sin_half = sin(half_angle);
-    
-    double len = sqrt(axis->xyz.x * axis->xyz.x + axis->xyz.y * axis->xyz.y + axis->xyz.z * axis->xyz.z);
-    if (len > VECMATH_EPSILON_DZERO) {
-        double inv_len = 1.0 / len;
-        dquat result = { 0 };
-        result.vector.x = axis->xyz.x * inv_len * sin_half;
-        result.vector.y = axis->xyz.y * inv_len * sin_half;
-        result.vector.z = axis->xyz.z * inv_len * sin_half;
-        result.vector.w = cos(half_angle);
-        return result;
-    }
-    return dquat_identity();
+    double cy = cosf(d->xyz.y * 0.5f);
+    double sy = sinf(d->xyz.y * 0.5f);
+    double cp = cosf(d->xyz.x * 0.5f);
+    double sp = sinf(d->xyz.x * 0.5f);
+    double cr = cosf(d->xyz.z * 0.5f);
+    double sr = sinf(d->xyz.z * 0.5f);
+
+    dquat q;
+    q.vector.w = cr * cp * cy + sr * sp * sy;
+    q.vector.x = sr * cp * cy - cr * sp * sy;
+    q.vector.y = cr * sp * cy + sr * cp * sy;
+    q.vector.z = cr * cp * sy - sr * sp * cy;
+    return q;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
