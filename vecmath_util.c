@@ -128,3 +128,21 @@ VECMATH_API double d_power(double b, int e)
     double temp = d_power(b, e / 2);
     return (e % 2 == 0) ? temp * temp : b * temp * temp;
 }
+
+VECMATH_API float f_log2(const float x)
+{
+    return log2f(x);
+}
+
+VECMATH_API double d_log2(const double x)
+{
+    return log2(x);
+}
+
+VECMATH_API int i_floor(const double x)
+{
+    if (x >= 0) return (int)x;
+    
+    int truncated = (int)x;
+    return (x == truncated) ? truncated : truncated - 1;
+}

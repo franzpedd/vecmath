@@ -33,6 +33,13 @@ VECMATH_API double d_clamp(const double x, const double upper, const double lowe
 VECMATH_API float f_power(float b, int e);
 VECMATH_API double d_power(double b, int e);
 
+/// @brief calculates the log2
+VECMATH_API float f_log2(const float x);
+VECMATH_API double d_log2(const double x);
+
+/// @brief non-float double funcs
+VECMATH_API int i_floor(const double x);
+
 #ifdef __cplusplus 
 }
 #endif
