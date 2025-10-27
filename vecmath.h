@@ -7,6 +7,7 @@
 #include "vecmath_vec_op.h"
 #include "vecmath_mat_op.h"
 #include "vecmath_quat_op.h"
+#include "vecmath_ray_op.h"
 #include "vecmath_util.h"
 
 #endif // VECMATH_INCLUDED

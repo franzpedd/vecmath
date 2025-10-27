@@ -1066,9 +1066,12 @@ VECMATH_API fmat4 fmat4_translate_colmajor(const fmat4* m, const float3 *dir)
 {
     fmat4 result = *m;
 
-    result.data[0][3] += dir->xyz.x;
-    result.data[1][3] += dir->xyz.y;
-    result.data[2][3] += dir->xyz.z;
+    // column-major: translation goes in m03, m13, m23
+    result.matrix.m03 = m->matrix.m00 * dir->xyz.x + m->matrix.m01 * dir->xyz.y + m->matrix.m02 * dir->xyz.z + m->matrix.m03;
+    result.matrix.m13 = m->matrix.m10 * dir->xyz.x + m->matrix.m11 * dir->xyz.y + m->matrix.m12 * dir->xyz.z + m->matrix.m13;
+    result.matrix.m23 = m->matrix.m20 * dir->xyz.x + m->matrix.m21 * dir->xyz.y + m->matrix.m22 * dir->xyz.z + m->matrix.m23;
+    result.matrix.m33 = m->matrix.m30 * dir->xyz.x + m->matrix.m31 * dir->xyz.y + m->matrix.m32 * dir->xyz.z + m->matrix.m33;
+
     return result;
 }
 
@@ -1351,27 +1354,25 @@ VECMATH_API fmat4 fmat4_scale_rowmajor(const fmat4* m, const float3* dim)
 
 VECMATH_API fmat4 fmat4_scale_colmajor(const fmat4* m, const float3* dim)
 {
-    fmat4 result = { 0 };
+    fmat4 result = *m;
 
-    result.data[0][0] = m->data[0][0] * dim->xyz.x;
-    result.data[1][0] = m->data[1][0] * dim->xyz.x;
-    result.data[2][0] = m->data[2][0] * dim->xyz.x;
-    result.data[3][0] = m->data[3][0] * dim->xyz.x;
+    // column 0 (X axis)
+    result.matrix.m00 *= dim->xyz.x;
+    result.matrix.m10 *= dim->xyz.x;
+    result.matrix.m20 *= dim->xyz.x;
+    result.matrix.m30 *= dim->xyz.x;
 
-    result.data[0][1] = m->data[0][1] * dim->xyz.y;
-    result.data[1][1] = m->data[1][1] * dim->xyz.y;
-    result.data[2][1] = m->data[2][1] * dim->xyz.y;
-    result.data[3][1] = m->data[3][1] * dim->xyz.y;
+    // column 1 (Y axis)
+    result.matrix.m01 *= dim->xyz.y;
+    result.matrix.m11 *= dim->xyz.y;
+    result.matrix.m21 *= dim->xyz.y;
+    result.matrix.m31 *= dim->xyz.y;
 
-    result.data[0][2] = m->data[0][2] * dim->xyz.z;
-    result.data[1][2] = m->data[1][2] * dim->xyz.z;
-    result.data[2][2] = m->data[2][2] * dim->xyz.z;
-    result.data[3][2] = m->data[3][2] * dim->xyz.z;
-
-    result.data[0][3] = m->data[0][3];
-    result.data[1][3] = m->data[1][3];
-    result.data[2][3] = m->data[2][3];
-    result.data[3][3] = m->data[3][3];
+    // column 2 (Z axis)
+    result.matrix.m02 *= dim->xyz.z;
+    result.matrix.m12 *= dim->xyz.z;
+    result.matrix.m22 *= dim->xyz.z;
+    result.matrix.m32 *= dim->xyz.z;
 
     return result;
 }

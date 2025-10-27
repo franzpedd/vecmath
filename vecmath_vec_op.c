@@ -2,6 +2,32 @@
 #include <math.h>
 
 /////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// float_mul
+/////////////////////////////////////////////////////////////////////////////////////
+
+VECMATH_API float4 float4_mul_fmat4(const float4* v, const fmat4* m)
+{
+    float4 result = { 0 };
+    result.xyzw.x = v->xyzw.x * m->matrix.m00 + v->xyzw.y * m->matrix.m10 + v->xyzw.z * m->matrix.m20 + v->xyzw.w * m->matrix.m30;
+    result.xyzw.y = v->xyzw.x * m->matrix.m01 + v->xyzw.y * m->matrix.m11 + v->xyzw.z * m->matrix.m21 + v->xyzw.w * m->matrix.m31;
+    result.xyzw.z = v->xyzw.x * m->matrix.m02 + v->xyzw.y * m->matrix.m12 + v->xyzw.z * m->matrix.m22 + v->xyzw.w * m->matrix.m32;
+    result.xyzw.w = v->xyzw.x * m->matrix.m03 + v->xyzw.y * m->matrix.m13 + v->xyzw.z * m->matrix.m23 + v->xyzw.w * m->matrix.m33;
+    
+    return result;
+}
+
+VECMATH_API double4 double4_mul_fmat4(const double4* v, const dmat4* m)
+{
+    double4 result = { 0 };
+    result.xyzw.x = v->xyzw.x * m->matrix.m00 + v->xyzw.y * m->matrix.m10 + v->xyzw.z * m->matrix.m20 + v->xyzw.w * m->matrix.m30;
+    result.xyzw.y = v->xyzw.x * m->matrix.m01 + v->xyzw.y * m->matrix.m11 + v->xyzw.z * m->matrix.m21 + v->xyzw.w * m->matrix.m31;
+    result.xyzw.z = v->xyzw.x * m->matrix.m02 + v->xyzw.y * m->matrix.m12 + v->xyzw.z * m->matrix.m22 + v->xyzw.w * m->matrix.m32;
+    result.xyzw.w = v->xyzw.x * m->matrix.m03 + v->xyzw.y * m->matrix.m13 + v->xyzw.z * m->matrix.m23 + v->xyzw.w * m->matrix.m33;
+    
+    return result;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////// scalar_const
 /////////////////////////////////////////////////////////////////////////////////////
 

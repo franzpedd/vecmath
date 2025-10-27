@@ -18,6 +18,7 @@ if(VECMATH_BUILD_SHARED)
         vecmath_defines.h
         vecmath_mat_op.h vecmath_mat_op.c
         vecmath_quat_op.h vecmath_quat_op.c
+        vecmath_ray_op.h vecmath_ray_op.c
         vecmath_types.h
         vecmath_util.h vecmath_util.c
         vecmath_vec_op.h vecmath_vec_op.c
@@ -37,6 +38,7 @@ else()
         vecmath_defines.h
         vecmath_mat_op.h vecmath_mat_op.c
         vecmath_quat_op.h vecmath_quat_op.c
+        vecmath_ray_op.h vecmath_ray_op.c
         vecmath_types.h
         vecmath_util.h vecmath_util.c
         vecmath_vec_op.h vecmath_vec_op.c

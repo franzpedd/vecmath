@@ -8,6 +8,10 @@
 extern "C" {
 #endif
 
+/// @brief calculates the multiplication of a matrix
+VECMATH_API float4 float4_mul_fmat4(const float4* v, const fmat4* m);
+VECMATH_API double4 double4_mul_fmat4(const double4* v, const dmat4* m);
+
 /// @ performs v * scalar whe n v is constant
 VECMATH_API float2 float2_scalar(const float2* v, const float value);
 VECMATH_API float3 float3_scalar(const float3* v, const float value);

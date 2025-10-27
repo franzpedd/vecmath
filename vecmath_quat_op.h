@@ -41,7 +41,7 @@ VECMATH_API fquat fquat_slerp(const fquat* q1, const fquat* q2, float t);
 VECMATH_API dquat dquat_slerp(const dquat* q1, const dquat* q2, double t);
 
 // create quaternion from axis-angle representation
-VECMATH_API fquat fquat_from_euler(const float3* f);
+VECMATH_API fquat fquat_from_euler(const float3* rad);
 VECMATH_API dquat dquat_from_euler(const double3* d);
 
 // converts a quaternion into euler angles (row=x, pitch=y, yaw=z)

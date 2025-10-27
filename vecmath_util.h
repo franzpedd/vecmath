@@ -2,6 +2,7 @@
 #define VECMATH_UTIL_INCLUDED
 
 #include "vecmath_defines.h"
+#include "vecmath_types.h"
 
 #ifdef __cplusplus 
 extern "C" {

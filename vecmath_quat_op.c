@@ -1,4 +1,6 @@
 #include "vecmath_quat_op.h"
+#include "vecmath_mat_op.h"
+#include "vecmath_util.h"
 #include <math.h>
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -235,14 +237,14 @@ VECMATH_API dquat dquat_slerp(const dquat* q1, const dquat* q2, double t)
 ///////////////////////////////////////////////////////////////////////////////////// from_euler
 /////////////////////////////////////////////////////////////////////////////////////
 
-VECMATH_API fquat fquat_from_euler(const float3* f)
+VECMATH_API fquat fquat_from_euler(const float3* rad)
 {
-    float cy = cosf(f->xyz.y * 0.5f);
-    float sy = sinf(f->xyz.y * 0.5f);
-    float cp = cosf(f->xyz.x * 0.5f);
-    float sp = sinf(f->xyz.x * 0.5f);
-    float cr = cosf(f->xyz.z * 0.5f);
-    float sr = sinf(f->xyz.z * 0.5f);
+    float cy = cosf(rad->xyz.y * 0.5f);
+    float sy = sinf(rad->xyz.y * 0.5f);
+    float cp = cosf(rad->xyz.x * 0.5f);
+    float sp = sinf(rad->xyz.x * 0.5f);
+    float cr = cosf(rad->xyz.z * 0.5f);
+    float sr = sinf(rad->xyz.z * 0.5f);
 
     fquat q;
     q.vector.w = cr * cp * cy + sr * sp * sy;
@@ -339,17 +341,17 @@ VECMATH_API fmat4 fquat_to_fmat4_rowmajor(const fquat *q)
     float x = q_norm.vector.x, y = q_norm.vector.y, z = q_norm.vector.z, w = q_norm.vector.w;
     
     fmat4 result = { 0 };
-    result.matrix.m00 = 1.0f - 2.0f*y*y - 2.0f*z*z;
-    result.matrix.m01 = 2.0f*x*y - 2.0f*w*z;
-    result.matrix.m02 = 2.0f*x*z + 2.0f*w*y;
+    result.matrix.m00 = 1.0f - 2.0f * y * y - 2.0f * z * z;
+    result.matrix.m01 = 2.0f * x * y - 2.0f * w * z;
+    result.matrix.m02 = 2.0f * x * z + 2.0f * w * y;
     
-    result.matrix.m10 = 2.0f*x*y + 2.0f*w*z;
-    result.matrix.m11 = 1.0f - 2.0f*x*x - 2.0f*z*z;
-    result.matrix.m12 = 2.0f*y*z - 2.0f*w*x;
+    result.matrix.m10 = 2.0f * x * y + 2.0f * w * z;
+    result.matrix.m11 = 1.0f - 2.0f*x*x - 2.0f * z * z;
+    result.matrix.m12 = 2.0f * y * z - 2.0f * w * x;
     
-    result.matrix.m20 = 2.0f*x*z - 2.0f*w*y;
-    result.matrix.m21 = 2.0f*y*z + 2.0f*w*x;
-    result.matrix.m22 = 1.0f - 2.0f*x*x - 2.0f*y*y;
+    result.matrix.m20 = 2.0f * x * z - 2.0f * w * y;
+    result.matrix.m21 = 2.0f * y * z + 2.0f * w * x;
+    result.matrix.m22 = 1.0f - 2.0f * x * x - 2.0f * y * y;
     
     result.matrix.m33 = 1.0f;
     return result;
@@ -359,20 +361,20 @@ VECMATH_API fmat4 fquat_to_fmat4_colmajor(const fquat *q)
 {
     fquat q_norm = fquat_normalize(q);
     float x = q_norm.vector.x, y = q_norm.vector.y, z = q_norm.vector.z, w = q_norm.vector.w;
-    
+
     fmat4 result = { 0 };
-    result.matrix.m00 = 1.0f - 2.0f*y*y - 2.0f*z*z;
-    result.matrix.m10 = 2.0f*x*y + 2.0f*w*z;
-    result.matrix.m20 = 2.0f*x*z - 2.0f*w*y;
-    
-    result.matrix.m01 = 2.0f*x*y - 2.0f*w*z;
-    result.matrix.m11 = 1.0f - 2.0f*x*x - 2.0f*z*z;
-    result.matrix.m21 = 2.0f*y*z + 2.0f*w*x;
-    
-    result.matrix.m02 = 2.0f*x*z + 2.0f*w*y;
-    result.matrix.m12 = 2.0f*y*z - 2.0f*w*x;
-    result.matrix.m22 = 1.0f - 2.0f*x*x - 2.0f*y*y;
-    
+    result.matrix.m00 = 1.0f - 2.0f * y * y - 2.0f * z * z;
+    result.matrix.m10 = 2.0f * x * y + 2.0f * w * z;
+    result.matrix.m20 = 2.0f * x * z - 2.0f * w * y;
+
+    result.matrix.m01 = 2.0f * x * y - 2.0f * w * z;
+    result.matrix.m11 = 1.0f - 2.0f * x * x - 2.0f * z * z;
+    result.matrix.m21 = 2.0f * y * z + 2.0f * w * x;
+
+    result.matrix.m02 = 2.0f * x * z + 2.0f * w * y;
+    result.matrix.m12 = 2.0f * y * z - 2.0f * w * x;
+    result.matrix.m22 = 1.0f - 2.0f * x * x - 2.0f * y * y;
+
     result.matrix.m33 = 1.0f;
     return result;
 }
@@ -383,18 +385,18 @@ VECMATH_API dmat4 dquat_to_dmat4_rowmajor(const dquat *q)
     double x = q_norm.vector.x, y = q_norm.vector.y, z = q_norm.vector.z, w = q_norm.vector.w;
     
     dmat4 result = { 0 };
-    result.matrix.m00 = 1.0 - 2.0*y*y - 2.0*z*z;
-    result.matrix.m01 = 2.0*x*y - 2.0*w*z;
-    result.matrix.m02 = 2.0*x*z + 2.0*w*y;
-    
-    result.matrix.m10 = 2.0*x*y + 2.0*w*z;
-    result.matrix.m11 = 1.0 - 2.0*x*x - 2.0*z*z;
-    result.matrix.m12 = 2.0*y*z - 2.0*w*x;
-    
-    result.matrix.m20 = 2.0*x*z - 2.0*w*y;
-    result.matrix.m21 = 2.0*y*z + 2.0*w*x;
-    result.matrix.m22 = 1.0 - 2.0*x*x - 2.0*y*y;
-    
+    result.matrix.m00 = 1.0 - 2.0 * y * y - 2.0 * z * z;
+    result.matrix.m01 = 2.0 * x * y - 2.0 * w * z;
+    result.matrix.m02 = 2.0 * x * z + 2.0 * w * y;
+
+    result.matrix.m10 = 2.0 * x * y + 2.0 * w * z;
+    result.matrix.m11 = 1.0 - 2.0 * x * x - 2.0 * z * z;
+    result.matrix.m12 = 2.0 * y * z - 2.0 * w * x;
+
+    result.matrix.m20 = 2.0 * x * z - 2.0 * w * y;
+    result.matrix.m21 = 2.0 * y * z + 2.0 * w * x;
+    result.matrix.m22 = 1.0 - 2.0 * x * x - 2.0 * y * y;
+
     result.matrix.m33 = 1.0;
     return result;
 }
@@ -405,17 +407,17 @@ VECMATH_API dmat4 dquat_to_dmat4_colmajor(const dquat *q)
     double x = q_norm.vector.x, y = q_norm.vector.y, z = q_norm.vector.z, w = q_norm.vector.w;
     
     dmat4 result = { 0 };
-    result.matrix.m00 = 1.0 - 2.0*y*y - 2.0*z*z;
-    result.matrix.m10 = 2.0*x*y + 2.0*w*z;
-    result.matrix.m20 = 2.0*x*z - 2.0*w*y;
-    
-    result.matrix.m01 = 2.0*x*y - 2.0*w*z;
-    result.matrix.m11 = 1.0 - 2.0*x*x - 2.0*z*z;
-    result.matrix.m21 = 2.0*y*z + 2.0*w*x;
-    
-    result.matrix.m02 = 2.0*x*z + 2.0*w*y;
-    result.matrix.m12 = 2.0*y*z - 2.0*w*x;
-    result.matrix.m22 = 1.0 - 2.0*x*x - 2.0*y*y;
+    result.matrix.m00 = 1.0 - 2.0 * y * y - 2.0 * z * z;
+    result.matrix.m10 = 2.0 * x * y + 2.0 * w * z;
+    result.matrix.m20 = 2.0 * x * z - 2.0 * w * y;
+
+    result.matrix.m01 = 2.0 * x * y - 2.0 * w * z;
+    result.matrix.m11 = 1.0 - 2.0 * x * x - 2.0 * z * z;
+    result.matrix.m21 = 2.0 * y * z + 2.0 * w * x;
+
+    result.matrix.m02 = 2.0 * x * z + 2.0 * w * y;
+    result.matrix.m12 = 2.0 * y * z - 2.0 * w * x;
+    result.matrix.m22 = 1.0 - 2.0 * x * x - 2.0 * y * y;
     
     result.matrix.m33 = 1.0;
     return result;

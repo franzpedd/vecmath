@@ -114,4 +114,14 @@ typedef union dquat_t {
 	struct { double x, y, z, w; } vector;
 } dquat;
 
+typedef struct fray_t {
+    float3 origin;
+    float3 direction;
+ } fray;
+
+ typedef struct dray_t {
+    double3 origin;
+    double3 direction;
+ } dray;
+
 #endif // VECMATH_INCLUDED

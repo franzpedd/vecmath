@@ -392,25 +392,31 @@ VECMATH_API fmat3 fmat3_mul(const fmat3* a, const fmat3* b)
 VECMATH_API fmat4 fmat4_mul(const fmat4* a, const fmat4* b)
 {
     fmat4 result = { 0 };
-    result.matrix.m00 = a->matrix.m00 * b->matrix.m00;
-    result.matrix.m01 = a->matrix.m01 * b->matrix.m01;
-    result.matrix.m02 = a->matrix.m02 * b->matrix.m02;
-    result.matrix.m03 = a->matrix.m03 * b->matrix.m03;
 
-    result.matrix.m10 = a->matrix.m10 * b->matrix.m10;
-    result.matrix.m11 = a->matrix.m11 * b->matrix.m11;
-    result.matrix.m12 = a->matrix.m12 * b->matrix.m12;
-    result.matrix.m13 = a->matrix.m13 * b->matrix.m13;
+    // column 0 of result
+    result.matrix.m00 = a->matrix.m00 * b->matrix.m00 + a->matrix.m01 * b->matrix.m10 + a->matrix.m02 * b->matrix.m20 + a->matrix.m03 * b->matrix.m30;
+    result.matrix.m10 = a->matrix.m10 * b->matrix.m00 + a->matrix.m11 * b->matrix.m10 + a->matrix.m12 * b->matrix.m20 + a->matrix.m13 * b->matrix.m30;
+    result.matrix.m20 = a->matrix.m20 * b->matrix.m00 + a->matrix.m21 * b->matrix.m10 + a->matrix.m22 * b->matrix.m20 + a->matrix.m23 * b->matrix.m30;
+    result.matrix.m30 = a->matrix.m30 * b->matrix.m00 + a->matrix.m31 * b->matrix.m10 + a->matrix.m32 * b->matrix.m20 + a->matrix.m33 * b->matrix.m30;
 
-    result.matrix.m20 = a->matrix.m20 * b->matrix.m20;
-    result.matrix.m21 = a->matrix.m21 * b->matrix.m21;
-    result.matrix.m22 = a->matrix.m22 * b->matrix.m22;
-    result.matrix.m23 = a->matrix.m23 * b->matrix.m23;
+    // column 1 of result
+    result.matrix.m01 = a->matrix.m00 * b->matrix.m01 + a->matrix.m01 * b->matrix.m11 + a->matrix.m02 * b->matrix.m21 + a->matrix.m03 * b->matrix.m31;
+    result.matrix.m11 = a->matrix.m10 * b->matrix.m01 + a->matrix.m11 * b->matrix.m11 + a->matrix.m12 * b->matrix.m21 + a->matrix.m13 * b->matrix.m31;
+    result.matrix.m21 = a->matrix.m20 * b->matrix.m01 + a->matrix.m21 * b->matrix.m11 + a->matrix.m22 * b->matrix.m21 + a->matrix.m23 * b->matrix.m31;
+    result.matrix.m31 = a->matrix.m30 * b->matrix.m01 + a->matrix.m31 * b->matrix.m11 + a->matrix.m32 * b->matrix.m21 + a->matrix.m33 * b->matrix.m31;
 
-    result.matrix.m30 = a->matrix.m30 * b->matrix.m30;
-    result.matrix.m31 = a->matrix.m31 * b->matrix.m31;
-    result.matrix.m32 = a->matrix.m32 * b->matrix.m32;
-    result.matrix.m33 = a->matrix.m33 * b->matrix.m33;
+    // column 2 of result
+    result.matrix.m02 = a->matrix.m00 * b->matrix.m02 + a->matrix.m01 * b->matrix.m12 + a->matrix.m02 * b->matrix.m22 + a->matrix.m03 * b->matrix.m32;
+    result.matrix.m12 = a->matrix.m10 * b->matrix.m02 + a->matrix.m11 * b->matrix.m12 + a->matrix.m12 * b->matrix.m22 + a->matrix.m13 * b->matrix.m32;
+    result.matrix.m22 = a->matrix.m20 * b->matrix.m02 + a->matrix.m21 * b->matrix.m12 + a->matrix.m22 * b->matrix.m22 + a->matrix.m23 * b->matrix.m32;
+    result.matrix.m32 = a->matrix.m30 * b->matrix.m02 + a->matrix.m31 * b->matrix.m12 + a->matrix.m32 * b->matrix.m22 + a->matrix.m33 * b->matrix.m32;
+
+    // column 3 of result
+    result.matrix.m03 = a->matrix.m00 * b->matrix.m03 + a->matrix.m01 * b->matrix.m13 + a->matrix.m02 * b->matrix.m23 + a->matrix.m03 * b->matrix.m33;
+    result.matrix.m13 = a->matrix.m10 * b->matrix.m03 + a->matrix.m11 * b->matrix.m13 + a->matrix.m12 * b->matrix.m23 + a->matrix.m13 * b->matrix.m33;
+    result.matrix.m23 = a->matrix.m20 * b->matrix.m03 + a->matrix.m21 * b->matrix.m13 + a->matrix.m22 * b->matrix.m23 + a->matrix.m23 * b->matrix.m33;
+    result.matrix.m33 = a->matrix.m30 * b->matrix.m03 + a->matrix.m31 * b->matrix.m13 + a->matrix.m32 * b->matrix.m23 + a->matrix.m33 * b->matrix.m33;
+
     return result;
 }
 
