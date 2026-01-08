@@ -1703,7 +1703,7 @@ VECMATH_API fmat4 fmat4_perspective_vulkan(float fov_rad, float aspect, float ne
     
     // column-major order for Vulkan
     result.data[0][0] = f / aspect;
-    result.data[1][1] = -f;
+    result.data[1][1] = f;
     result.data[2][2] = far * range_inv;
     result.data[2][3] = -1.0f;
     result.data[3][2] = far * near * range_inv;
