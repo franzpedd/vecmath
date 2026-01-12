@@ -121,6 +121,16 @@ typedef union dquat_t {
 	struct { double x, y, z, w; } vector;
 } dquat;
 
+typedef struct fray_t {
+    float3 origin;
+    float3 direction;
+ } fray;
+
+ typedef struct dray_t {
+    double3 origin;
+    double3 direction;
+ } dray;
+
 /// @brief used macro definitions
 #define VECMATH_EPSILON_FZERO 1e-6f
 #define VECMATH_EPSILON_DZERO 1e-12
@@ -538,25 +548,31 @@ VECMATH_API fmat3 fmat3_mul(const fmat3* a, const fmat3* b)
 VECMATH_API fmat4 fmat4_mul(const fmat4* a, const fmat4* b)
 {
     fmat4 result = { 0 };
-    result.matrix.m00 = a->matrix.m00 * b->matrix.m00;
-    result.matrix.m01 = a->matrix.m01 * b->matrix.m01;
-    result.matrix.m02 = a->matrix.m02 * b->matrix.m02;
-    result.matrix.m03 = a->matrix.m03 * b->matrix.m03;
 
-    result.matrix.m10 = a->matrix.m10 * b->matrix.m10;
-    result.matrix.m11 = a->matrix.m11 * b->matrix.m11;
-    result.matrix.m12 = a->matrix.m12 * b->matrix.m12;
-    result.matrix.m13 = a->matrix.m13 * b->matrix.m13;
+    // column 0 of result
+    result.matrix.m00 = a->matrix.m00 * b->matrix.m00 + a->matrix.m01 * b->matrix.m10 + a->matrix.m02 * b->matrix.m20 + a->matrix.m03 * b->matrix.m30;
+    result.matrix.m10 = a->matrix.m10 * b->matrix.m00 + a->matrix.m11 * b->matrix.m10 + a->matrix.m12 * b->matrix.m20 + a->matrix.m13 * b->matrix.m30;
+    result.matrix.m20 = a->matrix.m20 * b->matrix.m00 + a->matrix.m21 * b->matrix.m10 + a->matrix.m22 * b->matrix.m20 + a->matrix.m23 * b->matrix.m30;
+    result.matrix.m30 = a->matrix.m30 * b->matrix.m00 + a->matrix.m31 * b->matrix.m10 + a->matrix.m32 * b->matrix.m20 + a->matrix.m33 * b->matrix.m30;
 
-    result.matrix.m20 = a->matrix.m20 * b->matrix.m20;
-    result.matrix.m21 = a->matrix.m21 * b->matrix.m21;
-    result.matrix.m22 = a->matrix.m22 * b->matrix.m22;
-    result.matrix.m23 = a->matrix.m23 * b->matrix.m23;
+    // column 1 of result
+    result.matrix.m01 = a->matrix.m00 * b->matrix.m01 + a->matrix.m01 * b->matrix.m11 + a->matrix.m02 * b->matrix.m21 + a->matrix.m03 * b->matrix.m31;
+    result.matrix.m11 = a->matrix.m10 * b->matrix.m01 + a->matrix.m11 * b->matrix.m11 + a->matrix.m12 * b->matrix.m21 + a->matrix.m13 * b->matrix.m31;
+    result.matrix.m21 = a->matrix.m20 * b->matrix.m01 + a->matrix.m21 * b->matrix.m11 + a->matrix.m22 * b->matrix.m21 + a->matrix.m23 * b->matrix.m31;
+    result.matrix.m31 = a->matrix.m30 * b->matrix.m01 + a->matrix.m31 * b->matrix.m11 + a->matrix.m32 * b->matrix.m21 + a->matrix.m33 * b->matrix.m31;
 
-    result.matrix.m30 = a->matrix.m30 * b->matrix.m30;
-    result.matrix.m31 = a->matrix.m31 * b->matrix.m31;
-    result.matrix.m32 = a->matrix.m32 * b->matrix.m32;
-    result.matrix.m33 = a->matrix.m33 * b->matrix.m33;
+    // column 2 of result
+    result.matrix.m02 = a->matrix.m00 * b->matrix.m02 + a->matrix.m01 * b->matrix.m12 + a->matrix.m02 * b->matrix.m22 + a->matrix.m03 * b->matrix.m32;
+    result.matrix.m12 = a->matrix.m10 * b->matrix.m02 + a->matrix.m11 * b->matrix.m12 + a->matrix.m12 * b->matrix.m22 + a->matrix.m13 * b->matrix.m32;
+    result.matrix.m22 = a->matrix.m20 * b->matrix.m02 + a->matrix.m21 * b->matrix.m12 + a->matrix.m22 * b->matrix.m22 + a->matrix.m23 * b->matrix.m32;
+    result.matrix.m32 = a->matrix.m30 * b->matrix.m02 + a->matrix.m31 * b->matrix.m12 + a->matrix.m32 * b->matrix.m22 + a->matrix.m33 * b->matrix.m32;
+
+    // column 3 of result
+    result.matrix.m03 = a->matrix.m00 * b->matrix.m03 + a->matrix.m01 * b->matrix.m13 + a->matrix.m02 * b->matrix.m23 + a->matrix.m03 * b->matrix.m33;
+    result.matrix.m13 = a->matrix.m10 * b->matrix.m03 + a->matrix.m11 * b->matrix.m13 + a->matrix.m12 * b->matrix.m23 + a->matrix.m13 * b->matrix.m33;
+    result.matrix.m23 = a->matrix.m20 * b->matrix.m03 + a->matrix.m21 * b->matrix.m13 + a->matrix.m22 * b->matrix.m23 + a->matrix.m23 * b->matrix.m33;
+    result.matrix.m33 = a->matrix.m30 * b->matrix.m03 + a->matrix.m31 * b->matrix.m13 + a->matrix.m32 * b->matrix.m23 + a->matrix.m33 * b->matrix.m33;
+
     return result;
 }
 
@@ -1006,6 +1022,31 @@ VECMATH_API vecbool dmat4_aprox_equals(const dmat4 *a, const dmat4 *b)
             (fabs(a->matrix.m31 - b->matrix.m31) <= VECMATH_EPSILON_DZERO) &&
             (fabs(a->matrix.m32 - b->matrix.m32) <= VECMATH_EPSILON_DZERO) &&
             (fabs(a->matrix.m33 - b->matrix.m33) <= VECMATH_EPSILON_DZERO);
+}
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// float_mul
+/////////////////////////////////////////////////////////////////////////////////////
+
+VECMATH_API float4 float4_mul_fmat4(const float4* v, const fmat4* m)
+{
+    float4 result = { 0 };
+    result.xyzw.x = v->xyzw.x * m->matrix.m00 + v->xyzw.y * m->matrix.m10 + v->xyzw.z * m->matrix.m20 + v->xyzw.w * m->matrix.m30;
+    result.xyzw.y = v->xyzw.x * m->matrix.m01 + v->xyzw.y * m->matrix.m11 + v->xyzw.z * m->matrix.m21 + v->xyzw.w * m->matrix.m31;
+    result.xyzw.z = v->xyzw.x * m->matrix.m02 + v->xyzw.y * m->matrix.m12 + v->xyzw.z * m->matrix.m22 + v->xyzw.w * m->matrix.m32;
+    result.xyzw.w = v->xyzw.x * m->matrix.m03 + v->xyzw.y * m->matrix.m13 + v->xyzw.z * m->matrix.m23 + v->xyzw.w * m->matrix.m33;
+    
+    return result;
+}
+
+VECMATH_API double4 double4_mul_fmat4(const double4* v, const dmat4* m)
+{
+    double4 result = { 0 };
+    result.xyzw.x = v->xyzw.x * m->matrix.m00 + v->xyzw.y * m->matrix.m10 + v->xyzw.z * m->matrix.m20 + v->xyzw.w * m->matrix.m30;
+    result.xyzw.y = v->xyzw.x * m->matrix.m01 + v->xyzw.y * m->matrix.m11 + v->xyzw.z * m->matrix.m21 + v->xyzw.w * m->matrix.m31;
+    result.xyzw.z = v->xyzw.x * m->matrix.m02 + v->xyzw.y * m->matrix.m12 + v->xyzw.z * m->matrix.m22 + v->xyzw.w * m->matrix.m32;
+    result.xyzw.w = v->xyzw.x * m->matrix.m03 + v->xyzw.y * m->matrix.m13 + v->xyzw.z * m->matrix.m23 + v->xyzw.w * m->matrix.m33;
+    
+    return result;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -2130,139 +2171,138 @@ VECMATH_API fmat3 fmat3_inverse(const fmat3* m)
     return result;
 }
 
-VECMATH_API fmat4 fmat4_inverse(const fmat4 *m)
+VECMATH_API fmat4 fmat4_inverse(const fmat4* m)
 {
-    fmat4 result = { 0 };
-    float inv[4][4];
+    // Using your matrix struct for clarity
+    const float* mm = &m->matrix.m00;
     
-    // calculate cofactors and determinant
-    inv[0][0] = m->matrix.m11 * m->matrix.m22 * m->matrix.m33 - 
-        m->matrix.m11 * m->matrix.m23 * m->matrix.m32 - 
-        m->matrix.m21 * m->matrix.m12 * m->matrix.m33 + 
-        m->matrix.m21 * m->matrix.m13 * m->matrix.m32 + 
-        m->matrix.m31 * m->matrix.m12 * m->matrix.m23 - 
-        m->matrix.m31 * m->matrix.m13 * m->matrix.m22;
+    float inv[16];
+    
+    inv[0] = mm[5]  * mm[10] * mm[15] - 
+             mm[5]  * mm[11] * mm[14] - 
+             mm[9]  * mm[6]  * mm[15] + 
+             mm[9]  * mm[7]  * mm[14] +
+             mm[13] * mm[6]  * mm[11] - 
+             mm[13] * mm[7]  * mm[10];
 
-    inv[1][0] = -m->matrix.m10 * m->matrix.m22 * m->matrix.m33 + 
-        m->matrix.m10 * m->matrix.m23 * m->matrix.m32 + 
-        m->matrix.m20 * m->matrix.m12 * m->matrix.m33 - 
-        m->matrix.m20 * m->matrix.m13 * m->matrix.m32 - 
-        m->matrix.m30 * m->matrix.m12 * m->matrix.m23 + 
-        m->matrix.m30 * m->matrix.m13 * m->matrix.m22;
+    inv[4] = -mm[4]  * mm[10] * mm[15] + 
+              mm[4]  * mm[11] * mm[14] + 
+              mm[8]  * mm[6]  * mm[15] - 
+              mm[8]  * mm[7]  * mm[14] - 
+              mm[12] * mm[6]  * mm[11] + 
+              mm[12] * mm[7]  * mm[10];
 
-    inv[2][0] = m->matrix.m10 * m->matrix.m21 * m->matrix.m33 - 
-        m->matrix.m10 * m->matrix.m23 * m->matrix.m31 - 
-        m->matrix.m20 * m->matrix.m11 * m->matrix.m33 + 
-        m->matrix.m20 * m->matrix.m13 * m->matrix.m31 + 
-        m->matrix.m30 * m->matrix.m11 * m->matrix.m23 - 
-        m->matrix.m30 * m->matrix.m13 * m->matrix.m21;
+    inv[8] = mm[4]  * mm[9] * mm[15] - 
+             mm[4]  * mm[11] * mm[13] - 
+             mm[8]  * mm[5] * mm[15] + 
+             mm[8]  * mm[7] * mm[13] + 
+             mm[12] * mm[5] * mm[11] - 
+             mm[12] * mm[7] * mm[9];
 
-    inv[3][0] = -m->matrix.m10 * m->matrix.m21 * m->matrix.m32 + 
-        m->matrix.m10 * m->matrix.m22 * m->matrix.m31 + 
-        m->matrix.m20 * m->matrix.m11 * m->matrix.m32 - 
-        m->matrix.m20 * m->matrix.m12 * m->matrix.m31 - 
-        m->matrix.m30 * m->matrix.m11 * m->matrix.m22 + 
-        m->matrix.m30 * m->matrix.m12 * m->matrix.m21;
+    inv[12] = -mm[4]  * mm[9] * mm[14] + 
+               mm[4]  * mm[10] * mm[13] +
+               mm[8]  * mm[5] * mm[14] - 
+               mm[8]  * mm[6] * mm[13] - 
+               mm[12] * mm[5] * mm[10] + 
+               mm[12] * mm[6] * mm[9];
 
-    inv[0][1] = -m->matrix.m01 * m->matrix.m22 * m->matrix.m33 + 
-        m->matrix.m01 * m->matrix.m23 * m->matrix.m32 + 
-        m->matrix.m21 * m->matrix.m02 * m->matrix.m33 - 
-        m->matrix.m21 * m->matrix.m03 * m->matrix.m32 - 
-        m->matrix.m31 * m->matrix.m02 * m->matrix.m23 + 
-        m->matrix.m31 * m->matrix.m03 * m->matrix.m22;
+    inv[1] = -mm[1]  * mm[10] * mm[15] + 
+              mm[1]  * mm[11] * mm[14] + 
+              mm[9]  * mm[2] * mm[15] - 
+              mm[9]  * mm[3] * mm[14] - 
+              mm[13] * mm[2] * mm[11] + 
+              mm[13] * mm[3] * mm[10];
 
-    inv[1][1] = m->matrix.m00 * m->matrix.m22 * m->matrix.m33 - 
-        m->matrix.m00 * m->matrix.m23 * m->matrix.m32 - 
-        m->matrix.m20 * m->matrix.m02 * m->matrix.m33 + 
-        m->matrix.m20 * m->matrix.m03 * m->matrix.m32 + 
-        m->matrix.m30 * m->matrix.m02 * m->matrix.m23 - 
-        m->matrix.m30 * m->matrix.m03 * m->matrix.m22;
+    inv[5] = mm[0]  * mm[10] * mm[15] - 
+             mm[0]  * mm[11] * mm[14] - 
+             mm[8]  * mm[2] * mm[15] + 
+             mm[8]  * mm[3] * mm[14] + 
+             mm[12] * mm[2] * mm[11] - 
+             mm[12] * mm[3] * mm[10];
 
-    inv[2][1] = -m->matrix.m00 * m->matrix.m21 * m->matrix.m33 + 
-        m->matrix.m00 * m->matrix.m23 * m->matrix.m31 + 
-        m->matrix.m20 * m->matrix.m01 * m->matrix.m33 - 
-        m->matrix.m20 * m->matrix.m03 * m->matrix.m31 - 
-        m->matrix.m30 * m->matrix.m01 * m->matrix.m23 + 
-        m->matrix.m30 * m->matrix.m03 * m->matrix.m21;
+    inv[9] = -mm[0]  * mm[9] * mm[15] + 
+              mm[0]  * mm[11] * mm[13] + 
+              mm[8]  * mm[1] * mm[15] - 
+              mm[8]  * mm[3] * mm[13] - 
+              mm[12] * mm[1] * mm[11] + 
+              mm[12] * mm[3] * mm[9];
 
-    inv[3][1] = m->matrix.m00 * m->matrix.m21 * m->matrix.m32 - 
-        m->matrix.m00 * m->matrix.m22 * m->matrix.m31 - 
-        m->matrix.m20 * m->matrix.m01 * m->matrix.m32 + 
-        m->matrix.m20 * m->matrix.m02 * m->matrix.m31 + 
-        m->matrix.m30 * m->matrix.m01 * m->matrix.m22 - 
-        m->matrix.m30 * m->matrix.m02 * m->matrix.m21;
+    inv[13] = mm[0]  * mm[9] * mm[14] - 
+              mm[0]  * mm[10] * mm[13] - 
+              mm[8]  * mm[1] * mm[14] + 
+              mm[8]  * mm[2] * mm[13] + 
+              mm[12] * mm[1] * mm[10] - 
+              mm[12] * mm[2] * mm[9];
 
-    inv[0][2] = m->matrix.m01 * m->matrix.m12 * m->matrix.m33 - 
-        m->matrix.m01 * m->matrix.m13 * m->matrix.m32 - 
-        m->matrix.m11 * m->matrix.m02 * m->matrix.m33 + 
-        m->matrix.m11 * m->matrix.m03 * m->matrix.m32 + 
-        m->matrix.m31 * m->matrix.m02 * m->matrix.m13 - 
-        m->matrix.m31 * m->matrix.m03 * m->matrix.m12;
+    inv[2] = mm[1]  * mm[6] * mm[15] - 
+             mm[1]  * mm[7] * mm[14] - 
+             mm[5]  * mm[2] * mm[15] + 
+             mm[5]  * mm[3] * mm[14] + 
+             mm[13] * mm[2] * mm[7] - 
+             mm[13] * mm[3] * mm[6];
 
-    inv[1][2] = -m->matrix.m00 * m->matrix.m12 * m->matrix.m33 + 
-        m->matrix.m00 * m->matrix.m13 * m->matrix.m32 + 
-        m->matrix.m10 * m->matrix.m02 * m->matrix.m33 - 
-        m->matrix.m10 * m->matrix.m03 * m->matrix.m32 - 
-        m->matrix.m30 * m->matrix.m02 * m->matrix.m13 + 
-        m->matrix.m30 * m->matrix.m03 * m->matrix.m12;
+    inv[6] = -mm[0]  * mm[6] * mm[15] + 
+              mm[0]  * mm[7] * mm[14] + 
+              mm[4]  * mm[2] * mm[15] - 
+              mm[4]  * mm[3] * mm[14] - 
+              mm[12] * mm[2] * mm[7] + 
+              mm[12] * mm[3] * mm[6];
 
-    inv[2][2] = m->matrix.m00 * m->matrix.m11 * m->matrix.m33 - 
-        m->matrix.m00 * m->matrix.m13 * m->matrix.m31 - 
-        m->matrix.m10 * m->matrix.m01 * m->matrix.m33 + 
-        m->matrix.m10 * m->matrix.m03 * m->matrix.m31 + 
-        m->matrix.m30 * m->matrix.m01 * m->matrix.m13 - 
-        m->matrix.m30 * m->matrix.m03 * m->matrix.m11;
+    inv[10] = mm[0]  * mm[5] * mm[15] - 
+              mm[0]  * mm[7] * mm[13] - 
+              mm[4]  * mm[1] * mm[15] + 
+              mm[4]  * mm[3] * mm[13] + 
+              mm[12] * mm[1] * mm[7] - 
+              mm[12] * mm[3] * mm[5];
 
-    inv[3][2] = -m->matrix.m00 * m->matrix.m11 * m->matrix.m32 + 
-        m->matrix.m00 * m->matrix.m12 * m->matrix.m31 + 
-        m->matrix.m10 * m->matrix.m01 * m->matrix.m32 - 
-        m->matrix.m10 * m->matrix.m02 * m->matrix.m31 - 
-        m->matrix.m30 * m->matrix.m01 * m->matrix.m12 + 
-        m->matrix.m30 * m->matrix.m02 * m->matrix.m11;
+    inv[14] = -mm[0]  * mm[5] * mm[14] + 
+               mm[0]  * mm[6] * mm[13] + 
+               mm[4]  * mm[1] * mm[14] - 
+               mm[4]  * mm[2] * mm[13] - 
+               mm[12] * mm[1] * mm[6] + 
+               mm[12] * mm[2] * mm[5];
 
-    inv[0][3] = -m->matrix.m01 * m->matrix.m12 * m->matrix.m23 + 
-        m->matrix.m01 * m->matrix.m13 * m->matrix.m22 + 
-        m->matrix.m11 * m->matrix.m02 * m->matrix.m23 - 
-        m->matrix.m11 * m->matrix.m03 * m->matrix.m22 - 
-        m->matrix.m21 * m->matrix.m02 * m->matrix.m13 + 
-        m->matrix.m21 * m->matrix.m03 * m->matrix.m12;
+    inv[3] = -mm[1] * mm[6] * mm[11] + 
+              mm[1] * mm[7] * mm[10] + 
+              mm[5] * mm[2] * mm[11] - 
+              mm[5] * mm[3] * mm[10] - 
+              mm[9] * mm[2] * mm[7] + 
+              mm[9] * mm[3] * mm[6];
 
-    inv[1][3] = m->matrix.m00 * m->matrix.m12 * m->matrix.m23 - 
-        m->matrix.m00 * m->matrix.m13 * m->matrix.m22 - 
-        m->matrix.m10 * m->matrix.m02 * m->matrix.m23 + 
-        m->matrix.m10 * m->matrix.m03 * m->matrix.m22 + 
-        m->matrix.m20 * m->matrix.m02 * m->matrix.m13 - 
-        m->matrix.m20 * m->matrix.m03 * m->matrix.m12;
+    inv[7] = mm[0] * mm[6] * mm[11] - 
+             mm[0] * mm[7] * mm[10] - 
+             mm[4] * mm[2] * mm[11] + 
+             mm[4] * mm[3] * mm[10] + 
+             mm[8] * mm[2] * mm[7] - 
+             mm[8] * mm[3] * mm[6];
 
-    inv[2][3] = -m->matrix.m00 * m->matrix.m11 * m->matrix.m23 + 
-        m->matrix.m00 * m->matrix.m13 * m->matrix.m21 + 
-        m->matrix.m10 * m->matrix.m01 * m->matrix.m23 - 
-        m->matrix.m10 * m->matrix.m03 * m->matrix.m21 - 
-        m->matrix.m20 * m->matrix.m01 * m->matrix.m13 + 
-        m->matrix.m20 * m->matrix.m03 * m->matrix.m11;
+    inv[11] = -mm[0] * mm[5] * mm[11] + 
+               mm[0] * mm[7] * mm[9] + 
+               mm[4] * mm[1] * mm[11] - 
+               mm[4] * mm[3] * mm[9] - 
+               mm[8] * mm[1] * mm[7] + 
+               mm[8] * mm[3] * mm[5];
 
-    inv[3][3] = m->matrix.m00 * m->matrix.m11 * m->matrix.m22 - 
-        m->matrix.m00 * m->matrix.m12 * m->matrix.m21 - 
-        m->matrix.m10 * m->matrix.m01 * m->matrix.m22 + 
-        m->matrix.m10 * m->matrix.m02 * m->matrix.m21 + 
-        m->matrix.m20 * m->matrix.m01 * m->matrix.m12 - 
-        m->matrix.m20 * m->matrix.m02 * m->matrix.m11;
+    inv[15] = mm[0] * mm[5] * mm[10] - 
+              mm[0] * mm[6] * mm[9] - 
+              mm[4] * mm[1] * mm[10] + 
+              mm[4] * mm[2] * mm[9] + 
+              mm[8] * mm[1] * mm[6] - 
+              mm[8] * mm[2] * mm[5];
 
-    // calculate determinant
-    float det = m->matrix.m00 * inv[0][0] + m->matrix.m01 * inv[1][0] + m->matrix.m02 * inv[2][0] + m->matrix.m03 * inv[3][0];
-
-    if (fabsf(det) < VECMATH_EPSILON_FZERO) {
-        return fmat4_identity();
+    float det = mm[0] * inv[0] + mm[1] * inv[4] + mm[2] * inv[8] + mm[3] * inv[12];
+    
+    if (det == 0.0f) {
+        return fmat4_identity(); // Fallback
     }
-
-    // scale by 1/determinant
-    float inv_det = 1.0f / det;
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-            result.data[i][j] = inv[i][j] * inv_det;
-        }
+    
+    det = 1.0f / det;
+    
+    fmat4 result;
+    for (int i = 0; i < 16; i++) {
+        (&result.matrix.m00)[i] = inv[i] * det;
     }
-
+    
     return result;
 }
 
@@ -2796,9 +2836,12 @@ VECMATH_API fmat4 fmat4_translate_colmajor(const fmat4* m, const float3 *dir)
 {
     fmat4 result = *m;
 
-    result.data[0][3] += dir->xyz.x;
-    result.data[1][3] += dir->xyz.y;
-    result.data[2][3] += dir->xyz.z;
+    // column-major: translation goes in m03, m13, m23
+    result.matrix.m03 = m->matrix.m00 * dir->xyz.x + m->matrix.m01 * dir->xyz.y + m->matrix.m02 * dir->xyz.z + m->matrix.m03;
+    result.matrix.m13 = m->matrix.m10 * dir->xyz.x + m->matrix.m11 * dir->xyz.y + m->matrix.m12 * dir->xyz.z + m->matrix.m13;
+    result.matrix.m23 = m->matrix.m20 * dir->xyz.x + m->matrix.m21 * dir->xyz.y + m->matrix.m22 * dir->xyz.z + m->matrix.m23;
+    result.matrix.m33 = m->matrix.m30 * dir->xyz.x + m->matrix.m31 * dir->xyz.y + m->matrix.m32 * dir->xyz.z + m->matrix.m33;
+
     return result;
 }
 
@@ -3081,27 +3124,25 @@ VECMATH_API fmat4 fmat4_scale_rowmajor(const fmat4* m, const float3* dim)
 
 VECMATH_API fmat4 fmat4_scale_colmajor(const fmat4* m, const float3* dim)
 {
-    fmat4 result = { 0 };
+    fmat4 result = *m;
 
-    result.data[0][0] = m->data[0][0] * dim->xyz.x;
-    result.data[1][0] = m->data[1][0] * dim->xyz.x;
-    result.data[2][0] = m->data[2][0] * dim->xyz.x;
-    result.data[3][0] = m->data[3][0] * dim->xyz.x;
+    // column 0 (X axis)
+    result.matrix.m00 *= dim->xyz.x;
+    result.matrix.m10 *= dim->xyz.x;
+    result.matrix.m20 *= dim->xyz.x;
+    result.matrix.m30 *= dim->xyz.x;
 
-    result.data[0][1] = m->data[0][1] * dim->xyz.y;
-    result.data[1][1] = m->data[1][1] * dim->xyz.y;
-    result.data[2][1] = m->data[2][1] * dim->xyz.y;
-    result.data[3][1] = m->data[3][1] * dim->xyz.y;
+    // column 1 (Y axis)
+    result.matrix.m01 *= dim->xyz.y;
+    result.matrix.m11 *= dim->xyz.y;
+    result.matrix.m21 *= dim->xyz.y;
+    result.matrix.m31 *= dim->xyz.y;
 
-    result.data[0][2] = m->data[0][2] * dim->xyz.z;
-    result.data[1][2] = m->data[1][2] * dim->xyz.z;
-    result.data[2][2] = m->data[2][2] * dim->xyz.z;
-    result.data[3][2] = m->data[3][2] * dim->xyz.z;
-
-    result.data[0][3] = m->data[0][3];
-    result.data[1][3] = m->data[1][3];
-    result.data[2][3] = m->data[2][3];
-    result.data[3][3] = m->data[3][3];
+    // column 2 (Z axis)
+    result.matrix.m02 *= dim->xyz.z;
+    result.matrix.m12 *= dim->xyz.z;
+    result.matrix.m22 *= dim->xyz.z;
+    result.matrix.m32 *= dim->xyz.z;
 
     return result;
 }
@@ -3195,31 +3236,31 @@ VECMATH_API fmat4 fmat4_lookat_vulkan(const float3* eye, const float3* target, c
 {
     float3 sub = float3_sub(target, eye);
     float3 f = float3_normalize(&sub);
-    float3 cross0 = float3_cross(&f, up);
-    float3 s = float3_normalize(&cross0);
-    float3 cross1 = float3_cross(&s, &f);
-    float3 u = float3_normalize(&cross1);
+    float3 cross = float3_cross(up, &f);
+    float3 r = float3_normalize(&cross);
+    float3 u = float3_cross(&f, &r);
     
     fmat4 result = { 0 };
-    result.data[0][0] = s.xyz.x;
-    result.data[0][1] = -s.xyz.y;  // flip Y for Vulkan
-    result.data[0][2] = s.xyz.z;
-    result.data[0][3] = -float3_dot(&s, eye);
     
-    result.data[1][0] = u.xyz.x;
-    result.data[1][1] = -u.xyz.y;  // flip Y for Vulkan
-    result.data[1][2] = u.xyz.z;
-    result.data[1][3] = -float3_dot(&u, eye);
+    result.matrix.m00 = r.xyz.x;
+    result.matrix.m10 = r.xyz.y;
+    result.matrix.m20 = r.xyz.z;
+    result.matrix.m30 = -float3_dot(&r, eye);
     
-    result.data[2][0] = -f.xyz.x;  // negative Z for right-handed view space
-    result.data[2][1] = f.xyz.y;   // Y already flipped above
-    result.data[2][2] = -f.xyz.z;  // negative Z for right-handed view space
-    result.data[2][3] = float3_dot(&f, eye);  // positive for right-handed
+    result.matrix.m01 = -u.xyz.x;  // Y flip for Vulkan
+    result.matrix.m11 = -u.xyz.y;  // Y flip for Vulkan
+    result.matrix.m21 = -u.xyz.z;  // Y flip for Vulkan
+    result.matrix.m31 = float3_dot(&u, eye);
     
-    result.data[3][0] = 0.0f;
-    result.data[3][1] = 0.0f;
-    result.data[3][2] = 0.0f;
-    result.data[3][3] = 1.0f;
+    result.matrix.m02 = -f.xyz.x;  // Right-handed: negative Z forward
+    result.matrix.m12 = -f.xyz.y;  // Right-handed: negative Z forward
+    result.matrix.m22 = -f.xyz.z;  // Right-handed: negative Z forward
+    result.matrix.m32 = float3_dot(&f, eye);
+    
+    result.matrix.m03 = 0.0f;
+    result.matrix.m13 = 0.0f;
+    result.matrix.m23 = 0.0f;
+    result.matrix.m33 = 1.0f;
     
     return result;
 }
@@ -3426,13 +3467,16 @@ VECMATH_API fmat4 fmat4_perspective_vulkan(float fov_rad, float aspect, float ne
 {
     float tan_half_fov = tanf(fov_rad * 0.5f);
     float f = 1.0f / tan_half_fov;
+    float range_inv = 1.0f / (near - far);
     
     fmat4 result = { 0 };
+    
+    // column-major order for Vulkan
     result.data[0][0] = f / aspect;
-    result.data[1][1] = -f;  // flip Y for Vulkan's Y-down
-    result.data[2][2] = far / (far - near);  // Z [0, 1] mapping
-    result.data[2][3] = 1.0f;
-    result.data[3][2] = -(far * near) / (far - near);
+    result.data[1][1] = f;
+    result.data[2][2] = far * range_inv;
+    result.data[2][3] = -1.0f;
+    result.data[3][2] = far * near * range_inv;
     
     return result;
 }
@@ -3623,7 +3667,6 @@ VECMATH_API dmat4 dmat4_orthographic_opengl(double left, double right, double bo
     
     return result;
 }
-
 /////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////// identity
 /////////////////////////////////////////////////////////////////////////////////////
@@ -3858,40 +3901,38 @@ VECMATH_API dquat dquat_slerp(const dquat* q1, const dquat* q2, double t)
 ///////////////////////////////////////////////////////////////////////////////////// from_euler
 /////////////////////////////////////////////////////////////////////////////////////
 
-VECMATH_API fquat fquat_from_euler(const float3* axis, float angle_rad)
+VECMATH_API fquat fquat_from_euler(const float3* rad)
 {
-    float half_angle = angle_rad * 0.5f;
-    float sin_half = sinf(half_angle);
-    
-    float len = sqrtf(axis->xyz.x * axis->xyz.x + axis->xyz.y * axis->xyz.y + axis->xyz.z * axis->xyz.z);
-    if (len > VECMATH_EPSILON_FZERO) {
-        float inv_len = 1.0f / len;
-        fquat result = { 0 };
-        result.vector.x = axis->xyz.x * inv_len * sin_half;
-        result.vector.y = axis->xyz.y * inv_len * sin_half;
-        result.vector.z = axis->xyz.z * inv_len * sin_half;
-        result.vector.w = cosf(half_angle);
-        return result;
-    }
-    return fquat_identity();
+    float cy = cosf(rad->xyz.y * 0.5f);
+    float sy = sinf(rad->xyz.y * 0.5f);
+    float cp = cosf(rad->xyz.x * 0.5f);
+    float sp = sinf(rad->xyz.x * 0.5f);
+    float cr = cosf(rad->xyz.z * 0.5f);
+    float sr = sinf(rad->xyz.z * 0.5f);
+
+    fquat q;
+    q.vector.w = cr * cp * cy + sr * sp * sy;
+    q.vector.x = sr * cp * cy - cr * sp * sy;
+    q.vector.y = cr * sp * cy + sr * cp * sy;
+    q.vector.z = cr * cp * sy - sr * sp * cy;
+    return q;
 }
 
-VECMATH_API dquat dquat_from_euler(const double3 *axis, double angle_rad)
+VECMATH_API dquat dquat_from_euler(const double3* d)
 {
-    double half_angle = angle_rad * 0.5f;
-    double sin_half = sin(half_angle);
-    
-    double len = sqrt(axis->xyz.x * axis->xyz.x + axis->xyz.y * axis->xyz.y + axis->xyz.z * axis->xyz.z);
-    if (len > VECMATH_EPSILON_DZERO) {
-        double inv_len = 1.0 / len;
-        dquat result = { 0 };
-        result.vector.x = axis->xyz.x * inv_len * sin_half;
-        result.vector.y = axis->xyz.y * inv_len * sin_half;
-        result.vector.z = axis->xyz.z * inv_len * sin_half;
-        result.vector.w = cos(half_angle);
-        return result;
-    }
-    return dquat_identity();
+    double cy = cosf(d->xyz.y * 0.5f);
+    double sy = sinf(d->xyz.y * 0.5f);
+    double cp = cosf(d->xyz.x * 0.5f);
+    double sp = sinf(d->xyz.x * 0.5f);
+    double cr = cosf(d->xyz.z * 0.5f);
+    double sr = sinf(d->xyz.z * 0.5f);
+
+    dquat q;
+    q.vector.w = cr * cp * cy + sr * sp * sy;
+    q.vector.x = sr * cp * cy - cr * sp * sy;
+    q.vector.y = cr * sp * cy + sr * cp * sy;
+    q.vector.z = cr * cp * sy - sr * sp * cy;
+    return q;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -3964,17 +4005,17 @@ VECMATH_API fmat4 fquat_to_fmat4_rowmajor(const fquat *q)
     float x = q_norm.vector.x, y = q_norm.vector.y, z = q_norm.vector.z, w = q_norm.vector.w;
     
     fmat4 result = { 0 };
-    result.matrix.m00 = 1.0f - 2.0f*y*y - 2.0f*z*z;
-    result.matrix.m01 = 2.0f*x*y - 2.0f*w*z;
-    result.matrix.m02 = 2.0f*x*z + 2.0f*w*y;
+    result.matrix.m00 = 1.0f - 2.0f * y * y - 2.0f * z * z;
+    result.matrix.m01 = 2.0f * x * y - 2.0f * w * z;
+    result.matrix.m02 = 2.0f * x * z + 2.0f * w * y;
     
-    result.matrix.m10 = 2.0f*x*y + 2.0f*w*z;
-    result.matrix.m11 = 1.0f - 2.0f*x*x - 2.0f*z*z;
-    result.matrix.m12 = 2.0f*y*z - 2.0f*w*x;
+    result.matrix.m10 = 2.0f * x * y + 2.0f * w * z;
+    result.matrix.m11 = 1.0f - 2.0f*x*x - 2.0f * z * z;
+    result.matrix.m12 = 2.0f * y * z - 2.0f * w * x;
     
-    result.matrix.m20 = 2.0f*x*z - 2.0f*w*y;
-    result.matrix.m21 = 2.0f*y*z + 2.0f*w*x;
-    result.matrix.m22 = 1.0f - 2.0f*x*x - 2.0f*y*y;
+    result.matrix.m20 = 2.0f * x * z - 2.0f * w * y;
+    result.matrix.m21 = 2.0f * y * z + 2.0f * w * x;
+    result.matrix.m22 = 1.0f - 2.0f * x * x - 2.0f * y * y;
     
     result.matrix.m33 = 1.0f;
     return result;
@@ -3984,20 +4025,20 @@ VECMATH_API fmat4 fquat_to_fmat4_colmajor(const fquat *q)
 {
     fquat q_norm = fquat_normalize(q);
     float x = q_norm.vector.x, y = q_norm.vector.y, z = q_norm.vector.z, w = q_norm.vector.w;
-    
+
     fmat4 result = { 0 };
-    result.matrix.m00 = 1.0f - 2.0f*y*y - 2.0f*z*z;
-    result.matrix.m10 = 2.0f*x*y + 2.0f*w*z;
-    result.matrix.m20 = 2.0f*x*z - 2.0f*w*y;
-    
-    result.matrix.m01 = 2.0f*x*y - 2.0f*w*z;
-    result.matrix.m11 = 1.0f - 2.0f*x*x - 2.0f*z*z;
-    result.matrix.m21 = 2.0f*y*z + 2.0f*w*x;
-    
-    result.matrix.m02 = 2.0f*x*z + 2.0f*w*y;
-    result.matrix.m12 = 2.0f*y*z - 2.0f*w*x;
-    result.matrix.m22 = 1.0f - 2.0f*x*x - 2.0f*y*y;
-    
+    result.matrix.m00 = 1.0f - 2.0f * y * y - 2.0f * z * z;
+    result.matrix.m10 = 2.0f * x * y + 2.0f * w * z;
+    result.matrix.m20 = 2.0f * x * z - 2.0f * w * y;
+
+    result.matrix.m01 = 2.0f * x * y - 2.0f * w * z;
+    result.matrix.m11 = 1.0f - 2.0f * x * x - 2.0f * z * z;
+    result.matrix.m21 = 2.0f * y * z + 2.0f * w * x;
+
+    result.matrix.m02 = 2.0f * x * z + 2.0f * w * y;
+    result.matrix.m12 = 2.0f * y * z - 2.0f * w * x;
+    result.matrix.m22 = 1.0f - 2.0f * x * x - 2.0f * y * y;
+
     result.matrix.m33 = 1.0f;
     return result;
 }
@@ -4008,18 +4049,18 @@ VECMATH_API dmat4 dquat_to_dmat4_rowmajor(const dquat *q)
     double x = q_norm.vector.x, y = q_norm.vector.y, z = q_norm.vector.z, w = q_norm.vector.w;
     
     dmat4 result = { 0 };
-    result.matrix.m00 = 1.0 - 2.0*y*y - 2.0*z*z;
-    result.matrix.m01 = 2.0*x*y - 2.0*w*z;
-    result.matrix.m02 = 2.0*x*z + 2.0*w*y;
-    
-    result.matrix.m10 = 2.0*x*y + 2.0*w*z;
-    result.matrix.m11 = 1.0 - 2.0*x*x - 2.0*z*z;
-    result.matrix.m12 = 2.0*y*z - 2.0*w*x;
-    
-    result.matrix.m20 = 2.0*x*z - 2.0*w*y;
-    result.matrix.m21 = 2.0*y*z + 2.0*w*x;
-    result.matrix.m22 = 1.0 - 2.0*x*x - 2.0*y*y;
-    
+    result.matrix.m00 = 1.0 - 2.0 * y * y - 2.0 * z * z;
+    result.matrix.m01 = 2.0 * x * y - 2.0 * w * z;
+    result.matrix.m02 = 2.0 * x * z + 2.0 * w * y;
+
+    result.matrix.m10 = 2.0 * x * y + 2.0 * w * z;
+    result.matrix.m11 = 1.0 - 2.0 * x * x - 2.0 * z * z;
+    result.matrix.m12 = 2.0 * y * z - 2.0 * w * x;
+
+    result.matrix.m20 = 2.0 * x * z - 2.0 * w * y;
+    result.matrix.m21 = 2.0 * y * z + 2.0 * w * x;
+    result.matrix.m22 = 1.0 - 2.0 * x * x - 2.0 * y * y;
+
     result.matrix.m33 = 1.0;
     return result;
 }
@@ -4030,17 +4071,17 @@ VECMATH_API dmat4 dquat_to_dmat4_colmajor(const dquat *q)
     double x = q_norm.vector.x, y = q_norm.vector.y, z = q_norm.vector.z, w = q_norm.vector.w;
     
     dmat4 result = { 0 };
-    result.matrix.m00 = 1.0 - 2.0*y*y - 2.0*z*z;
-    result.matrix.m10 = 2.0*x*y + 2.0*w*z;
-    result.matrix.m20 = 2.0*x*z - 2.0*w*y;
-    
-    result.matrix.m01 = 2.0*x*y - 2.0*w*z;
-    result.matrix.m11 = 1.0 - 2.0*x*x - 2.0*z*z;
-    result.matrix.m21 = 2.0*y*z + 2.0*w*x;
-    
-    result.matrix.m02 = 2.0*x*z + 2.0*w*y;
-    result.matrix.m12 = 2.0*y*z - 2.0*w*x;
-    result.matrix.m22 = 1.0 - 2.0*x*x - 2.0*y*y;
+    result.matrix.m00 = 1.0 - 2.0 * y * y - 2.0 * z * z;
+    result.matrix.m10 = 2.0 * x * y + 2.0 * w * z;
+    result.matrix.m20 = 2.0 * x * z - 2.0 * w * y;
+
+    result.matrix.m01 = 2.0 * x * y - 2.0 * w * z;
+    result.matrix.m11 = 1.0 - 2.0 * x * x - 2.0 * z * z;
+    result.matrix.m21 = 2.0 * y * z + 2.0 * w * x;
+
+    result.matrix.m02 = 2.0 * x * z + 2.0 * w * y;
+    result.matrix.m12 = 2.0 * y * z - 2.0 * w * x;
+    result.matrix.m22 = 1.0 - 2.0 * x * x - 2.0 * y * y;
     
     result.matrix.m33 = 1.0;
     return result;
@@ -4172,5 +4213,28 @@ VECMATH_API double d_power(double b, int e)
     double temp = d_power(b, e / 2);
     return (e % 2 == 0) ? temp * temp : b * temp * temp;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////// other utility
+/////////////////////////////////////////////////////////////////////////////////////
+
+VECMATH_API float f_log2(const float x)
+{
+    return log2f(x);
+}
+
+VECMATH_API double d_log2(const double x)
+{
+    return log2(x);
+}
+
+VECMATH_API int i_floor(const double x)
+{
+    if (x >= 0) return (int)x;
+    
+    int truncated = (int)x;
+    return (x == truncated) ? truncated : truncated - 1;
+}
+
 
 #endif // VECAMTH_INCLUDED

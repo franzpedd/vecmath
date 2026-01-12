@@ -867,4 +867,3 @@ VECMATH_API vecbool dmat4_aprox_equals(const dmat4 *a, const dmat4 *b)
             (fabs(a->matrix.m32 - b->matrix.m32) <= VECMATH_EPSILON_DZERO) &&
             (fabs(a->matrix.m33 - b->matrix.m33) <= VECMATH_EPSILON_DZERO);
 }
-

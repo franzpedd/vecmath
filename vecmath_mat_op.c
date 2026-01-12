@@ -1897,4 +1897,3 @@ VECMATH_API dmat4 dmat4_orthographic_opengl(double left, double right, double bo
     
     return result;
 }
-

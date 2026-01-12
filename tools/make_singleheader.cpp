@@ -48,13 +48,14 @@ void create_header_only()
 
     char separator[] = "// functions definitions\n\n";
 
-    content_node_t types; types.start = 3; types.end = 116; types.file = "../vecmath_types.h";
+    content_node_t types; types.start = 3; types.end = 126; types.file = "../vecmath_types.h";
     content_node_t defines; defines.start = 3; defines.end = 30; defines.file = "../vecmath_defines.h";
-    content_node_t basic; basic.start = 4; basic.end = 864; basic.file = "../vecmath_basic_op.c";
-    content_node_t vec; vec.start = 3; vec.end = 729; vec.file = "../vecmath_vec_op.c";
-    content_node_t mat; mat.start = 5; mat.end = 1897; mat.file = "../vecmath_mat_op.c";
-    content_node_t quat; quat.start = 3; quat.end = 425; quat.file = "../vecmath_quat_op.c";
-    content_node_t util; util.start = 3; util.end = 130; util.file = "../vecmath_util.c";
+    content_node_t basic; basic.start = 4; basic.end = 870; basic.file = "../vecmath_basic_op.c";
+    content_node_t vec; vec.start = 3; vec.end = 754; vec.file = "../vecmath_vec_op.c";
+    content_node_t mat; mat.start = 5; mat.end = 1900; mat.file = "../vecmath_mat_op.c";
+    content_node_t quat; quat.start = 5; quat.end = 425; quat.file = "../vecmath_quat_op.c";
+    content_node_t util; util.start = 5; util.end = 155; util.file = "../vecmath_util.c";
+    content_node_t ray; ray.start = 4; ray.end = 64; ray.file = "../vecmath_ray.c";
     
     char footer[] = {
         "\n\n#endif // VECAMTH_INCLUDED\n"
