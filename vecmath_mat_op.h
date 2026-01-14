@@ -48,17 +48,17 @@ VECMATH_API dmat2 dmat2_inverse(const dmat2* m);
 VECMATH_API dmat3 dmat3_inverse(const dmat3* m);
 VECMATH_API dmat4 dmat4_inverse(const dmat4* m);
 
-/// @brief fully decomposes the matrix into it's components
-VECMATH_API void fmat4_decompose_rowmajor(const fmat4* m, float3* translation, float3* rotation, float3* scale);
-VECMATH_API void fmat4_decompose_colmajor(const fmat4* m, float3* translation, float3* rotation, float3* scale);
-VECMATH_API void dmat4_decompose_rowmajor(const dmat4* m, double3* translation, double3* rotation, double3* scale);
-VECMATH_API void dmat4_decompose_colmajor(const dmat4* m, double3* translation, double3* rotation, double3* scale);
-
 /// @brief matrix decomposition to retrieve translation
 VECMATH_API float3 fmat4_get_translation_rowmajor(const fmat4* m);
 VECMATH_API float3 fmat4_get_translation_colmajor(const fmat4* m);
 VECMATH_API double3 dmat4_get_translation_rowmajor(const dmat4* m);
 VECMATH_API double3 dmat4_get_translation_colmajor(const dmat4* m);
+
+/// @brief matrix decomposition to retrieve scale
+VECMATH_API float3 fmat4_get_scale_rowmajor(const fmat4* m);
+VECMATH_API float3 fmat4_get_scale_colmajor(const fmat4* m);
+VECMATH_API double3 dmat4_get_scale_rowmajor(const dmat4* m);
+VECMATH_API double3 dmat4_get_scale_colmajor(const dmat4* m);
 
 /// @brief matrix decomposition to retrieve rotation (uses euler angles)
 VECMATH_API float3 fmat4_get_rotation_rowmajor(const fmat4* m);
@@ -66,11 +66,11 @@ VECMATH_API float3 fmat4_get_rotation_colmajor(const fmat4* m);
 VECMATH_API double3 dmat4_get_rotation_rowmajor(const dmat4* m);
 VECMATH_API double3 dmat4_get_rotation_colmajor(const dmat4* m);
 
-/// @brief matrix decomposition to retrieve scale
-VECMATH_API float3 fmat4_get_scale_rowmajor(const fmat4* m);
-VECMATH_API float3 fmat4_get_scale_colmajor(const fmat4* m);
-VECMATH_API double3 dmat4_get_scale_rowmajor(const dmat4* m);
-VECMATH_API double3 dmat4_get_scale_colmajor(const dmat4* m);
+/// @brief fully decomposes the matrix into it's components
+VECMATH_API void fmat4_decompose_rowmajor(const fmat4* m, float3* translation, float3* rotation, float3* scale);
+VECMATH_API void fmat4_decompose_colmajor(const fmat4* m, float3* translation, float3* rotation, float3* scale);
+VECMATH_API void dmat4_decompose_rowmajor(const dmat4* m, double3* translation, double3* rotation, double3* scale);
+VECMATH_API void dmat4_decompose_colmajor(const dmat4* m, double3* translation, double3* rotation, double3* scale);
 
 /// @brief matrix translation
 VECMATH_API fmat4 fmat4_translate_rowmajor(const fmat4* m, const float3* dir);
@@ -101,12 +101,12 @@ VECMATH_API dmat4 dmat4_lookat_directx(const double3* eye, const double3* target
 VECMATH_API dmat4 dmat4_lookat_opengl(const double3* eye, const double3* target, const double3* up);
 
 /// @brief perspective projection taking into account multiple rendering api coordinates
-VECMATH_API fmat4 fmat4_perspective_vulkan(float fov_rad, float aspect, float near, float far);
-VECMATH_API fmat4 fmat4_perspective_directx(float fov_rad, float aspect, float near, float far);
-VECMATH_API fmat4 fmat4_perspective_opengl(float fov_rad, float aspect, float near, float far);
-VECMATH_API dmat4 dmat4_perspective_vulkan(double fov_rad, double aspect, double near, double far);
-VECMATH_API dmat4 dmat4_perspective_directx(double fov_rad, double aspect, double near, double far);
-VECMATH_API dmat4 dmat4_perspective_opengl(double fov_rad, double aspect, double near, double far);
+VECMATH_API fmat4 fmat4_perspective_vulkan(float fov_rad, float aspect, float nearVal, float farVal);
+VECMATH_API fmat4 fmat4_perspective_directx(float fov_rad, float aspect, float nearVal, float farVal);
+VECMATH_API fmat4 fmat4_perspective_opengl(float fov_rad, float aspect, float nearVal, float farVal);
+VECMATH_API dmat4 dmat4_perspective_vulkan(double fov_rad, double aspect, double nearVal, double farVal);
+VECMATH_API dmat4 dmat4_perspective_directx(double fov_rad, double aspect, double nearVal, double farVal);
+VECMATH_API dmat4 dmat4_perspective_opengl(double fov_rad, double aspect, double nearVal, double farVal);
 
 /// @brief orthographic projection taking into account multiple rendering api coordinates
 VECMATH_API fmat4 fmat4_orthographic_vulkan(float left, float right, float bottom, float top, float near, float far);

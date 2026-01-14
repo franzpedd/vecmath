@@ -246,7 +246,7 @@ VECMATH_API fquat fquat_from_euler(const float3* rad)
     float cr = cosf(rad->xyz.z * 0.5f);
     float sr = sinf(rad->xyz.z * 0.5f);
 
-    fquat q;
+    fquat q = { 0 };
     q.vector.w = cr * cp * cy + sr * sp * sy;
     q.vector.x = sr * cp * cy - cr * sp * sy;
     q.vector.y = cr * sp * cy + sr * cp * sy;
@@ -256,14 +256,14 @@ VECMATH_API fquat fquat_from_euler(const float3* rad)
 
 VECMATH_API dquat dquat_from_euler(const double3* d)
 {
-    double cy = cosf(d->xyz.y * 0.5f);
-    double sy = sinf(d->xyz.y * 0.5f);
-    double cp = cosf(d->xyz.x * 0.5f);
-    double sp = sinf(d->xyz.x * 0.5f);
-    double cr = cosf(d->xyz.z * 0.5f);
-    double sr = sinf(d->xyz.z * 0.5f);
+    double cy = cos(d->xyz.y * 0.5);
+    double sy = sin(d->xyz.y * 0.5);
+    double cp = cos(d->xyz.x * 0.5);
+    double sp = sin(d->xyz.x * 0.5);
+    double cr = cos(d->xyz.z * 0.5);
+    double sr = sin(d->xyz.z * 0.5);
 
-    dquat q;
+    dquat q = { 0 };
     q.vector.w = cr * cp * cy + sr * sp * sy;
     q.vector.x = sr * cp * cy - cr * sp * sy;
     q.vector.y = cr * sp * cy + sr * cp * sy;
@@ -289,7 +289,7 @@ VECMATH_API float3 fquat_to_euler(const fquat* q)
     // pitch (y-axis rotation)
     float sinp = 2.0f * (w * y - z * x);
     if (fabsf(sinp) >= 1.0f) {
-        angles.xyz.y = copysignf(VECMATH_EPSILON_PI / 2.0f, sinp); // use 90 degrees if out of range
+        angles.xyz.y = copysignf((float)VECMATH_EPSILON_PI / 2.0f, sinp); // use 90 degrees if out of range
     }
 
     else {

@@ -88,7 +88,7 @@ VECMATH_API double d_min(const double x, const double y)
 
 VECMATH_API double d_clamp(const double x, const double upper, const double lower)
 {
-    return f_min(upper, f_max(x, lower));
+    return d_min(upper, d_max(x, lower));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////

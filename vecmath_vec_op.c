@@ -547,8 +547,8 @@ VECMATH_API double double4_distance_sqrt(const double4* a, const double4* b)
 VECMATH_API float2 float2_reflect(const float2* v, const float2* normal)
 {
     float2 result = { 0 };
-    double dot = float2_dot(v, normal);
-    double normal_length_sq = float2_dot(normal, normal);
+    float dot = float2_dot(v, normal);
+    float normal_length_sq = float2_dot(normal, normal);
     
     if (normal_length_sq > VECMATH_EPSILON_FZERO) {
         float factor = 2.0f * dot / normal_length_sq;
