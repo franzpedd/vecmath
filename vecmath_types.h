@@ -124,4 +124,4 @@ typedef struct fray_t {
     double3 direction;
  } dray;
 
-#endif // VECMATH_INCLUDED
+#endif // VECMATH_TYPES_INCLUDED

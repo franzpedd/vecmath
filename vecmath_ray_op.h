@@ -18,4 +18,4 @@ VECMATH_API float3 fray_screen_to_world_point_vulkan(const float2* screenPos, co
 }
 #endif
 
-#endif // VECMATH_RAY_INCLUDED
+#endif // VECMATH_RAY_OP_INCLUDED
