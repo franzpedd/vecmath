@@ -46,7 +46,7 @@ void create_header_file()
     // headers
     content_node_t types; types.start = 0; types.end = 128; types.file = "../vecmath_types.h";
     content_node_t defines; defines.start = 0; defines.end = 32; defines.file = "../vecmath_defines.h";
-    content_node_t basic; basic.start = 6; basic.end = 100; basic.file = "../vecmath_basic_op.h";
+    content_node_t basic; basic.start = 6; basic.end = 103; basic.file = "../vecmath_basic_op.h";
     content_node_t vec; vec.start = 6; vec.end = 112; vec.file = "../vecmath_vec_op.h";
     content_node_t mat; mat.start = 6; mat.end = 122; mat.file = "../vecmath_mat_op.h";
     content_node_t quat; quat.start = 6; quat.end = 60; quat.file = "../vecmath_quat_op.h";

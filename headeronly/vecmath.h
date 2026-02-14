@@ -258,6 +258,9 @@ VECMATH_API vecbool dmat3_aprox_equals(const dmat3* a, const dmat3* b);
 VECMATH_API vecbool dmat4_aprox_equals(const dmat4* a, const dmat4* b);
 
 #ifdef __cplusplus 
+}
+#endif
+#ifdef __cplusplus 
 extern "C" {
 #endif
 
